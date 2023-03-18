@@ -1,6 +1,8 @@
-# d-jà vue
+![djavue-matrix-background](./images/djavue-matrix-background.jpg)
 
-Um template de projeto completo **full-stack**, **pronto para produção**, com boas práticas e focado na produtividade. Combina um frontend (Vue|Nuxt.JS|Vuetify) e Backend Python (Django API)
+# D-jà vue
+
+Um template de projeto completo **full-stack**, **pronto para produção**, com boas práticas e focado na produtividade. Combina um frontend moderno (Vue 3|Vuetify) e Backend Python (Django API)
 
 ## Links Importantes
 
@@ -8,7 +10,7 @@ Um template de projeto completo **full-stack**, **pronto para produção**, com 
 
 ## Por que?
 
-Com mais de 20 anos trabalhando como web-developer, eu [Tony Lâmpada](https://github.com/tonylampada) descobri que fazendo do jeito certo, podemos ter muito mais chances de:
+Este template foi criado pelo [Tony Lâmpada](https://github.com/tonylampada) em 2018. Em 2013 esta com diversas boas praticas, principalmente no frontend com Vite e Vue 3. Este template empacota a experiência de muitos anos trabalho com o objetivo de:
 
 - Todos do time conseguirem ser mais produtivos com entregas mais rápidas focando no negócio
 - Clientes mais felizes
@@ -19,17 +21,17 @@ Com mais de 20 anos trabalhando como web-developer, eu [Tony Lâmpada](https://g
 - Ambiente baseado em containers (docker) e docker compose, início com mínimo de esforço
 - Integração entre FRONTEND e BACKEND prontos para produção
 - Autenticação configurada para funcionar com o Django (cookies)
-- Estrutura de pastas para facilitar escalar e organizar o projeto
+- Estrutura de pastas para facilitar a organizacao e implementacao de novas funcionalidades
 - Estilo de código configurados para o BACKEND (flake8) e FRONTEND (eslint)
 - Exemplo funcional de um todo-list com listar/incluir
 - BACKEND: [Django](https://www.djangoproject.com/) e Postgres
 - BACKEND: Teste configurado com exemplos (usando [Pytest](https://docs.pytest.org/)) para promover TDD
-- FRONTEND: [Vue 2](https://v2.vuejs.org/), [Vuetify](https://vuetifyjs.com/en/getting-started/quick-start) e [Nuxt](https://nuxtjs.org/) (usando vue cli) separado do backend
+- FRONTEND: [Vue 3](https://vuejs.org/), [Vuetify](https://vuetifyjs.com/) e [Vite](https://vitejs.dev/) separado do backend
 - FRONTEND: Modo sem backend usando [mock-apis](https://medium.com/@tonylampada/javascript-mock-api-why-you-might-want-to-have-one-232b3ba46b12) para promover a validação rápida de ideias
 
 ![djavue-página-inicial](./images/djavue-pag-inicial.png)
 
-## Requisitos
+## Pré-Requisitos
 
 - Python & Cookiecutter instalados
 - Docker & Docker compose instalados para subir tudo muito rápido e não precisar instalar/configurar infinitas libs/ferramentas diretamente na sua máquina
@@ -47,6 +49,15 @@ Vamos precisar criar o projeto e fazer o build de tudo, utilize os comandos abai
 ```bash
 # Crie o novo projeto usando o vue init
 $ cookiecutter https://github.com/evolutio/djavue3
+```
+
+Para customizar seu projeto, responda as perguntas conforme a necessidade do seu projeto:
+
+![djavue-página-inicial](./images/djavue-cookiecutter-questions.png)
+
+Com o projeto criado, precisamos preparar o ambiente local:
+
+```bash
 $ cd mytodolist
 # Para criar os containers
 $ docker compose build
@@ -164,89 +175,14 @@ A melhor forma para promover uma mudança é criando uma [Issue aqui](https://gi
 
 ## CHANGELOG
 
-### 2023-01-21 - v3.0.0 - Atualização do frontend para Vue 3
+### 2023-03-18 - v3.0.0 - Atualização do frontend para Vue 3
 
 - [frontend] Usando Vue 3 + Vite para um ambiente dev muito mais rápido
-- [frontend] Usando Vuetify 3
+- [frontend] Usando Vuetify 3.1
 - [frontend] Atualizado Linter para utilizar ESLint + Prettier
 - [frontend] Atualizado para utilizar Pinia como gerenciador de estado
+- [frontend] Teste no frontend utilizando vitest
 
 ### 2022-12-17 - v2.1.0 - Melhoria na qualidade do codigo
 
-- [frontend] snackbar centralizado (via service bus)
-- [frontend] paginas para melhor visualizacao de erros do backend (ou off-line)
-- [frontend] bugfix: variaveis de ambiente (.env) nao estava funcionando
-- [frontend] refactoring para criar mais componentes e melhor organizacao do projeto
-- [frontend] melhoria nas configuracoes do linter (eslint)
-- [frontend] centraliza codigo de login na sub-app accounts
-- [frontend] pag. login identifica usuario logado (cookie valido)
-- [frontend] remover varios erros do console do frontend
-- [backend] melhor estrutura usando uma pasta raiz unica
-- [backend] bugfix: docker-compose, backend esperar o banco subir para evitar timeout
-
-### 2022-10-12 - v2.0.0 - Atualizado para versões mais recentes do Django e Djavue
-
-- Atualizado de Django 1.11 para 4.0
-- Atualizado de Vuejs, vuetity e nuxt 1.0 para 2.6, Node 9 para 14
-- Remove o dev.sh e passa a utilizar Docker Compose
-- Muda API Mock para ao invés de utilizar a pasta apimock ou api (conforme variável API_MOCK), utiliza um simulador de Backend com NodeJS/Express
-- Muda para subir modo com Backend Django ou modo com API MOCK conforme comando docker compose ao invés de subir tudo sempre
-- Muda para utilizar vue-router implícito (padrão do Nuxt) ao invés da pasta router (\*\* sujeto a mudança)
-- Adiciona Pytest nos testes do backend
-- Ajustes nas configurações do Django conforme as políticas mais novas de segurança
-- Adiciona Flake8 para linter do backend
-- Adiciona mais regras para linter no frontend com Eslint
-
-### 2019-11-28 - v1.0.1 - Pequenos ajustes
-
-- bugfixes
-- fix de segurança
-- habilitado PWA
-- ajuste no show do snack
-
-### 2018-06-05 - v1.0.0 - Versão mais funcional
-
-- Melhor documentação
-- Melhor configurações para deploy
-- Diversos bufixes
-
-### 2018-03-18 - v0.0.1 - Versão inicial
-
-- Primeira versão lançada
-
-## What are the good practices (or, how I like to do things):
-
-### 1. Start by building a backend-less frontend
-
-Software building is tricky, because it's too easy to end up creating the wrong software. To avoid that we need constant feedback about our partial progress. By using [mock-apis](https://medium.com/@tonylampada/javascript-mock-api-why-you-might-want-to-have-one-232b3ba46b12), we can deliver a "fake" piece of our application into the clients hands that looks and feels like the real thing. We know we'll make mistakes. Let us make them cheaply.
-
-Mock apis go into `frontend/components/api/apimock.js` - just follow the patterns in there.
-This is also a good time to write the equivalent AJAX calls inside `api.js` (to URLs that don't exist in the backend yet)
-
-### 2. Start with the output
-
-It's likely that the software you need to build will require input from the user, and give output to the user.
-When we act in the world, we see **tools** and **obstacles**.
-Your software will be a **tool** when the user gets valuable output from it.
-And it will be an **obstacle** when the user has to input info to get the value that they want.
-
-Input is cost. Output is value.
-
-You should start by creating the fake screens (mockapi-based) for the output (value) part of your software. Validate that with the client. The result of that process will give you useful information that will orient the design of the next parts of your software, the input (cost).
-
-### 3. Deploy early, deploy often
-
-I like to setup my projects with two online live test-environments that will be deployed with every commit
-
-- **fronttest**: runs the application using the mockapis
-- **test**: runs the funn application
-
-During the early stages of development, having the client validate things in the **fronttest** environment speeds up the feedback loop. A LOT.
-
-This project will come with a `.gitlab-ci.yml` file. If you host your code in a private Gitlab instance, this should make it easier for you to deploy to "fronttest" and "test" to AWS by using [Gitlab continuous integration and deploy](https://about.gitlab.com/features/gitlab-ci-cd/)
-
-### 4. TDD is the fastest way
-
-When you have a mockapi, that code is not just junk that you don't need. On the contrary. It contains a **valuable, unambiguous specification of how your backend must behave**. At that point, the fastest way to build your backend is to look at your mock apis as an orienting guide for test cases.
-
-Look at mock apis --> write tests --> implement the backend --> repeat
+- Se precisar todas estas boas praticas mas na versao Vue 2, acesse este [outro repo aqui](https://github.com/huogerac/djavue/tree/v2.1.0)
