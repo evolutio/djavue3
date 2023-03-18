@@ -2,6 +2,10 @@
 
 Um template de projeto completo **full-stack**, **pronto para produção**, com boas práticas e focado na produtividade. Combina um frontend (Vue|Nuxt.JS|Vuetify) e Backend Python (Django API)
 
+## Links Importantes
+
+- [Comunidade Djàvue no Telegram](https://t.me/+5eC434i4iNAxZDUx)
+
 ## Por que?
 
 Com mais de 20 anos trabalhando como web-developer, eu [Tony Lâmpada](https://github.com/tonylampada) descobri que fazendo do jeito certo, podemos ter muito mais chances de:
