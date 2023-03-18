@@ -1,0 +1,79 @@
+stages:
+    - build
+    - test
+    - release
+    - deploy
+
+variables:
+  ECR_HOME: 111111111111.dkr.ecr.us-west-2.amazonaws.com
+  TEST_IMAGE: $ECR_HOME/{{cookiecutter.project_slug}}:${CI_COMMIT_REF_NAME}_testing
+  RELEASE_IMAGE: $ECR_HOME/{{cookiecutter.project_slug}}:${CI_COMMIT_REF_NAME}
+  HOST_TEST: ubuntu@172.31.45.201
+  # HOST_PROD: ubuntu@app.{{cookiecutter.project_slug}}.com.br
+
+before_script:
+  - (if cd ~/dockerutils; then git pull; else git clone -b merge https://github.com/tonylampada/dockerutils.git ~/dockerutils; fi)
+  - export PATH=$PATH:~/dockerutils/bin
+  - ldklogin.sh
+
+build:
+  stage: build
+  tags: [shell]
+  script:
+    - docker build --pull -t $TEST_IMAGE .
+    - docker push $TEST_IMAGE
+
+test_backend:
+  stage: test
+  tags: [shell]
+  script:
+    - docker pull $TEST_IMAGE
+    - ci/test_backend.sh
+
+release-image:
+  stage: release
+  tags: [shell]
+  script:
+    - docker pull $TEST_IMAGE
+    - docker tag $TEST_IMAGE $RELEASE_IMAGE
+    - docker push $RELEASE_IMAGE
+
+deploy-test:
+  stage: deploy
+  tags: [deploy]
+  environment:
+    name: {{cookiecutter.project_slug}}-test
+    url: https://test.{{cookiecutter.project_slug}}.com.br
+  script:
+    - export HOST=$HOST_TEST
+    - lupdateimg.sh "$HOST" {{cookiecutter.project_slug}} $CI_COMMIT_REF_NAME test
+    - lstopstart.sh {{cookiecutter.project_slug}} $CI_COMMIT_REF_NAME test web "-p 3000:3000"
+
+deploy-front:
+  stage: deploy
+  tags: [deploy]
+  environment:
+    name: {{cookiecutter.project_slug}}-test
+    url: https://test.{{cookiecutter.project_slug}}.com.br
+  script:
+    - export HOST=$HOST_TEST
+    - lupdateimg.sh "$HOST" {{cookiecutter.project_slug}} $CI_COMMIT_REF_NAME test
+    - lstopstart.sh {{cookiecutter.project_slug}} $CI_COMMIT_REF_NAME test front "-p 3001:3000"
+
+# deploy-prod:
+#   stage: deploy
+#   tags: [deploy]
+#   environment:
+#     name: {{cookiecutter.project_slug}}-prod
+#     url: https://app.{{cookiecutter.project_slug}}.com.br
+#   when:
+#   script:
+#     - export HOST=$HOST_PROD
+#     - lupdateimg.sh "$HOST" {{cookiecutter.project_slug}} $CI_COMMIT_REF_NAME prod
+#     - lstopstart.sh {{cookiecutter.project_slug}} $CI_COMMIT_REF_NAME prod web "-p 3000:3000"
+#   only:
+#     - master
+#     - dev
+#     - usergetuser
+#     - nopay2
+#   when: manual

@@ -1,0 +1,26 @@
+{
+  "project_name": "My Todo List",
+  "project_slug": "{{ cookiecutter.project_name.lower()|replace(' ', '')|replace('-', '')|replace('.', '')|trim() }}",
+  "description": "The Ultimate Django and Vue Template",
+  "app_name": "todo",
+  "model": "Tasks",
+  "model_lower": "{{ cookiecutter.model.lower() }}",
+  "model_singular": "{{ cookiecutter.model[:-1] }}",
+  "model_singular_lower": "{{ cookiecutter.model_singular.lower() }}",
+  "python_version": ["3.9", "3.10"],
+  "package_manager": ["requirements.txt", "pipsync"],
+  "python_linter": ["flake8", "pylint", "ruff"],
+  "postgresql_version": [
+    "postgres:13.3-alpine",
+    "postgis/postgis:14-3.2-alpine",
+    "sqlite3"
+  ],
+  "node_version": ["16.17"],
+  "pages_folder_name": ["views", "pages"],
+  "api_mock": ["express", "mirage JS"],
+  "use_github_actions_CI": "yes",
+  "keep_vscode_settings": "yes",
+  "author_name": "Roger Camargo",
+  "email": "{{ cookiecutter.author_name.lower()|replace(' ', '-') }}@example.com",
+  "version": "0.1.0"
+}

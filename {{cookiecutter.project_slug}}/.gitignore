@@ -1,0 +1,11 @@
+__pycache__
+dkdata
+*.pyc
+.coverage
+coverage.xml
+htmlcov/
+.idea
+/{{cookiecutter.project_slug}}.log
+/static
+
+/apimock/node_modules

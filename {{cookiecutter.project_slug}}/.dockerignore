@@ -1,0 +1,8 @@
+**/__pycache__
+**/dkdata
+**/node_modules
+ci/
+.idea/
+.dockerignore
+.gitignore
+.gitlab-ci.yml

@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+
+  frontend:
+    depends_on:
+      - apimock
+      - nginx
+
+  apimock:
+    build:
+      context: ./apimock
+    image: apimock-{{cookiecutter.project_slug}}
+    container_name: apimock-{{cookiecutter.project_slug}}
+    hostname: apimock-{{cookiecutter.project_slug}}
+    command: npm run apimock:watch
+    network_mode: "host"
+    expose:
+      - "8000"
+    env_file:
+      - .env
+    volumes:
+      - ./apimock/server:/apimock/server
