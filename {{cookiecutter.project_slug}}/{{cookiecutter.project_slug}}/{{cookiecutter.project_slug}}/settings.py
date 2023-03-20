@@ -30,10 +30,11 @@ SECRET_KEY = os.getenv("SECRET_KEY", "a_secret_key")
 DEBUG = os.getenv("DEBUG", "1") == "1"
 
 ALLOWED_HOSTS = list(
-    {"localhost"} | set(os.getenv("ALLOWED_HOSTS", "localhost").split(","))
+    {"localhost"} | set(os.getenv("ALLOWED_HOSTS", "localhost,backend").split(","))
 )
 
 CSRF_TRUSTED_ORIGINS = [
+    "http://backend",
     "http://localhost",
     "http://127.0.0.1",
 ]
