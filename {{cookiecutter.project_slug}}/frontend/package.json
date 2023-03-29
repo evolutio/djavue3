@@ -20,6 +20,11 @@
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
+    {%- if cookiecutter.api_mock == "mirageJS" -%}
+    "js-cookie": "^3.0.1",
+    "@faker-js/faker": "^7.6.0",
+    "miragejs": "^0.1.47",
+    {%- endif  -%}
     "@vitejs/plugin-vue": "^4.0.0",
     "eslint": "^8.34.0",
     "eslint-plugin-vue": "^9.9.0",

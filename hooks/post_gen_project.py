@@ -31,13 +31,35 @@ def remove_github_actions_files():
 
 
 def remove_vscode_files():
-    vscode_dirs = [".devcontainer", ".vscode"]
+    vscode_dirs = [".vscode"]
     for vscode_dir in vscode_dirs:
         if os.path.exists(vscode_dir):
             shutil.rmtree(vscode_dir)
 
 
+def remove_vscode_devcontainer_files():
+    vscode_dirs = [".devcontainer"]
+    for vscode_dir in vscode_dirs:
+        if os.path.exists(vscode_dir):
+            shutil.rmtree(vscode_dir)
+
+
+def fix_api_mock_mirageJS():
+    shutil.rmtree("apimock")
+
+
+def fix_api_mock_express():
+    shutil.rmtree("frontend/src/apimock")
+
+
 def main():
+
+    if "{{ cookiecutter.api_mock }}" == "mirageJS":
+        print(INFO + "  - Removing Apimock express App files" + TERMINATOR)
+        fix_api_mock_mirageJS()
+    else:
+        print(INFO + "  - Removing MirageJS files" + TERMINATOR)
+        fix_api_mock_express()
 
     if "{{ cookiecutter.use_github_actions_CI }}".lower() != "yes":
         print(INFO + "  - Removing Github Actions workflow file" + TERMINATOR)
@@ -46,6 +68,10 @@ def main():
     if "{{ cookiecutter.keep_vscode_settings }}".lower() != "yes":
         print(INFO + "  - Removing VSCode files" + TERMINATOR)
         remove_vscode_files()
+
+    if "{{ cookiecutter.keep_vscode_devcontainer }}".lower() != "yes":
+        print(INFO + "  - Removing VSCode files" + TERMINATOR)
+        remove_vscode_devcontainer_files()
 
     print(SUCCESS + "🐍 Your Django API backend is created! (root) ✨ 🍰 ✨\n\n" + HINT)
     print(
