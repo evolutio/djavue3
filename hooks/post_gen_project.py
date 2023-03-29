@@ -31,7 +31,14 @@ def remove_github_actions_files():
 
 
 def remove_vscode_files():
-    vscode_dirs = [".devcontainer", ".vscode"]
+    vscode_dirs = [".vscode"]
+    for vscode_dir in vscode_dirs:
+        if os.path.exists(vscode_dir):
+            shutil.rmtree(vscode_dir)
+
+
+def remove_vscode_devcontainer_files():
+    vscode_dirs = [".devcontainer"]
     for vscode_dir in vscode_dirs:
         if os.path.exists(vscode_dir):
             shutil.rmtree(vscode_dir)
@@ -61,6 +68,10 @@ def main():
     if "{{ cookiecutter.keep_vscode_settings }}".lower() != "yes":
         print(INFO + "  - Removing VSCode files" + TERMINATOR)
         remove_vscode_files()
+
+    if "{{ cookiecutter.keep_vscode_devcontainer }}".lower() != "yes":
+        print(INFO + "  - Removing VSCode files" + TERMINATOR)
+        remove_vscode_devcontainer_files()
 
     print(SUCCESS + "🐍 Your Django API backend is created! (root) ✨ 🍰 ✨\n\n" + HINT)
     print(

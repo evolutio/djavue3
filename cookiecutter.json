@@ -17,9 +17,10 @@
   ],
   "node_version": ["16.17"],
   "pages_folder_name": ["views", "pages"],
-  "api_mock": ["express", "mirageJS"],
+  "api_mock": ["mirageJS", "express"],
   "use_github_actions_CI": "yes",
   "keep_vscode_settings": "yes",
+  "keep_vscode_devcontainer": "no",
   "author_name": "Roger Camargo",
   "email": "{{ cookiecutter.author_name.lower()|replace(' ', '-') }}@example.com",
   "version": "0.1.0"

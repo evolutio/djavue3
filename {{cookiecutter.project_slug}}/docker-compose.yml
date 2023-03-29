@@ -56,8 +56,6 @@ services:
     volumes:
       - /frontend/node_modules
       - ./frontend:/frontend
-    depends_on:
-      - nginx
 
   nginx:
     image: nginx
