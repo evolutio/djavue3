@@ -37,7 +37,22 @@ def remove_vscode_files():
             shutil.rmtree(vscode_dir)
 
 
+def fix_api_mock_mirageJS():
+    shutil.rmtree("apimock")
+
+
+def fix_api_mock_express():
+    shutil.rmtree("frontend/src/apimock")
+
+
 def main():
+
+    if "{{ cookiecutter.api_mock }}" == "mirageJS":
+        print(INFO + "  - Removing Apimock express App files" + TERMINATOR)
+        fix_api_mock_mirageJS()
+    else:
+        print(INFO + "  - Removing MirageJS files" + TERMINATOR)
+        fix_api_mock_express()
 
     if "{{ cookiecutter.use_github_actions_CI }}".lower() != "yes":
         print(INFO + "  - Removing Github Actions workflow file" + TERMINATOR)
