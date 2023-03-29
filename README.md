@@ -63,7 +63,11 @@ $ cd mytodolist
 $ docker compose build
 # Para iniciar os containers
 $ docker compose up -d backend frontend
+# ou apenas
+$ docker compose up -d
 ```
+
+NOTA: O comando é `docker-compose` para versão mais antiga do docker compose e `docker compose` para versões mais atualizadas
 
 Depois de fazer o build e iniciar todos containers, fazendo um `docker ps` é possível ver que temos os seguintes serviços rodando:
 
@@ -148,16 +152,15 @@ Para isto, ao invés de utilizar o `docker-compose up` apresentado no início, v
 
 ```bash
 
-$ docker-compose -f docker-compose.yml -f docker-compose.apimock.yml up frontend
+$ docker compose -f docker-compose.apimock.yml up -d
 
 ```
 
 🚀 Para acessar os serviços, utilize as URLs abaixo:
 
-- `http://localhost` para acessar o frontend
-- `http://localhost/api` para acessar diretamente alguma rota da API MOCK
+- `http://localhost:3000` para acessar o frontend
 
-📝 NOTA: Rode um `docker ps` e veja que temos rodando um imitador de backend (que está na pasta `apimock`) em código NodeJS com [Express](https://expressjs.com/).
+📝 NOTA: Para utilizar a versão anterior do API MOCK, utilize a opção 2 na criação do projeto. Rode um `docker ps` e veja que temos rodando um imitador de backend (que está na pasta `apimock`) em código NodeJS com [Express](https://expressjs.com/).
 
 ## Para mais informações sobre Djávue & API Mock
 
@@ -174,6 +177,10 @@ Este é template de projeto que vem evoluindo desde do início de 2018, aceitamo
 A melhor forma para promover uma mudança é criando uma [Issue aqui](https://github.com/evolutio/djavue/issues).
 
 ## CHANGELOG
+
+### 2023-03-29 - v3.0.1 - Atualização do frontend utilizar MirageJS como padrão
+
+- [frontend] Utiliza [Mirage JS](https://miragejs.com/) como padrão na API MOCK. Thanks @joaoprocopio
 
 ### 2023-03-18 - v3.0.0 - Atualização do frontend para Vue 3
 
