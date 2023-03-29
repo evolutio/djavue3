@@ -181,6 +181,7 @@ A melhor forma para promover uma mudança é criando uma [Issue aqui](https://gi
 ### 2023-03-29 - v3.0.1 - Atualização do frontend utilizar MirageJS como padrão
 
 - [frontend] Utiliza [Mirage JS](https://miragejs.com/) como padrão na API MOCK. Thanks @joaoprocopio
+- [backend] Atualiza libs do backend (Django 4.0 para 4.1) e outras
 
 ### 2023-03-18 - v3.0.0 - Atualização do frontend para Vue 3
 
