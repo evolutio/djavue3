@@ -18,9 +18,13 @@ Um template de projeto completo **full-stack**, **pronto para produção**, com 
 
 - [Comunidade Djàvue no Telegram](https://t.me/+5eC434i4iNAxZDUx)
 
+## Arquitetura Djàvue
+
+![djavue-arquitetura](./images/djavue-arquitetura-fluxo-componentes.drawio.jpg)
+
 ## Por que?
 
-Este template foi criado pelo [Tony Lâmpada](https://github.com/tonylampada) em 2018. Em 2013 esta com diversas boas praticas, principalmente no frontend com Vite e Vue 3. Este template empacota a experiência de muitos anos trabalho com o objetivo de:
+Este template foi criado pelo [Tony Lâmpada](https://github.com/tonylampada) em 2018. Nesta versão iniciada em 2023, está com diversas boas praticas, principalmente no frontend com Vite e Vue 3. Este template empacota a experiência de muitos anos trabalho com o objetivo de:
 
 - Todos do time conseguirem ser mais produtivos com entregas mais rápidas focando no negócio
 - Clientes mais felizes
@@ -204,7 +208,3 @@ A melhor forma para promover uma mudança é criando uma [Issue aqui](https://gi
 ### 2022-12-17 - v2.1.0 - Melhoria na qualidade do codigo
 
 - Se precisar todas estas boas praticas mas na versao Vue 2, acesse este [outro repo aqui](https://github.com/huogerac/djavue/tree/v2.1.0)
-
-## Arquitetura Djàvue
-
-![djavue-arquitetura](./images/djavue-arquitetura-fluxo-componentes.drawio.jpg)
