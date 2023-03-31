@@ -4,6 +4,16 @@
 
 Um template de projeto completo **full-stack**, **pronto para produção**, com boas práticas e focado na produtividade. Combina um frontend moderno (Vue 3|Vuetify) e Backend Python (Django API)
 
+```
+ _______         __       ___   ____    ____  __    __   _______
+|       \       |  |     /   \  \   \  /   / |  |  |  | |   ____|
+|  .--.  |      |  |    /  ^  \  \   \/   /  |  |  |  | |  |__
+|  |  |  |.--.  |  |   /  /_\  \  \      /   |  |  |  | |   __|
+|  '--'  ||  `--'  |  /  _____  \  \    /    |  `--'  | |  |____
+|_______/  \______/  /__/     \__\  \__/      \______/  |_______|
+
+```
+
 ## Links Importantes
 
 - [Comunidade Djàvue no Telegram](https://t.me/+5eC434i4iNAxZDUx)
@@ -194,3 +204,7 @@ A melhor forma para promover uma mudança é criando uma [Issue aqui](https://gi
 ### 2022-12-17 - v2.1.0 - Melhoria na qualidade do codigo
 
 - Se precisar todas estas boas praticas mas na versao Vue 2, acesse este [outro repo aqui](https://github.com/huogerac/djavue/tree/v2.1.0)
+
+## Arquitetura Djàvue
+
+![djavue-arquitetura](./images/djavue-arquitetura-fluxo-componentes.drawio.jpg)
