@@ -1,4 +1,4 @@
-from {{cookiecutter.project_slug}}.{{ cookiecutter.app_name }}.models import User
+from {{cookiecutter.project_slug}}.accounts.models import User
 
 
 def user_jon():
@@ -8,5 +8,6 @@ def user_jon():
         last_name="Snow",
         email="jon@example.com",
         password="snow",
+        bio="bio",
     )
     return ze
