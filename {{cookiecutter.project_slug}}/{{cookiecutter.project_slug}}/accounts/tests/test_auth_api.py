@@ -21,7 +21,14 @@ def test_deve_retornar_usuario_logado(client, db):
     assert resp.status_code == 200
     assert data == {
         'user': {
-            'id': ANY, 'name': 'Jon Snow', 'username': 'jon', 'first_name': 'Jon', 'last_name': 'Snow', 'email': 'jon@example.com',
+            'id': ANY,
+            'name': 'Jon Snow',
+            'username': 'jon',
+            'first_name': 'Jon',
+            'last_name': 'Snow',
+            'email': 'jon@example.com',
+            'avatar': None,
+            'bio': 'bio',
             'permissions': {
                 'ADMIN': False, 'STAFF': False
             }
@@ -41,13 +48,20 @@ def test_deve_fazer_login(client, db):
     assert resp.status_code == 200
     assert data == {
         'user': {
-            'id': ANY, 'name': 'Jon Snow', 'username': 'jon', 'first_name': 'Jon', 'last_name': 'Snow', 'email': 'jon@example.com',
+            'id': ANY,
+            'name': 'Jon Snow',
+            'username': 'jon',
+            'first_name': 'Jon',
+            'last_name': 'Snow',
+            'email': 'jon@example.com',
+            'avatar': None,
+            'bio': 'bio',
             'permissions': {
                 'ADMIN': False, 'STAFF': False
             }
-        },
-        'authenticated': True
+        }, 'authenticated': True
     }
+
 
 def test_deve_fazer_login(client, db):
     fixtures.user_jon()

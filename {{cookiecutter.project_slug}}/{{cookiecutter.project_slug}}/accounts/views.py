@@ -49,6 +49,8 @@ def _user2dict(user):
         "first_name": user.first_name,
         "last_name": user.last_name,
         "email": user.email,
+        "avatar": user.avatar,
+        "bio": user.bio,
         "permissions": {
             "ADMIN": user.is_superuser,
             "STAFF": user.is_staff,

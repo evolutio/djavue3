@@ -1,6 +1,14 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from .models import User
 
-from .models import Profile
+UserAdmin.list_filter += ('bio', 'avatar')
+UserAdmin.fieldsets +=  (
+    (
+        'Extra Fields', {
+            'fields': ('bio', 'avatar')
+        }
+    ),
+)
 
-
-admin.site.register(Profile)
+admin.site.register(User, UserAdmin)

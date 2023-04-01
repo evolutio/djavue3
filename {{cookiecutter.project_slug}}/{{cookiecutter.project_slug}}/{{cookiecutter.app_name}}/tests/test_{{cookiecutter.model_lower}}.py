@@ -4,14 +4,14 @@ from {{cookiecutter.project_slug}}.{{ cookiecutter.app_name }}.models import {{c
 
 
 def test_criar_{{cookiecutter.model_singular_lower}}_sem_login(client):
-    resp = client.post("/api/{{ cookiecutter.model_lower }}/add", {"new_{{cookiecutter.model_singular_lower}}": "walk the dog"})
+    resp = client.post("/api/{{cookiecutter.app_name}}/{{ cookiecutter.model_lower }}/add", {"new_{{cookiecutter.model_singular_lower}}": "walk the dog"})
     assert resp.status_code == 401
 
 
 def test_criar_{{cookiecutter.model_singular_lower}}_com_login(client, db):
     fixtures.user_jon()
     client.force_login(User.objects.get(username="jon"))
-    resp = client.post("/api/{{ cookiecutter.model_lower }}/add", {"new_{{cookiecutter.model_singular_lower}}": "walk the dog"})
+    resp = client.post("/api/{{cookiecutter.app_name}}/{{ cookiecutter.model_lower }}/add", {"new_{{cookiecutter.model_singular_lower}}": "walk the dog"})
     assert resp.status_code == 200
 
 
@@ -20,7 +20,7 @@ def test_criar_{{cookiecutter.model_singular_lower}}_com_login(client, db):
     {{cookiecutter.model_singular}}.objects.create(description="walk the dog")
 
     client.force_login(User.objects.get(username="jon"))
-    resp = client.get("/api/{{ cookiecutter.model_lower }}/list")
+    resp = client.get("/api/{{cookiecutter.app_name}}/{{ cookiecutter.model_lower }}/list")
     data = resp.json()
 
     assert resp.status_code == 200
