@@ -94,6 +94,7 @@ WSGI_APPLICATION = (
     "{{cookiecutter.project_slug}}.{{cookiecutter.project_slug}}.wsgi.application"
 )
 
+AUTH_USER_MODEL = 'accounts.User'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
