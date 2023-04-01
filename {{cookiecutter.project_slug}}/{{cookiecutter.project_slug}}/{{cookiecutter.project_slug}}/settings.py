@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+import dj_database_url
 
 load_dotenv()
 
@@ -97,17 +98,19 @@ WSGI_APPLICATION = (
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB", "app"),
-        "USER": os.getenv("POSTGRES_USER", "app"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "app"),
-        "HOST": os.getenv("POSTGRES_HOST", "localhost"),
-        "PORT": os.getenv("POSTGRES_PORT", "15432"),
-    }
-}
+DB_NAME = os.getenv("POSTGRES_DB", "app")
+DB_USER = os.getenv("POSTGRES_USER", "app")
+DB_PASS = os.getenv("POSTGRES_PASSWORD", "app")
+DB_HOST = os.getenv("POSTGRES_HOST", "localhost")
+DB_PORT = os.getenv("POSTGRES_PORT", "15432")
 
+DATABASES = {
+    "default": dj_database_url.config(
+        default=f"postgres://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}",
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
