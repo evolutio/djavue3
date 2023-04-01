@@ -192,6 +192,10 @@ A melhor forma para promover uma mudança é criando uma [Issue aqui](https://gi
 
 ## CHANGELOG
 
+### 2023-03-31 - v3.0.2 - Atualização do frontend utilizar MirageJS como padrão
+
+- [backend] Utiliza [dj-database-url](https://pypi.org/project/dj-database-url/) para gerar url de conexão com DB. Thanks @Walisson Buser
+
 ### 2023-03-29 - v3.0.1 - Atualização do frontend utilizar MirageJS como padrão
 
 - [frontend] Utiliza [Mirage JS](https://miragejs.com/) como padrão na API MOCK. Thanks @joaoprocopio
