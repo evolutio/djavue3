@@ -1,8 +1,31 @@
 **/__pycache__
-**/dkdata
 **/node_modules
+*.sqlite3
 ci/
 .idea/
 .dockerignore
+.git
 .gitignore
 .gitlab-ci.yml
+.env
+.venv/
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.tox
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.mypy_cache
+.pytest_cache
+.hypothesis
+{% if cookiecutter.deploy_to == "fly.io" %}
+fly.toml
+{% endif %}
