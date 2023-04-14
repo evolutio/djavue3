@@ -6,6 +6,7 @@ from .models import ActivityLog, {{cookiecutter.model_singular}}
 class ActivityLogAdmin(admin.ModelAdmin):
     list_display = ('type', 'logged_user', 'created_at')
 
+
 class {{cookiecutter.model_singular}}Admin(admin.ModelAdmin):
     list_display = ('description', 'done')
 
