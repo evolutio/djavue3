@@ -16,4 +16,8 @@ dj-database-url==1.3.0
 python-dotenv==1.0.0
 
 # PROD
-uWSGI==2.0.21
+#uWSGI==2.0.21
+{% if cookiecutter.deploy_to == "fly.io" %}
+whitenoise==6.4.0
+gunicorn==20.1.0
+{% endif %}

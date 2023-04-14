@@ -38,4 +38,7 @@ COPY . ./
 
 EXPOSE 8000
 
-# COPY docker/bin/* /usr/bin/
+{% if cookiecutter.deploy_to == "fly.io" %}
+CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "{{cookiecutter.project_slug}}.{{cookiecutter.project_slug}}.wsgi"]
+{% endif %}
+

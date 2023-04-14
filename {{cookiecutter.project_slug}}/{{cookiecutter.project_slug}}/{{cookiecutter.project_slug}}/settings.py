@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 from pathlib import Path
+from django.core.management.utils import get_random_secret_key
 
 from dotenv import load_dotenv
 import dj_database_url
@@ -25,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", "a_secret_key")
+SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "1") == "1"
@@ -38,6 +39,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://backend",
     "http://localhost",
     "http://127.0.0.1",
+    {% if cookiecutter.deploy_to == "fly.io" %}"https://*.fly.dev",{% endif %}
 ]
 
 # Application definition
@@ -51,8 +53,8 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    # 'explorer',
     "django_extensions",
+    {% if cookiecutter.deploy_to == "fly.io" %}"whitenoise.runserver_nostatic",{% endif %}
 ]
 
 LOCAL_APPS = [
@@ -65,6 +67,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    {% if cookiecutter.deploy_to == "fly.io" %}"whitenoise.middleware.WhiteNoiseMiddleware",{% endif %}
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -95,7 +98,7 @@ WSGI_APPLICATION = (
     "{{cookiecutter.project_slug}}.{{cookiecutter.project_slug}}.wsgi.application"
 )
 
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = "accounts.User"
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -150,6 +153,10 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.getenv("DJANGO_STATIC_ROOT", os.path.join(BASE_DIR, "static"))
+
+{% if cookiecutter.deploy_to == "fly.io" %}
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+{% endif %}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

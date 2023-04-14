@@ -21,6 +21,8 @@
   "use_github_actions_CI": "yes",
   "keep_vscode_settings": "yes",
   "keep_vscode_devcontainer": "no",
+  "deploy_to": ["local", "fly.io"],
+  "deploy_domain": "{{ cookiecutter.project_slug}}.fly.dev",
   "author_name": "Roger Camargo",
   "email": "{{ cookiecutter.author_name.lower()|replace(' ', '-') }}@example.com",
   "version": "0.1.0"
