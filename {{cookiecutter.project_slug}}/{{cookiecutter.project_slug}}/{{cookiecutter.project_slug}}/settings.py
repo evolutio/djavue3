@@ -14,10 +14,8 @@ import os
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 
-from dotenv import load_dotenv
+from decouple import config
 import dj_database_url
-
-load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,21 +24,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
+SECRET_KEY = config("SECRET_KEY", default=get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "1") == "1"
+DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = list(
-    {"localhost"} | set(os.getenv("ALLOWED_HOSTS", "localhost,backend").split(","))
+ALLOWED_HOSTS = config(
+    "ALLOWED_HOSTS",
+    default="{{cookiecutter.deploy_domain}}",
+    cast=lambda v: [s.strip() for s in v.split(",")],
 )
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://backend",
-    "http://localhost",
-    "http://127.0.0.1",
-    {% if cookiecutter.deploy_to == "fly.io" %}"https://*.fly.dev",{% endif %}
-]
+CSRF_TRUSTED_ORIGINS = config(
+    "CSRF_TRUSTED_ORIGINS",
+    default="https://{{cookiecutter.deploy_domain}}",
+    cast=lambda v: [s.strip() for s in v.split(",")],
+)
 
 # Application definition
 DJANGO_APPS = [
@@ -103,15 +102,11 @@ AUTH_USER_MODEL = "accounts.User"
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DB_NAME = os.getenv("POSTGRES_DB", "app")
-DB_USER = os.getenv("POSTGRES_USER", "app")
-DB_PASS = os.getenv("POSTGRES_PASSWORD", "app")
-DB_HOST = os.getenv("POSTGRES_HOST", "localhost")
-DB_PORT = os.getenv("POSTGRES_PORT", "15432")
+DATABASE_URL = config("DATABASE_URL")
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default=f"postgres://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}",
+    "default": dj_database_url.parse(
+        DATABASE_URL,
         conn_max_age=600,
         conn_health_checks=True,
     )
@@ -139,9 +134,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = os.getenv("LANGUAGE_CODE", default="pt-br")
+LANGUAGE_CODE = config("LANGUAGE_CODE", default="pt-br")
 
-TIME_ZONE = os.getenv("TIME_ZONE", default="UTC")
+TIME_ZONE = config("TIME_ZONE", default="UTC")
 
 USE_I18N = True
 
@@ -152,7 +147,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.getenv("DJANGO_STATIC_ROOT", os.path.join(BASE_DIR, "static"))
+STATIC_ROOT = config("DJANGO_STATIC_ROOT", default=os.path.join(BASE_DIR, "static"))
 
 {% if cookiecutter.deploy_to == "fly.io" %}
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
