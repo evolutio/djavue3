@@ -2,7 +2,7 @@
 
 # D-jà vue
 
-Um template de projeto completo **full-stack**, **pronto para produção**, com boas práticas e focado na produtividade. Combina um frontend moderno (Vue 3|Vuetify) e Backend Python (Django API)
+Um 📦template de projeto completo **full-stack**, **pronto para produção**, com boas práticas e focado na produtividade. Combina um frontend moderno (Vue 3 | ⚡️ Vite | Vuetify) e Backend Python (🦄 Django API)
 
 ```
  _______         __       ___   ____    ____  __    __   _______
@@ -24,26 +24,45 @@ Um template de projeto completo **full-stack**, **pronto para produção**, com 
 
 ![djavue-arquitetura](./images/djavue-arquitetura-fluxo-componentes.drawio.jpg)
 
-## Por que?
+## ❓ Por que?
 
 Este template foi criado pelo [Tony Lâmpada](https://github.com/tonylampada) em 2018. Nesta versão iniciada em 2023, está com diversas boas praticas, principalmente no frontend com Vite e Vue 3. Este template empacota a experiência de muitos anos trabalho com o objetivo de:
 
-- Todos do time conseguirem ser mais produtivos com entregas mais rápidas focando no negócio
-- Clientes mais felizes
-- Produto final com mais qualidade e fácil de mudar
+- 💡 Todos do time conseguirem ser mais produtivos com entregas mais rápidas focando no negócio
+- 💡 Clientes mais felizes
+- 💡 Produto final com mais qualidade, boas práticas e fácil de mudar
 
-## O que está incluso?
+## 💡 Principais funcionalidades
 
-- Ambiente baseado em containers (docker) e docker compose, início com mínimo de esforço
-- Integração entre FRONTEND e BACKEND prontos para produção
-- Autenticação configurada para funcionar com o Django (cookies)
-- Estrutura de pastas para facilitar a organizacao e implementacao de novas funcionalidades
-- Estilo de código configurados para o BACKEND (flake8) e FRONTEND (eslint)
-- Exemplo funcional de um todo-list com listar/incluir
-- BACKEND: [Django](https://www.djangoproject.com/) e Postgres
-- BACKEND: Teste configurado com exemplos (usando [Pytest](https://docs.pytest.org/)) para promover TDD
-- FRONTEND: [Vue 3](https://vuejs.org/), [Vuetify](https://vuetifyjs.com/) e [Vite](https://vitejs.dev/) separado do backend
-- FRONTEND: Modo sem backend usando [mock-apis](https://medium.com/@tonylampada/javascript-mock-api-why-you-might-want-to-have-one-232b3ba46b12) para promover a validação rápida de ideias
+## BACKEND
+
+- 🦄 [Django](https://www.djangoproject.com/) e Postgres preparado para PROD
+- 📦 Estrutura de pastas para facilitar a organizacao e implementacao de novas funcionalidades
+- 🛠️ [Pytest](https://docs.pytest.org/) | Teste configurado com exemplos para promover TDD
+- 🛠️ Qualidade de código usando Linter
+- 💡 Integração entre FRONTEND e BACKEND para focar no que interessa
+- 🔩 .dotenv usando [python-decouple](https://github.com/HBNetwork/python-decouple) para facilitar uso variáveis de ambiente | Também usa [dj-database-url](https://pypi.org/project/dj-database-url/)
+- 🔩 Usando [django-extensions](https://django-extensions.readthedocs.io)
+- 🔩 Usuário com campos extras [abstract-user](https://docs.djangoproject.com/en/4.1/topics/auth/customizing/#using-a-custom-user-model-when-starting-a-project)
+- 📦 Views enxutas (urls ➡️ views ➡️ services ➡️ models) | Mais fácil de testar
+- 📦 Negócio separado em contexto (Django Apps)
+- 🐳 Container para PROD (Dockerfile + dcoker compose) | Início com mínimo de esforço
+
+### FRONTEND
+
+- ⚡️ Vite (Servidor super rápido | Fast HMR | Build otimizado ...)
+- 📦 Projeto organizado (Router ➡️ Pages ➡️ Store ➡️ API Client)
+- 🤡 API Mock usando [MirageJS](https://miragejs.com/) | [backendless](https://medium.com/@tonylampada/javascript-mock-api-why-you-might-want-to-have-one-232b3ba46b12) e modo de [mock-apis](https://huogerac.hashnode.dev/tres-formas-de-fazer-mock-da-sua-api-com-javascript-or-entenda-onde-isto-te-ajuda) para um modo mais produtivo no frontend
+- 🔩 API Cliente usando [Axios](https://axios-http.com/docs/intro)
+- 🛠️ Qualidade de código usando Linter + Code Style (ESLint + Prettier)
+- 🍍 [Pinia](https://pinia.vuejs.org/) para manter estado de forma mais simples | separada em contextos
+- 🛠️ Testando lógica de negócio dentro da STORE🍍 com [Vitest](https://vitest.dev/guide/) 
+- 📦 Negócio separado em contexto (Pastas refletindo apps do backend)
+- 💡 Herança de página usando Layout (View Component & Router)
+- 💡 Funcionalidades de exemplo (Login, Logout, Task List, Create Tasks)
+- 🔑 Proteção de rotas (Login required based on 401 responses)
+- 🍪 Autenticação configurada para funcionar com o Django (cookies)
+
 
 ![djavue-página-inicial](./images/djavue-pag-inicial.png)
 
