@@ -34,9 +34,9 @@ Este template foi criado pelo [Tony Lâmpada](https://github.com/tonylampada) em
 
 ## 💡 Principais funcionalidades
 
-## BACKEND
+## Backend
 
-- 🦄 [Django](https://www.djangoproject.com/) e Postgres preparado para PROD
+- 🦄 [Django](https://www.djangoproject.com/) e Postgres (Local == PROD)
 - 📦 Estrutura de pastas para facilitar a organizacao e implementacao de novas funcionalidades
 - 🛠️ [Pytest](https://docs.pytest.org/) | Teste configurado com exemplos para promover TDD
 - 🛠️ Qualidade de código usando Linter
@@ -47,8 +47,10 @@ Este template foi criado pelo [Tony Lâmpada](https://github.com/tonylampada) em
 - 📦 Views enxutas (urls ➡️ views ➡️ services ➡️ models) | Mais fácil de testar
 - 📦 Negócio separado em contexto (Django Apps)
 - 🐳 Container para PROD (Dockerfile + dcoker compose) | Início com mínimo de esforço
+- CI usando GitHub Actions rodando linter, testes
+- CD usando GitHub Actions para deploy no [fly.io](https://fly.io/)
 
-### FRONTEND
+### Frontend
 
 - ⚡️ Vite (Servidor super rápido | Fast HMR | Build otimizado ...)
 - 📦 Projeto organizado (Router ➡️ Pages ➡️ Store ➡️ API Client)
@@ -56,13 +58,12 @@ Este template foi criado pelo [Tony Lâmpada](https://github.com/tonylampada) em
 - 🔩 API Cliente usando [Axios](https://axios-http.com/docs/intro)
 - 🛠️ Qualidade de código usando Linter + Code Style (ESLint + Prettier)
 - 🍍 [Pinia](https://pinia.vuejs.org/) para manter estado de forma mais simples | separada em contextos
-- 🛠️ Testando lógica de negócio dentro da STORE🍍 com [Vitest](https://vitest.dev/guide/) 
+- 🛠️ Testando lógica de negócio dentro da STORE🍍 com [Vitest](https://vitest.dev/guide/)
 - 📦 Negócio separado em contexto (Pastas refletindo apps do backend)
 - 💡 Herança de página usando Layout (View Component & Router)
 - 💡 Funcionalidades de exemplo (Login, Logout, Task List, Create Tasks)
 - 🔑 Proteção de rotas (Login required based on 401 responses)
 - 🍪 Autenticação configurada para funcionar com o Django (cookies)
-
 
 ![djavue-página-inicial](./images/djavue-pag-inicial.png)
 
