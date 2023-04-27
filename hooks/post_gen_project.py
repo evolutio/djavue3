@@ -52,26 +52,36 @@ def fix_api_mock_express():
     shutil.rmtree("frontend/src/apimock")
 
 
+def remove_django_ninja_files(project_name):
+    os.remove(f"{project_name}/{project_name}/api.py")
+
+
 def main():
 
     if "{{ cookiecutter.api_mock }}" == "mirageJS":
-        print(INFO + "  - Removing Apimock express App files" + TERMINATOR)
+        print(INFO + "  - 🗑️ Removing Apimock express App files" + TERMINATOR)
         fix_api_mock_mirageJS()
     else:
-        print(INFO + "  - Removing MirageJS files" + TERMINATOR)
+        print(INFO + "  - 🗑️ Removing MirageJS files" + TERMINATOR)
         fix_api_mock_express()
 
     if "{{ cookiecutter.use_github_actions_CI }}".lower() != "yes":
-        print(INFO + "  - Removing Github Actions workflow file" + TERMINATOR)
+        print(INFO + "  - 🗑️ Removing Github Actions workflow file" + TERMINATOR)
         remove_github_actions_files()
 
     if "{{ cookiecutter.keep_vscode_settings }}".lower() != "yes":
-        print(INFO + "  - Removing VSCode files" + TERMINATOR)
+        print(INFO + "  - 🗑️ Removing VSCode files" + TERMINATOR)
         remove_vscode_files()
 
     if "{{ cookiecutter.keep_vscode_devcontainer }}".lower() != "yes":
-        print(INFO + "  - Removing VSCode files" + TERMINATOR)
+        print(INFO + "  - 🗑️ Removing VSCode files" + TERMINATOR)
         remove_vscode_devcontainer_files()
+
+    if "{{ cookiecutter.django_api }}" != "django_ninja":
+        print(INFO + "  - 🗑️ Removing django-ninja api files" + TERMINATOR)
+        remove_django_ninja_files("{{ cookiecutter.project_slug }}")
+    else:
+        print(INFO + "  Using django-ninja 🥷" + TERMINATOR)
 
     print(SUCCESS + "🐍 Your Django API backend is created! (root) ✨ 🍰 ✨\n\n" + HINT)
     print(
