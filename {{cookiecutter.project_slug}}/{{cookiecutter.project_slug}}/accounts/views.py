@@ -6,10 +6,9 @@ from ninja import Router, Form, Schema
 {% else %}
 from django.views.decorators.csrf import csrf_exempt
 {% endif %}
-
 from ..{{ cookiecutter.app_name }}.service import log_svc
 
-{% if cookiecutter.django_api == "django_ninja" %}
+{%- if cookiecutter.django_api == "django_ninja" -%}
 router = Router()
 
 class PermissionSchema(Schema):
@@ -34,13 +33,13 @@ class LoggedUserSchema(Schema):
     authenticated: bool
 {% endif %}
 
-{% if cookiecutter.django_api == "django_ninja" %}
+{%- if cookiecutter.django_api == "django_ninja" -%}
 @router.post("/login", response=UserSchema)
 def login(request, username: str = Form(...), password: str = Form(...)):
 {% else %}
 @csrf_exempt
 def login(request):
-{% endif %}
+{%- endif -%}
     username = request.POST["username"]
     password = request.POST["password"]
     user = auth.authenticate(username=username, password=password)
@@ -53,7 +52,7 @@ def login(request):
     return JsonResponse(user_dict, safe=False)
 
 
-{% if cookiecutter.django_api == "django_ninja" %}@router.post("/logout"){% endif %}
+{%- if cookiecutter.django_api == "django_ninja" -%}@router.post("/logout"){%- endif -%}
 def logout(request):
     if request.method.lower() != "post":
         raise Exception("Logout only via post")
@@ -63,7 +62,7 @@ def logout(request):
     return JsonResponse({})
 
 
-{% if cookiecutter.django_api == "django_ninja" %}@router.get("/whoami", response=LoggedUserSchema){% endif %}
+{%- if cookiecutter.django_api == "django_ninja" -%}@router.get("/whoami", response=LoggedUserSchema){%- endif -%}
 def whoami(request):
     i_am = (
         {

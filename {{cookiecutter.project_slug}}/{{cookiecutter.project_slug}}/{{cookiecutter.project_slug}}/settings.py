@@ -53,7 +53,7 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     "django_extensions",
-    {% if cookiecutter.deploy_to == "fly.io" %}"whitenoise.runserver_nostatic",{% endif %}
+    {%- if cookiecutter.deploy_to == "fly.io" -%}"whitenoise.runserver_nostatic",{%- endif -%}
 ]
 
 LOCAL_APPS = [
@@ -66,7 +66,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    {% if cookiecutter.deploy_to == "fly.io" %}"whitenoise.middleware.WhiteNoiseMiddleware",{% endif %}
+    {%- if cookiecutter.deploy_to == "fly.io" -%}"whitenoise.middleware.WhiteNoiseMiddleware",{%- endif -%}
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -148,11 +148,9 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = config("DJANGO_STATIC_ROOT", default=os.path.join(BASE_DIR, "static"))
-
 {% if cookiecutter.deploy_to == "fly.io" %}
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 {% endif %}
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

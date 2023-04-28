@@ -2,7 +2,7 @@
   "project_name": "My Todo List",
   "project_slug": "{{ cookiecutter.project_name.lower()|replace(' ', '')|replace('-', '')|replace('.', '')|trim() }}",
   "description": "The Ultimate Django and Vue Template",
-  "app_name": "todos",
+  "app_name": "core",
   "model": "Tasks",
   "model_lower": "{{ cookiecutter.model.lower() }}",
   "model_singular": "{{ cookiecutter.model[:-1] }}",

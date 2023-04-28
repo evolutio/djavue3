@@ -19,10 +19,9 @@ from django.urls import path, include
 {% if cookiecutter.django_api == "django_ninja" %}
 from .api import api
 {% endif %}
-
 urlpatterns = [
     path("admin/", admin.site.urls),
-    {% if cookiecutter.django_api == "django_ninja" %}
+    {%- if cookiecutter.django_api == "django_ninja" -%}
     path("api/", api.urls),
     {% else %}
     path("api/", include("{{cookiecutter.project_slug}}.base.urls")),
@@ -31,5 +30,5 @@ urlpatterns = [
         "api/{{ cookiecutter.app_name }}/",
         include("{{cookiecutter.project_slug}}.{{ cookiecutter.app_name }}.urls"),
     ),
-    {% endif %}
+    {%- endif -%}
 ]
