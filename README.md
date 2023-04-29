@@ -80,6 +80,8 @@ Neste exemplo, vamos criar o projeto `mytodolist`, mas você pode trocar este no
 
 ### Primeiro passo
 
+[![asciicast](https://asciinema.org/a/0dS3uaY8x98iM6tc9GpIo73Uq.svg)](https://asciinema.org/a/0dS3uaY8x98iM6tc9GpIo73Uq)
+
 Vamos precisar criar o projeto e fazer o build de tudo, utilize os comandos abaixo:
 
 ```bash
