@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path{% if cookiecutter.django_api != "django_ninja" %}, include{% endif %}
 
 {% if cookiecutter.django_api == "django_ninja" %}
 from .api import api
