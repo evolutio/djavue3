@@ -14,6 +14,10 @@ dj-database-url==1.3.0
 
 # ENV
 python-decouple==3.8
+{% if cookiecutter.django_api == "django_ninja" %}
+# API
+django-ninja==0.21.0
+{% endif %}
 
 # PROD
 #uWSGI==2.0.21

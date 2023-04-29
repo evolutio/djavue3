@@ -14,15 +14,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path{% if cookiecutter.django_api != "django_ninja" %}, include{% endif %}
 
+{% if cookiecutter.django_api == "django_ninja" %}
+from .api import api
+{% endif %}
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path('explorer/', include('explorer.urls')),
+    {%- if cookiecutter.django_api == "django_ninja" -%}
+    path("api/", api.urls),
+    {% else %}
     path("api/", include("{{cookiecutter.project_slug}}.base.urls")),
     path("api/accounts/", include("{{cookiecutter.project_slug}}.accounts.urls")),
     path(
         "api/{{ cookiecutter.app_name }}/",
         include("{{cookiecutter.project_slug}}.{{ cookiecutter.app_name }}.urls"),
     ),
+    {%- endif -%}
 ]

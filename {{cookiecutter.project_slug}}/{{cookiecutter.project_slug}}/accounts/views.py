@@ -1,13 +1,43 @@
 # coding: utf-8
 from django.http import JsonResponse
 from django.contrib import auth
+{% if cookiecutter.django_api == "django_ninja" %}
+from ninja import Router, Form, Schema
+{% else %}
 from django.views.decorators.csrf import csrf_exempt
-
+{% endif %}
 from ..{{ cookiecutter.app_name }}.service import log_svc
 
+{% if cookiecutter.django_api == "django_ninja" %}router = Router()
 
+class PermissionSchema(Schema):
+    ADMIN: bool
+    STAFF: bool
+
+
+class UserSchema(Schema):
+    id: int
+    name: str
+    username: str
+    first_name: str
+    last_name: str
+    email: str
+    avatar: str = None
+    bio: str = None
+    permissions: PermissionSchema
+
+
+class LoggedUserSchema(Schema):
+    user: UserSchema
+    authenticated: bool
+{% endif %}
+
+{% if cookiecutter.django_api == "django_ninja" %}
+@router.post("/login", response=UserSchema)
+def login(request, username: str = Form(...), password: str = Form(...)):
+{% else %}
 @csrf_exempt
-def login(request):
+def login(request):{% endif %}
     username = request.POST["username"]
     password = request.POST["password"]
     user = auth.authenticate(username=username, password=password)
@@ -20,6 +50,7 @@ def login(request):
     return JsonResponse(user_dict, safe=False)
 
 
+{% if cookiecutter.django_api == "django_ninja" %}@router.post("/logout"){% endif %}
 def logout(request):
     if request.method.lower() != "post":
         raise Exception("Logout only via post")
@@ -29,6 +60,7 @@ def logout(request):
     return JsonResponse({})
 
 
+{% if cookiecutter.django_api == "django_ninja" -%}@router.get("/whoami", response=LoggedUserSchema){% endif %}
 def whoami(request):
     i_am = (
         {
