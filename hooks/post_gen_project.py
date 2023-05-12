@@ -52,8 +52,10 @@ def fix_api_mock_express():
     shutil.rmtree("frontend/src/apimock")
 
 
-def remove_django_ninja_files(project_name):
+def remove_django_ninja_files(project_name, app_name):
     os.remove(f"{project_name}/{project_name}/api.py")
+    os.remove(f"{project_name}/{app_name}/schemas.py")
+    os.remove(f"{project_name}/accounts/schemas.py")
 
 
 def main():
@@ -79,7 +81,7 @@ def main():
 
     if "{{ cookiecutter.django_api }}" != "django_ninja":
         print(INFO + "  - 🗑️ Removing django-ninja api files" + TERMINATOR)
-        remove_django_ninja_files("{{ cookiecutter.project_slug }}")
+        remove_django_ninja_files("{{ cookiecutter.project_slug }}", "{{ cookiecutter.app_name }}")
     else:
         print(INFO + "  Using django-ninja 🥷" + TERMINATOR)
 

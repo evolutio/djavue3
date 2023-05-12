@@ -1,35 +1,16 @@
 # coding: utf-8
-from django.http import JsonResponse
 from django.contrib import auth
+from django.http import JsonResponse
 {% if cookiecutter.django_api == "django_ninja" %}
-from ninja import Router, Form, Schema
+from ninja import Router, Form
+
+from .schemas import LoggedUserSchema, UserSchema
 {% else %}
 from django.views.decorators.csrf import csrf_exempt
 {% endif %}
 from ..{{ cookiecutter.app_name }}.service import log_svc
 
 {% if cookiecutter.django_api == "django_ninja" %}router = Router()
-
-class PermissionSchema(Schema):
-    ADMIN: bool
-    STAFF: bool
-
-
-class UserSchema(Schema):
-    id: int
-    name: str
-    username: str
-    first_name: str
-    last_name: str
-    email: str
-    avatar: str = None
-    bio: str = None
-    permissions: PermissionSchema
-
-
-class LoggedUserSchema(Schema):
-    user: UserSchema
-    authenticated: bool
 {% endif %}
 
 {% if cookiecutter.django_api == "django_ninja" %}

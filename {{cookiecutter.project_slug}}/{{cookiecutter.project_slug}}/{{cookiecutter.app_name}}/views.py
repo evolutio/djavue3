@@ -1,38 +1,30 @@
 # coding: utf-8
-{% if cookiecutter.django_api == "django_ninja" %}
-from typing import List, Optional
-{% else %}
+{% if cookiecutter.django_api != "django_ninja" %}
 import json
 {% endif %}
 from django.http import JsonResponse
 
 {% if cookiecutter.django_api == "django_ninja" %}
-from ninja import Router, Form, Schema
+from ninja import Router
+
+from .schemas import ListTasksSchema, TaskSchema, TaskSchemaIn
 {% else %}
 from django.views.decorators.csrf import csrf_exempt
 
 from ..commons.django_views_utils import ajax_login_required
 {% endif %}
+
 from .service import {{cookiecutter.model_lower}}_svc
 
 {% if cookiecutter.django_api == "django_ninja" %}
+
 router = Router()
-
-
-class TaskSchema(Schema):
-    id: Optional[int]
-    description: str
-    done: bool = False
-
-
-class ListTasksSchema(Schema):
-    tasks: List[TaskSchema]
 {% endif %}
 
 
 {% if cookiecutter.django_api == "django_ninja" %}
 @router.post("/tasks/add", response=TaskSchema)
-def add_{{cookiecutter.model_singular_lower}}(request, task: TaskSchema):
+def add_{{cookiecutter.model_singular_lower}}(request, task: TaskSchemaIn):
     new_{{cookiecutter.model_singular_lower}} = {{cookiecutter.model_lower}}_svc.add_{{cookiecutter.model_singular_lower}}(task.description)
 {% else %}
 @csrf_exempt

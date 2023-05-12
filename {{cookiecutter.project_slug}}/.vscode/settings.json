@@ -1,7 +1,6 @@
 {
   "editor.formatOnSave": true,
   "python.formatting.provider": "black",
-  "python.pythonPath": "/usr/local/bin/python",
   "python.testing.pytestArgs": [],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
