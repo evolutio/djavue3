@@ -1,0 +1,186 @@
+openapi: 3.0.3
+info:
+  title: {{cookiecutter.project_name}}
+  version: "1.0"
+  description: API Contract and Documentation
+
+servers:
+  - url: http://localhost:8000/v1.0
+
+paths:
+  /dapau:
+    get:
+      description: Gera um erro
+      tags:
+        - base
+      operationId: {{cookiecutter.project_slug}}.base.views.dapau
+      responses:
+        500:
+          description: Internal Error
+
+  /accounts/login:
+    post:
+      description: Faz login
+      tags:
+        - accounts
+      operationId: {{cookiecutter.project_slug}}.accounts.views.login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  example: john
+                password:
+                  type: string
+                  example: secret
+      responses:
+        200:
+          description: Cookie de acesso
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: sessionid=abcde12345; Path=/; HttpOnly
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/User"
+
+  /accounts/logout:
+    post:
+      operationId: {{cookiecutter.project_slug}}.accounts.views.logout
+      tags:
+        - accounts
+      responses:
+        200:
+          description: User or not
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authenticated:
+                    type: boolean
+
+  /accounts/whoami:
+    get:
+      operationId: {{cookiecutter.project_slug}}.accounts.views.whoami
+      tags:
+        - accounts
+      responses:
+        200:
+          description: User or not
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authenticated:
+                    type: boolean
+                  user:
+                    $ref: "#/components/schemas/User"
+
+  /{{cookiecutter.app_name}}/{{cookiecutter.model_lower}}/list:
+    get:
+      summary: List {{cookiecutter.model_lower}}
+      description: Endpoint para listar tarefas
+      tags:
+        - {{cookiecutter.app_name}}
+      operationId: {{cookiecutter.project_slug}}.{{cookiecutter.app_name}}.views.list_{{cookiecutter.model_lower}}
+      responses:
+        200:
+          description: Retorna lista de {{cookiecutter.model}}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  {{cookiecutter.model_lower}}:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/{{cookiecutter.model_singular}}"
+        401:
+          description: Not Authorized
+  /{{cookiecutter.app_name}}/{{cookiecutter.model_lower}}/add:
+    post:
+      summary: Cria nova {{cookiecutter.model_singular_lower}}
+      description: Endpoint para criar uma nova tarefa
+      tags:
+        - {{cookiecutter.app_name}}
+      operationId: {{cookiecutter.project_slug}}.{{cookiecutter.app_name}}.views.add_{{cookiecutter.model_singular_lower}}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                description:
+                  type: string
+                  example: New {{cookiecutter.model_singular_lower}} Description
+      responses:
+        200:
+          description: Retorna nova tarefa criada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/{{cookiecutter.model_singular}}"
+        400:
+          description: Bad Request
+        401:
+          description: Not Authorized
+
+components:
+  schemas:
+    {{cookiecutter.model_singular}}:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 7
+        description:
+          type: string
+          example: Jammal Nunes
+          x-fake: name
+        done:
+          type: boolean
+          example: false
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Jammal Nunes
+        username:
+          type: string
+          example: jammal
+        first_name:
+          type: string
+          example: Jammal
+        last_name:
+          type: string
+          example: Nunes
+        email:
+          type: string
+          example: nunes@dev.br
+        avatar:
+          type: string
+          example: https://example.com/avatar.jpg
+        bio:
+          type: string
+          example: 404
+        permissions:
+          type: string
+          example: 404

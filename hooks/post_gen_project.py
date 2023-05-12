@@ -58,6 +58,12 @@ def remove_django_ninja_files(project_name, app_name):
     os.remove(f"{project_name}/accounts/schemas.py")
 
 
+def remove_openapi_files(project_name, app_name):
+    shutil.rmtree(f"{project_name}/base/templates/")
+    os.remove(f"{project_name}/{project_name}/connexion.py")
+    os.remove(f"{project_name}/{project_name}/openapi.yaml")
+
+
 def main():
 
     if "{{ cookiecutter.api_mock }}" == "mirageJS":
@@ -84,6 +90,13 @@ def main():
         remove_django_ninja_files("{{ cookiecutter.project_slug }}", "{{ cookiecutter.app_name }}")
     else:
         print(INFO + "  Using django-ninja 🥷" + TERMINATOR)
+
+    if "{{ cookiecutter.django_api }}" != "openapi":
+        print(INFO + "  - 🗑️ Removing openapi API files" + TERMINATOR)
+        remove_openapi_files("{{ cookiecutter.project_slug }}", "{{ cookiecutter.app_name }}")
+    else:
+        print(INFO + "  Using openapi contract API" + TERMINATOR)
+
 
     print(SUCCESS + "🐍 Your Django API backend is created! (root) ✨ 🍰 ✨\n\n" + HINT)
     print(

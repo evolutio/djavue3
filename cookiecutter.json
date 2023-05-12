@@ -10,7 +10,7 @@
   "python_version": ["3.9", "3.10"],
   "package_manager": ["requirements.txt", "pipsync"],
   "python_linter": ["flake8", "pylint", "ruff"],
-  "django_api": ["django_only", "django_ninja"],
+  "django_api": ["django_only", "django_ninja", "openapi"],
   "postgresql_version": [
     "postgres:13.3-alpine",
     "postgis/postgis:14-3.2-alpine",
