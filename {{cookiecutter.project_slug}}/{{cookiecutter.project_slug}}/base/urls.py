@@ -1,5 +1,5 @@
 {% if cookiecutter.django_api == "django_ninja" %}
-urlpatterns = []
+urlpatterns: list = []
 {% elif cookiecutter.django_api == "openapi" %}
 from django.urls import path
 
