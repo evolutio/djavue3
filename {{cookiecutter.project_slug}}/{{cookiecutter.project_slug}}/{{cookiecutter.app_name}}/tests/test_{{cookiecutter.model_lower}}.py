@@ -15,7 +15,7 @@ def test_criar_{{cookiecutter.model_singular_lower}}_com_login(client, db):
     assert resp.status_code == 200
 
 
-def test_criar_{{cookiecutter.model_singular_lower}}_com_login(client, db):
+def test_listar_{{cookiecutter.model_singular_lower}}_com_login(client, db):
     fixtures.user_jon()
     {{cookiecutter.model_singular}}.objects.create(description="walk the dog")
 

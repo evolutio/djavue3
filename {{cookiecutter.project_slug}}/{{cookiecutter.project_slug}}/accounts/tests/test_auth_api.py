@@ -63,7 +63,7 @@ def test_deve_fazer_login(client, db):
     }
 
 
-def test_deve_fazer_login(client, db):
+def test_deve_fazer_logout_quando_estiver_logado(client, db):
     fixtures.user_jon()
     client.force_login(User.objects.get(username='jon'))
     resp = client.post('/api/accounts/logout')
