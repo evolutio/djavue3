@@ -8,3 +8,8 @@ flake8==5.0.4
 #Testes
 pytest==7.2.2
 pytest-django==4.5.2
+
+{% if cookiecutter.package_manager == "requirements.in" %}
+# package manager
+pip-tools==6.13.0
+{% endif %}
