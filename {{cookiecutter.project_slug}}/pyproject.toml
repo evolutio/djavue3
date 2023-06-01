@@ -7,7 +7,7 @@ license = "{{cookiecutter.license}}"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "{{cookiecutter.python_version}}"
+python = "{{cookiecutter.python_version}}.x"
 django = "^4.2.1"
 asgiref = "^3.6.0"
 sqlparse = "^0.4.4"
