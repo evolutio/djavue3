@@ -2,6 +2,11 @@ FROM python:{{cookiecutter.python_version}}-slim
 
 WORKDIR /app
 
+{% if cookiecutter.package_manager == 'poetry' %}
+ENV POETRY_VIRTUALENVS_CREATE=false \
+    POETRY_CACHE_DIR='/var/cache/pypoetry'
+{% endif %}
+
 # Install basic SO and Python
 RUN apt-get update --fix-missing \
     && apt-get install -y --no-install-recommends \
@@ -24,11 +29,17 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh && \
 RUN mkdir /dkdata
 
 #### Prepare BACKEND Django API
+{% if cookiecutter.package_manager == 'poetry' %}
+COPY pyproject.toml ./
+COPY poetry.lock ./
+RUN pip install poetry
+RUN poetry install --no-dev
+{% else %}
 COPY requirements.txt ./
 COPY requirements-dev.txt ./
 
 RUN pip install -r requirements-dev.txt
-
+{% endif %}
 ENV PYTHONUNBUFFERED=1 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONIOENCODING=UTF-8

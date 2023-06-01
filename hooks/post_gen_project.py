@@ -149,7 +149,7 @@ def main():
 
     if "{{ cookiecutter.django_api }}" != "openapi":
         print(INFO + "  - 🗑️ Removing openapi API files" + TERMINATOR)
-        remove_openapi_files("{{ cookiecutter.project_slug }}", "{{ cookiecutter.app_name }}")
+        remove_openapi_files("{{ cookiecutter.project_slug }}")
     else:
         print(INFO + "  Using openapi contract API" + TERMINATOR)
 
