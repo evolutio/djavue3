@@ -31,9 +31,9 @@ RUN mkdir /dkdata
 #### Prepare BACKEND Django API
 {% if cookiecutter.package_manager == 'poetry' %}
 COPY pyproject.toml ./
-COPY poetry.lock ./
 RUN pip install poetry
 RUN poetry install --no-dev
+
 {% else %}
 COPY requirements.txt ./
 COPY requirements-dev.txt ./

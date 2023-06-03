@@ -61,13 +61,13 @@ def remove_openapi_files(project_name):
     os.remove(f"{project_name}/{project_name}/connexion.py")
     os.remove(f"{project_name}/{project_name}/openapi.yaml")
 
+
 def remove_package_files():
     print(INFO + "  - 🗑️ Removing packaging api files" + TERMINATOR)
     REMOVE_PATHS = [
         '{% if cookiecutter.package_manager == "poetry" %} requirements.txt {% endif %}',
         '{% if cookiecutter.package_manager == "poetry" %} requirements-dev.txt {% endif %}',
-        '{% if cookiecutter.package_manager != "poetry" %} poetry.lock {% endif %}',
-        '{% if cookiecutter.package_manager != "poetry" %} pyproject-poetry.toml {% endif %}',
+        '{% if cookiecutter.package_manager != "poetry" %} pyproject.toml {% endif %}',
     ]
 
     for path in REMOVE_PATHS:
@@ -77,47 +77,6 @@ def remove_package_files():
                 os.rmdir(path)
             else:
                 os.unlink(path)
-
-def add_poetry_dependencies():
-    '{% if cookiecutter.package_manager == "poetry" %}}'
-    '{% if cookiecutter.django_api == "django_ninja" %}'
-
-    os.system("poetry add django-ninja==0.21.0")
-    '{% endif %}'
-
-    '{% if cookiecutter.deploy_to == "fly.io" %}'
-    os.system("poetry add whitenoise gunicorn")
-    '{% endif %}'
-    '{% endif %}'
-
-def remove_package_files():
-    print(INFO + "  - 🗑️ Removing packaging api files" + TERMINATOR)
-    REMOVE_PATHS = [
-        '{% if cookiecutter.package_manager == "poetry" %} requirements.txt {% endif %}',
-        '{% if cookiecutter.package_manager == "poetry" %} requirements-dev.txt {% endif %}',
-        '{% if cookiecutter.package_manager != "poetry" %} poetry.lock {% endif %}',
-        '{% if cookiecutter.package_manager != "poetry" %} pyproject-poetry.toml {% endif %}',
-    ]
-
-    for path in REMOVE_PATHS:
-        path = path.strip()
-        if path and os.path.exists(path):
-            if os.path.isdir(path):
-                os.rmdir(path)
-            else:
-                os.unlink(path)
-
-def add_poetry_dependencies():
-    '{% if cookiecutter.package_manager == "poetry" %}}'
-    '{% if cookiecutter.django_api == "django_ninja" %}'
-
-    os.system("poetry add django-ninja==0.21.0")
-    '{% endif %}'
-
-    '{% if cookiecutter.deploy_to == "fly.io" %}'
-    os.system("poetry add whitenoise gunicorn")
-    '{% endif %}'
-    '{% endif %}'
 
 
 def main():
@@ -153,9 +112,7 @@ def main():
     else:
         print(INFO + "  Using openapi contract API" + TERMINATOR)
 
-
     remove_package_files()
-    add_poetry_dependencies()
 
     print(SUCCESS + "🐍 Your Django API backend is created! (root) ✨ 🍰 ✨\n\n" + HINT)
     print(

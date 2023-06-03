@@ -12,27 +12,6 @@ from typing import Optional
 from ..{{ cookiecutter.app_name }}.service import log_svc
 
 {% if cookiecutter.django_api == "django_ninja" %}router = Router()
-
-class PermissionSchema(Schema):
-    ADMIN: bool
-    STAFF: bool
-
-
-class UserSchema(Schema):
-    id: int
-    name: str
-    username: str
-    first_name: str
-    last_name: str
-    email: str
-    avatar: Optional[str] = None
-    bio: Optional[str] = None
-    permissions: PermissionSchema
-
-
-class LoggedUserSchema(Schema):
-    user: UserSchema
-    authenticated: bool
 {% endif %}
 
 {% if cookiecutter.django_api == "django_ninja" %}
