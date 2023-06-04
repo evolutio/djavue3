@@ -1,11 +1,9 @@
 """
     Remove unused code based on the cookiecutter answers
 """
-import json
 import os
 import random
 import shutil
-import string
 
 try:
     # Inspired by
@@ -58,10 +56,27 @@ def remove_django_ninja_files(project_name, app_name):
     os.remove(f"{project_name}/accounts/schemas.py")
 
 
-def remove_openapi_files(project_name, app_name):
+def remove_openapi_files(project_name):
     shutil.rmtree(f"{project_name}/base/templates/")
     os.remove(f"{project_name}/{project_name}/connexion.py")
     os.remove(f"{project_name}/{project_name}/openapi.yaml")
+
+
+def remove_package_files():
+    print(INFO + "  - 🗑️ Removing packaging api files" + TERMINATOR)
+    REMOVE_PATHS = [
+        '{% if cookiecutter.package_manager == "poetry" %} requirements.txt {% endif %}',
+        '{% if cookiecutter.package_manager == "poetry" %} requirements-dev.txt {% endif %}',
+        '{% if cookiecutter.package_manager != "poetry" %} pyproject.toml {% endif %}',
+    ]
+
+    for path in REMOVE_PATHS:
+        path = path.strip()
+        if path and os.path.exists(path):
+            if os.path.isdir(path):
+                os.rmdir(path)
+            else:
+                os.unlink(path)
 
 
 def main():
@@ -82,7 +97,7 @@ def main():
         remove_vscode_files()
 
     if "{{ cookiecutter.keep_vscode_devcontainer }}".lower() != "yes":
-        print(INFO + "  - 🗑️ Removing VSCode files" + TERMINATOR)
+        print(INFO + "  - 🗑️ Removing DevContainer files" + TERMINATOR)
         remove_vscode_devcontainer_files()
 
     if "{{ cookiecutter.django_api }}" != "django_ninja":
@@ -93,10 +108,11 @@ def main():
 
     if "{{ cookiecutter.django_api }}" != "openapi":
         print(INFO + "  - 🗑️ Removing openapi API files" + TERMINATOR)
-        remove_openapi_files("{{ cookiecutter.project_slug }}", "{{ cookiecutter.app_name }}")
+        remove_openapi_files("{{ cookiecutter.project_slug }}")
     else:
         print(INFO + "  Using openapi contract API" + TERMINATOR)
 
+    remove_package_files()
 
     print(SUCCESS + "🐍 Your Django API backend is created! (root) ✨ 🍰 ✨\n\n" + HINT)
     print(

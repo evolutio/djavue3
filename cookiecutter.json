@@ -7,8 +7,8 @@
   "model_lower": "{{ cookiecutter.model.lower() }}",
   "model_singular": "{{ cookiecutter.model[:-1] }}",
   "model_singular_lower": "{{ cookiecutter.model_singular.lower() }}",
-  "python_version": ["3.9", "3.10"],
-  "package_manager": ["requirements.txt", "pipsync"],
+  "python_version": ["3.9", "3.10", "3.11"],
+  "package_manager": ["requirements.txt", "pipsync", "poetry"],
   "python_linter": ["flake8", "pylint", "ruff"],
   "django_api": ["django_only", "django_ninja", "openapi"],
   "postgresql_version": [
@@ -26,5 +26,6 @@
   "deploy_domain": "{{ cookiecutter.project_slug}}.fly.dev",
   "author_name": "Roger Camargo",
   "email": "{{ cookiecutter.author_name.lower()|replace(' ', '-') }}@example.com",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "license": ["MIT", "agpl-3.0"]
 }

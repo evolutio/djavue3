@@ -8,6 +8,7 @@ from .schemas import LoggedUserSchema, UserSchema
 {% else %}
 from django.views.decorators.csrf import csrf_exempt
 {% endif %}
+from typing import Optional
 from ..{{ cookiecutter.app_name }}.service import log_svc
 
 {% if cookiecutter.django_api == "django_ninja" %}router = Router()
