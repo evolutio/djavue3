@@ -78,6 +78,10 @@ def remove_package_files():
             else:
                 os.unlink(path)
 
+def prepare_piptools():
+    os.rename("requirements.txt", "requirements.in")
+    os.rename("requirements-dev.txt", "requirements-dev.in")
+
 
 def main():
 
@@ -113,6 +117,9 @@ def main():
         print(INFO + "  Using openapi contract API" + TERMINATOR)
 
     remove_package_files()
+    if "{{ cookiecutter.package_manager }}" == "pip-tools":
+        print(INFO + "  Preparing piptools" + TERMINATOR)
+        prepare_piptools()
 
     print(SUCCESS + "🐍 Your Django API backend is created! (root) ✨ 🍰 ✨\n\n" + HINT)
     print(

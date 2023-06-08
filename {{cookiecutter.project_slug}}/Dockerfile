@@ -34,6 +34,13 @@ COPY pyproject.toml ./
 RUN pip install poetry
 RUN poetry install --no-dev
 
+{% elif cookiecutter.package_manager == 'pip-tools' %}
+RUN pip install pip-tools==6.13.0
+# RUN pip-compile --generate-hashes requirements-dev.in
+# COPY requirements.txt ./
+COPY requirements-dev.txt ./
+RUN pip-sync requirements-dev.txt
+
 {% else %}
 COPY requirements.txt ./
 COPY requirements-dev.txt ./

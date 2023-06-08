@@ -8,7 +8,7 @@
   "model_singular": "{{ cookiecutter.model[:-1] }}",
   "model_singular_lower": "{{ cookiecutter.model_singular.lower() }}",
   "python_version": ["3.9", "3.10", "3.11"],
-  "package_manager": ["requirements.txt", "pipsync", "poetry"],
+  "package_manager": ["requirements.txt", "pip-tools", "poetry"],
   "python_linter": ["flake8", "pylint", "ruff"],
   "django_api": ["django_only", "django_ninja", "openapi"],
   "postgresql_version": [
