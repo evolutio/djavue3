@@ -38,7 +38,7 @@ RUN poetry install --no-dev
 RUN pip install pip-tools==6.13.0
 # RUN pip-compile --generate-hashes requirements-dev.in
 # COPY requirements.txt ./
-# COPY requirements-dev.txt ./
+COPY requirements-dev.txt ./
 RUN pip-sync requirements-dev.txt
 
 {% else %}
