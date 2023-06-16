@@ -12,9 +12,7 @@ RUN apt-get update --fix-missing \
     && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
-    python-dev \
     wget curl vim locales zip unzip apt-utils \
-    wait-for-it \
     && rm -rf /var/lib/apt/lists/* \
     && pip install uwsgi uwsgitop
 
@@ -25,8 +23,6 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh && \
     echo "alias ls='ls \$LS_OPTIONS'" >>~/.bashrc && \
     echo "alias ll='ls \$LS_OPTIONS -l'" >>~/.bashrc && \
     echo "alias l='ls \$LS_OPTIONS -lA'" >>~/.bashrc
-
-RUN mkdir /dkdata
 
 #### Prepare BACKEND Django API
 {% if cookiecutter.package_manager == 'poetry' %}
@@ -59,4 +55,3 @@ EXPOSE 8000
 {% if cookiecutter.deploy_to == "fly.io" %}
 CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "{{cookiecutter.project_slug}}.{{cookiecutter.project_slug}}.wsgi"]
 {% endif %}
-
