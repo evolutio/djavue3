@@ -7,7 +7,7 @@ from django.http import JsonResponse
 {% if cookiecutter.django_api == "django_ninja" %}
 from ninja import Router
 
-from .schemas import ListTasksSchema, TaskSchema, TaskSchemaIn
+from .schemas import List{{cookiecutter.model}}Schema, {{cookiecutter.model_singular}}Schema, {{cookiecutter.model_singular}}SchemaIn
 {% else %}
 from django.views.decorators.csrf import csrf_exempt
 
@@ -23,9 +23,9 @@ router = Router()
 
 
 {% if cookiecutter.django_api == "django_ninja" %}
-@router.post("/tasks/add", response=TaskSchema)
-def add_{{cookiecutter.model_singular_lower}}(request, task: TaskSchemaIn):
-    new_{{cookiecutter.model_singular_lower}} = {{cookiecutter.model_lower}}_svc.add_{{cookiecutter.model_singular_lower}}(task.description)
+@router.post("/{{cookiecutter.model_lower}}/add", response={{cookiecutter.model_singular}}Schema)
+def add_{{cookiecutter.model_singular_lower}}(request, {{cookiecutter.model_singular_lower}}: {{cookiecutter.model_singular}}SchemaIn):
+    new_{{cookiecutter.model_singular_lower}} = {{cookiecutter.model_lower}}_svc.add_{{cookiecutter.model_singular_lower}}({{cookiecutter.model_singular_lower}}.description)
 {% else %}
 @csrf_exempt
 @ajax_login_required
@@ -37,7 +37,7 @@ def add_{{cookiecutter.model_singular_lower}}(request):
 
 
 {% if cookiecutter.django_api == "django_ninja" %}
-@router.get("/tasks/list", response=ListTasksSchema)
+@router.get("/{{cookiecutter.model_lower}}/list", response=List{{cookiecutter.model}}Schema)
 {% else %}
 @ajax_login_required
 {% endif %}

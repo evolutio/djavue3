@@ -79,20 +79,30 @@ def remove_package_files():
                 os.unlink(path)
 
 
-def prepare_piptools(api_lib):
+def prepare_piptools(django_api):
     os.rename("requirements.txt", "requirements.in")
     os.rename("requirements-dev.txt", "requirements-dev.in")
-    os.rename(f"requirements-dev-txt-{api_lib}.pip", "requirements-dev.txt")
+    os.rename(f"requirements-dev-txt-{django_api}.pip", "requirements-dev.txt")
 
-    if api_lib == "django_only":
-        os.remove("requirements-dev-txt-django_ninja.pip")
-        os.remove("requirements-dev-txt-openapi.pip")
-    elif api_lib == "django_ninja":
-        os.remove("requirements-dev-txt-django_only.pip")
-        os.remove("requirements-dev-txt-openapi.pip")
-    else:
-        os.remove("requirements-dev-txt-django_only.pip")
-        os.remove("requirements-dev-txt-django_ninja.pip")
+
+def remove_piptools_files(package_manager, django_api):
+
+    REMOVE_PATHS = [
+        'requirements-dev-txt-django_only.pip',
+        'requirements-dev-txt-django_ninja.pip',
+        'requirements-dev-txt-openapi.pip',
+    ]
+
+    if package_manager == 'pip-tools':
+        del REMOVE_PATHS[REMOVE_PATHS.index(f"requirements-dev-txt-{django_api}.pip")]
+
+    for path in REMOVE_PATHS:
+        path = path.strip()
+        if path and os.path.exists(path):
+            if os.path.isdir(path):
+                os.rmdir(path)
+            else:
+                os.unlink(path)
 
 
 def main():
@@ -132,6 +142,8 @@ def main():
     if "{{ cookiecutter.package_manager }}" == "pip-tools":
         print(INFO + "  Preparing piptools" + TERMINATOR)
         prepare_piptools("{{ cookiecutter.django_api }}")
+
+    remove_piptools_files("{{ cookiecutter.package_manager }}", "{{ cookiecutter.django_api }}")
 
     print(SUCCESS + "🐍 Your Django API backend is created! (root) ✨ 🍰 ✨\n\n" + HINT)
     print(
