@@ -78,9 +78,21 @@ def remove_package_files():
             else:
                 os.unlink(path)
 
-def prepare_piptools():
+
+def prepare_piptools(api_lib):
     os.rename("requirements.txt", "requirements.in")
     os.rename("requirements-dev.txt", "requirements-dev.in")
+    os.rename(f"requirements-dev-txt-{api_lib}.pip", "requirements-dev.txt")
+
+    if api_lib == "django_only":
+        os.remove("requirements-dev-txt-django_ninja.pip")
+        os.remove("requirements-dev-txt-openapi.pip")
+    elif api_lib == "django_ninja":
+        os.remove("requirements-dev-txt-django_only.pip")
+        os.remove("requirements-dev-txt-openapi.pip")
+    else:
+        os.remove("requirements-dev-txt-django_only.pip")
+        os.remove("requirements-dev-txt-django_ninja.pip")
 
 
 def main():
@@ -119,7 +131,7 @@ def main():
     remove_package_files()
     if "{{ cookiecutter.package_manager }}" == "pip-tools":
         print(INFO + "  Preparing piptools" + TERMINATOR)
-        prepare_piptools()
+        prepare_piptools("{{ cookiecutter.django_api }}")
 
     print(SUCCESS + "🐍 Your Django API backend is created! (root) ✨ 🍰 ✨\n\n" + HINT)
     print(
