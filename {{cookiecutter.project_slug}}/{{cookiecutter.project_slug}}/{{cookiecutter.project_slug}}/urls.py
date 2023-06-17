@@ -18,6 +18,7 @@ from pathlib import Path
 {% endif %}
 from django.contrib import admin
 from django.urls import path{% if cookiecutter.django_api != "django_ninja" %}, include{% endif %}
+from django.views.generic import TemplateView
 
 {% if cookiecutter.django_api == "django_ninja" %}
 from .api import api
@@ -32,17 +33,14 @@ apps_urls = DjangoApi(
 {% endif %}
 urlpatterns = [
     path("admin/", admin.site.urls),
-    {%- if cookiecutter.django_api == "django_ninja" -%}
-    path("api/", api.urls),
-    {%- elif cookiecutter.django_api == "openapi" -%}
-    path("api/", apps_urls),
-    path("api/docs/", include("{{cookiecutter.project_slug}}.base.urls")),
-    {% else %}
-    path("api/", include("{{cookiecutter.project_slug}}.base.urls")),
+    {% if cookiecutter.django_api == "django_ninja" %}path("api/", api.urls),
+    {% elif cookiecutter.django_api == "openapi" %}path("api/", apps_urls),
+    path("api/docs", include("{{cookiecutter.project_slug}}.base.urls")),
+    {% else %}path("api/", include("{{cookiecutter.project_slug}}.base.urls")),
     path("api/accounts/", include("{{cookiecutter.project_slug}}.accounts.urls")),
     path(
         "api/{{ cookiecutter.app_name }}/",
         include("{{cookiecutter.project_slug}}.{{ cookiecutter.app_name }}.urls"),
-    ),
-    {%- endif -%}
+    ),{% endif %}
+    path("", TemplateView.as_view(template_name="base/apihome.html")),
 ]

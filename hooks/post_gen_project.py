@@ -17,6 +17,7 @@ TERMINATOR = "\x1b[0m"
 WARNING = "\x1b[1;33m [WARNING]: "
 INFO = "\x1b[1;33m [INFO]: "
 HINT = "\x1b[3;33m"
+FAIL = "\033[91m"
 SUCCESS = "\x1b[1;32m [SUCCESS]: "
 
 DEBUG_VALUE = "debug"
@@ -57,7 +58,7 @@ def remove_django_ninja_files(project_name, app_name):
 
 
 def remove_openapi_files(project_name):
-    shutil.rmtree(f"{project_name}/base/templates/")
+    os.remove(f"{project_name}/base/templates/base/apidocs.html")
     os.remove(f"{project_name}/{project_name}/connexion.py")
     os.remove(f"{project_name}/{project_name}/openapi.yaml")
 
@@ -106,6 +107,10 @@ def remove_piptools_files(package_manager, django_api):
 
 
 def main():
+
+    if "{{ cookiecutter.deploy_to }}" == "fly.io" and "{{ cookiecutter.package_manager }}" != "requirements.txt":
+        print(FAIL + "  🚀🚀🚀 ERRO: Opps, deploy com FLY.IO só funciona com requirements.txt" + TERMINATOR)
+        raise Exception("Opps!")
 
     if "{{ cookiecutter.api_mock }}" == "mirageJS":
         print(INFO + "  - 🗑️ Removing Apimock express App files" + TERMINATOR)
