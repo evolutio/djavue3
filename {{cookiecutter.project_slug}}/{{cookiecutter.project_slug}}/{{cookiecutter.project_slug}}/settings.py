@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 
 import dj_database_url
-from decouple import config
+from decouple import config, Csv
 from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -32,13 +32,13 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 ALLOWED_HOSTS = config(
     "ALLOWED_HOSTS",
     default="{{cookiecutter.deploy_domain}}",
-    cast=lambda v: [s.strip() for s in v.split(",")],
+    cast=Csv(),
 )
 
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",
     default="https://{{cookiecutter.deploy_domain}}",
-    cast=lambda v: [s.strip() for s in v.split(",")],
+    cast=Csv(),
 )
 
 # Application definition
