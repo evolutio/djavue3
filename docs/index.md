@@ -4,15 +4,12 @@ layout: home
 
 hero:
   name: "D-Jàvue"
-  text: "Documentação Oficial do Djàvue"
-  tagline: My great project tagline
+  text: "Gerador de projeto full-stack, pronto para produção e focado na produtividade ⚡"
+  tagline: Vue 3 | Vite | Vuetify e Backend Django 🦄 API
   actions:
     - theme: brand
-      text: Markdown Examples
+      text: Iniciar
       link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
 
 features:
   - title: Feature A
