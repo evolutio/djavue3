@@ -27,7 +27,8 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
-    repo: '',
+    base: 'huogerac',
+    repo: 'djavue3',
     editLinks: false,
     docsDir: '',
     editLinkText: '',
