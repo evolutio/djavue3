@@ -1,0 +1,19 @@
+{
+  "name": "djavue3",
+  "version": "0.0.1",
+  "description": "Djavue Documentation",
+  "main": "index.js",
+  "authors": {
+    "name": "Roger Camargo",
+    "email": "huogerac@gmail.com"
+  },
+  "repository": "https://github.com/evolutio/djavue3/djavue3",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  }
+}
