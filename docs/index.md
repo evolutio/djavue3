@@ -9,14 +9,14 @@ hero:
   actions:
     - theme: brand
       text: Iniciar
-      link: /markdown-examples
+      link: /intro
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: BACKEND
+    details: Django API | Python decouple | Pytest | Linter
+  - title: FRONTEND
+    details: Vue.js | Vuetify | Pinia | Vite
+  - title: CI
+    details: Github Actions, Linter, Tests
 ---
 
