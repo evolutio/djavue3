@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "D-Jàvue"
+  name: "D-Jà Vue"
   text: "Gerador de projeto full-stack, pronto para produção e focado na produtividade ⚡"
   tagline: Vue 3 | Vite | Vuetify e Backend Django 🦄 API
   actions:

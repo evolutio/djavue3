@@ -1,4 +1,4 @@
-# O que é o D-Djàvue?
+# O que é o D-Djà Vue?
 
 ::: info
 TODO...

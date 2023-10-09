@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "D-Jàvue",
+  title: "D-Jà Vue",
   description: "Documentação Oficial do Djàvue",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
@@ -15,11 +15,12 @@ export default defineConfig({
       {
         text: 'Documentação',
         items: [
-          { text: 'O que é', link: '/intro' },
-          { text: 'Instalação', link: '/instalacao' },
-          { text: 'Iniciando', link: '/iniciando' },
-          { text: 'Contribuindo', link: '/contribuindo' },
-          { text: 'CHANGELOG', link: '/changelog' }
+          { text: '🤔 O que é', link: '/intro' },
+          { text: '💿 Instalação', link: '/instalacao' },
+          { text: '👶 Iniciando', link: '/iniciando' },
+          { text: '🚀 Deploy ', link: '/deploy' },
+          { text: '👾 Contribuindo', link: '/contribuindo' },
+          { text: '📝 CHANGELOG', link: '/changelog' }
         ]
       }
     ],
