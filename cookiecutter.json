@@ -11,17 +11,23 @@
   "package_manager": ["requirements.txt", "pip-tools", "poetry"],
   "python_linter": ["flake8", "pylint", "ruff"],
   "django_api": ["django_only", "django_ninja", "openapi"],
-  "postgresql_version": [
+  "database_version": [
     "postgres:13.3-alpine",
-    "postgis/postgis:14-3.2-alpine",
-    "sqlite3"
+    "postgres:14-alpine",
+    "postgres:15-alpine",
+    "postgis/postgis:14-3.2-alpine"
   ],
+  "use_sqlite_local_env": "no",
   "node_version": ["16.17"],
   "pages_folder_name": ["views", "pages"],
   "api_mock": ["mirageJS", "express"],
   "use_github_actions_CI": "yes",
   "keep_vscode_settings": "yes",
   "keep_vscode_devcontainer": "no",
+  "docker_usage": [
+    "🐳 use docker by default",
+    "📦 use venv npm by default"
+  ],
   "deploy_to": ["local", "fly.io"],
   "deploy_domain": "{{ cookiecutter.project_slug}}.fly.dev",
   "author_name": "Roger Camargo",

@@ -18,6 +18,7 @@ WARNING = "\x1b[1;33m [WARNING]: "
 INFO = "\x1b[1;33m [INFO]: "
 HINT = "\x1b[3;33m"
 FAIL = "\033[91m"
+GREEN = "\x1b[1;32m "
 SUCCESS = "\x1b[1;32m [SUCCESS]: "
 
 DEBUG_VALUE = "debug"
@@ -157,20 +158,17 @@ def main():
 
     print("What's next?")
     print("  cd {{ cookiecutter.project_slug }}")
-    print("  👉 For DOCKER users 🐳]")
+    print("  👉 For DOCKER users 🐳")
     print("       docker compose build")
-    print("       docker compose -d backend frontend")
+    print("       docker compose up")
     print("       go to http://localhost  (PORT is NOT necessary)")
-    print("       docker compose exec -it backend bash")
-    print("       ./manage.py createsuperuser")
-    print("       pytest\n")
 
-    print("  👉 For frontend devs 😎")
-    print("       WIP\n")
-    print("  👉 For backend devs 🦄]")
-    print("       WIP\n")
+    print("  👉 Using virtualenv 📦")
+    print("       create a virtualenv")
+    print("       install dependencies")
 
-    print(INFO + "⚠️ For more details, check the README\n" + TERMINATOR)
+    print(GREEN + "\n  📄 for more information")
+    print("       https://djavue3.vercel.app\n" + TERMINATOR)
 
 
 if __name__ == "__main__":

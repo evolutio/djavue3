@@ -18,8 +18,12 @@
         <h1>Bem-vindo</h1>
         <h2>Este é o backend Django 🦄</h2>
         <h3>Acesse <a href="/api/docs">/api/docs</a> para ver a documentação da API</h3>
+        {% if cookiecutter.django_api == 'django_only' %}
+        <p>👉 (OPS! django_only não tem docs da API, use a opção django ninja 🥷)</p>
+        {% endif %}
         <h3>Acesse o frontend (outro 📦 container, outro 🚀 deploy)</h3>
         <p>Criado com 🐈‍⬛ <a href="https://github.com/evolutio/djavue3">Djàvue</a></p>
+        <p>Mais informaçoes: <a href="https://djavue3.vercel.app/">https://djavue3.vercel.app/</a></p>
     </main>
 </body>
 
