@@ -3,13 +3,13 @@
 import json
 {% endif %}
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 {% if cookiecutter.django_api == "django_ninja" %}
 from ninja import Router
 
 from .schemas import List{{cookiecutter.model}}Schema, {{cookiecutter.model_singular}}Schema, {{cookiecutter.model_singular}}SchemaIn
 {% else %}
-from django.views.decorators.csrf import csrf_exempt
 
 from ..commons.django_views_utils import ajax_login_required
 {% endif %}
@@ -23,6 +23,7 @@ router = Router()
 
 
 {% if cookiecutter.django_api == "django_ninja" %}
+@csrf_exempt
 @router.post("/{{cookiecutter.model_lower}}/add", response={{cookiecutter.model_singular}}Schema)
 def add_{{cookiecutter.model_singular_lower}}(request, {{cookiecutter.model_singular_lower}}: {{cookiecutter.model_singular}}SchemaIn):
     new_{{cookiecutter.model_singular_lower}} = {{cookiecutter.model_lower}}_svc.add_{{cookiecutter.model_singular_lower}}({{cookiecutter.model_singular_lower}}.description)
