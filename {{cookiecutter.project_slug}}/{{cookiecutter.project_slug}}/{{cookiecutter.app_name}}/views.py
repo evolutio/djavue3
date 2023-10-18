@@ -1,11 +1,11 @@
 # coding: utf-8
-{% if cookiecutter.django_api != "django_ninja" %}
+{% if cookiecutter.django_api != "🥷 django_ninja" %}
 import json
 {% endif %}
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-{% if cookiecutter.django_api == "django_ninja" %}
+{% if cookiecutter.django_api == "🥷 django_ninja" %}
 from ninja import Router
 
 from .schemas import List{{cookiecutter.model}}Schema, {{cookiecutter.model_singular}}Schema, {{cookiecutter.model_singular}}SchemaIn
@@ -16,13 +16,13 @@ from ..commons.django_views_utils import ajax_login_required
 
 from .service import {{cookiecutter.model_lower}}_svc
 
-{% if cookiecutter.django_api == "django_ninja" %}
+{% if cookiecutter.django_api == "🥷 django_ninja" %}
 
 router = Router()
 {% endif %}
 
 
-{% if cookiecutter.django_api == "django_ninja" %}
+{% if cookiecutter.django_api == "🥷 django_ninja" %}
 @csrf_exempt
 @router.post("/{{cookiecutter.model_lower}}/add", response={{cookiecutter.model_singular}}Schema)
 def add_{{cookiecutter.model_singular_lower}}(request, {{cookiecutter.model_singular_lower}}: {{cookiecutter.model_singular}}SchemaIn):
@@ -37,7 +37,7 @@ def add_{{cookiecutter.model_singular_lower}}(request):
     return JsonResponse(new_{{cookiecutter.model_singular_lower}})
 
 
-{% if cookiecutter.django_api == "django_ninja" %}
+{% if cookiecutter.django_api == "🥷 django_ninja" %}
 @router.get("/{{cookiecutter.model_lower}}/list", response=List{{cookiecutter.model}}Schema)
 {% else %}
 @ajax_login_required

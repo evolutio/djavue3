@@ -88,7 +88,7 @@ def prepare_piptools(django_api):
 
 
 def remove_piptools_files(package_manager, django_api):
-
+    django_api = django_api[2:]
     REMOVE_PATHS = [
         'requirements-dev-txt-django_only.pip',
         'requirements-dev-txt-django_ninja.pip',
@@ -132,7 +132,7 @@ def main():
         print(INFO + "  - 🗑️ Removing DevContainer files" + TERMINATOR)
         remove_vscode_devcontainer_files()
 
-    if "{{ cookiecutter.django_api }}" != "django_ninja":
+    if "{{ cookiecutter.django_api }}" != "🥷 django_ninja":
         print(INFO + "  - 🗑️ Removing django-ninja api files" + TERMINATOR)
         remove_django_ninja_files("{{ cookiecutter.project_slug }}", "{{ cookiecutter.app_name }}")
     else:

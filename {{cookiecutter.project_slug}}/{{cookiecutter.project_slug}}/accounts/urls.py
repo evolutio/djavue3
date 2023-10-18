@@ -1,4 +1,4 @@
-{%- if cookiecutter.django_api != "django_only" -%}
+{%- if cookiecutter.django_api != "🦄 django_only" -%}
 urlpatterns: list = []
 {% else %}
 from django.urls import path

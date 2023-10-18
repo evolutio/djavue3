@@ -10,11 +10,15 @@
   "python_version": ["3.9", "3.10", "3.11"],
   "package_manager": ["requirements.txt", "pip-tools", "poetry"],
   "python_linter": ["flake8", "pylint", "ruff"],
-  "django_api": ["django_only", "django_ninja", "openapi"],
+  "django_api": [
+    "🦄 django_only",
+    "🥷 django_ninja",
+    "📄 openapi"
+  ],
   "database_version": [
-    "postgres:13.3-alpine",
-    "postgres:14-alpine",
     "postgres:15-alpine",
+    "postgres:14-alpine",
+    "postgres:13.3-alpine",
     "postgis/postgis:14-3.2-alpine"
   ],
   "use_sqlite_local_env": "no",

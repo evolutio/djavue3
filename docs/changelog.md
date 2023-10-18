@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2023-10-31 - v3.0.3 - HACKTOBERFEST 2023
+
+- 🚧 [Working in progress - HELP US](https://github.com/evolutio/djavue3/milestone/1)
+
+
 ## 2023-03-31 - v3.0.2 - Atualização do frontend utilizar MirageJS como padrão
 
 - [backend] MELHORIA [#5](https://github.com/evolutio/djavue3/issues/5) Utiliza [dj-database-url](https://pypi.org/project/dj-database-url/) para gerar url de conexão com DB. Thanks @Walisson Buser
