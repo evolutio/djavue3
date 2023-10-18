@@ -41,6 +41,15 @@ CSRF_TRUSTED_ORIGINS = config(
     cast=Csv(),
 )
 
+# CORS
+# if DEBUG:
+#     CORS_ALLOW_CREDENTIALS = config("CORS_ALLOW_CREDENTIALS", default=False, cast=bool)
+#     CORS_ALLOWED_ORIGINS = config(
+#         "CSRF_TRUSTED_ORIGINS",
+#         default="http://localhost:3000",
+#         cast=Csv(),
+#     )
+
 # Application definition
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -53,8 +62,12 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     "django_extensions",
-    {%- if cookiecutter.deploy_to == "fly.io" -%}"whitenoise.runserver_nostatic",{%- endif -%}
+    {% if cookiecutter.deploy_to == "fly.io" %}"whitenoise.runserver_nostatic",{% endif %}
 ]
+
+# CORS
+# if DEBUG:
+#     THIRD_PARTY_APPS += ['corsheaders']
 
 LOCAL_APPS = [
     "{{cookiecutter.project_slug}}.base",
@@ -74,6 +87,11 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+# CORS
+# if DEBUG:
+#     before_common = MIDDLEWARE.index("django.middleware.common.CommonMiddleware")
+#     MIDDLEWARE.insert(before_common, "corsheaders.middleware.CorsMiddleware")
 
 ROOT_URLCONF = "{{cookiecutter.project_slug}}.{{cookiecutter.project_slug}}.urls"
 

@@ -1,20 +1,19 @@
 # coding: utf-8
 from django.contrib import auth
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 {% if cookiecutter.django_api == "django_ninja" %}
 from ninja import Router, Form
 
 from .schemas import LoggedUserSchema, UserSchema
-{% else %}
-from django.views.decorators.csrf import csrf_exempt
 {% endif %}
-from typing import Optional
 from ..{{ cookiecutter.app_name }}.service import log_svc
 
 {% if cookiecutter.django_api == "django_ninja" %}router = Router()
 {% endif %}
 
 {% if cookiecutter.django_api == "django_ninja" %}
+@csrf_exempt
 @router.post("/login", response=UserSchema)
 def login(request, username: str = Form(...), password: str = Form(...)):
 {% else %}
