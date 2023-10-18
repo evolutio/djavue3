@@ -22,7 +22,11 @@
     "postgis/postgis:14-3.2-alpine"
   ],
   "use_sqlite_local_env": "no",
-  "node_version": ["16.17"],
+  "node_version": [
+    "18.18",
+    "16.17",
+    "14.14"
+  ],
   "pages_folder_name": ["views", "pages"],
   "api_mock": ["mirageJS", "express"],
   "use_github_actions_CI": "yes",
@@ -32,7 +36,10 @@
     "🐳 use docker by default",
     "📦 use venv npm by default"
   ],
-  "deploy_to": ["local", "fly.io"],
+  "deploy_to": [
+    "None",
+    "fly.io"
+  ],
   "deploy_domain": "{{ cookiecutter.project_slug}}.fly.dev",
   "author_name": "Roger Camargo",
   "email": "{{ cookiecutter.author_name.lower()|replace(' ', '-') }}@example.com",
