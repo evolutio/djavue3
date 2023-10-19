@@ -20,13 +20,15 @@ export default defineConfig({
           { text: '👶 Iniciando', link: '/iniciando' },
           { text: '🚀 Deploy ', link: '/deploy' },
           { text: '👾 Contribuindo', link: '/contribuindo' },
-          { text: '📝 CHANGELOG', link: '/changelog' }
+          { text: '📝 CHANGELOG', link: '/changelog' },
+          { text: '🇬🇧 English', link: '/README_EN' }
         ]
       }
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/evolutio/djavue3' }
+      { icon: 'github', link: 'https://github.com/evolutio/djavue3' },
+      { icon: 'youtube', link: 'https://www.youtube.com/watch?v=pDYvJIxxoN0&list=PL1Skk6O-pP7vRPCWmzMYXNEkx4BMZlhgi' }
     ]
   }
 })
