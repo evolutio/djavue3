@@ -316,9 +316,7 @@ npm run dev
 
 ```
 
-::: tip
-🌈 TIPS/TRICKS: Alternatively we can use the command `npm run dev -- --host` which will make the application available for your network, in this way you can use your machine IP address and access it from any other machine or mobile within the same WIFI network.
-:::
+**DONE!! 🎉🎉** The frontend is running
 
 👉 Open your browser and access the http://localhost:3000 (or your machine IP + the port if with the --host) to request the frontend application! It should be running now!
 
@@ -326,6 +324,10 @@ npm run dev
 
 ::: info
 📱 The D-Jà Vue template aims to be mobile first.
+:::
+
+::: tip
+🌈 TIPS/TRICKS: Alternatively we can use the command `npm run dev -- --host` which will make the application available for your network, in this way you can use your machine IP address and access it from any other machine or mobile within the same WIFI network.
 :::
 
 ::: tip
@@ -341,6 +343,12 @@ FROM node:16.17-slim
 
 🌈 TIPS/TRICKS: You can install a specific node version into your machine or use tools like [NVM](https://github.com/nvm-sh/nvm), [nodist](https://github.com/nullivex/nodist) and [asdf](https://github.com/asdf-vm/asdf) to install/handle multiple versions for each project use one specific version
 :::
+
+**Other things that you can do at this point:**
+- Use `npm run format` to run the code formatter (Prettier) and fix some possible formating style problems
+- Use `npm run lint` to run the linter and check if some code is not following the rules
+- Use `npm run test:unit` to run the frontend tests
+- Use `npm run build` which will generate the `dist` folder that contains the final html+css+js to published
 
 ## 🐋 Running all with docker
 
@@ -550,3 +558,47 @@ Use `CTRL+D` or type `exit`to finish the terminal and go back to host terminal
 - Use `docker compose exec -it [container-name] [command]` and execute any command inside any container (backend|postgres|frontend|nginx)
 - Use `docker compose down` to stop all containers
 - Use `docker compose logs -f [container-name]`to check out the output from one of the containers. Note: if one of the containers didn't run, it's possible to use this command and see the error/cause the container didn't get up.
+
+## 📦 Package Management with requirements
+
+::: danger 🚧 TODO
+
+You can help here!
+:::
+
+## 📦 Package Management with Poetry
+
+::: danger 🚧 TODO
+
+You can help here!
+:::
+
+## 📦 Package Management with Pip-tools
+
+::: danger 🚧 TODO
+
+You can help here!
+:::
+
+## 📂 Backend structure & organization
+
+::: danger 🚧 TODO
+
+You can help here!
+:::
+
+## 📂 Frontend structure & organization
+
+::: danger 🚧 TODO
+
+You can help here!
+:::
+
+## 🤡 Frontend using API MOCK
+
+::: danger 🚧 TODO
+
+You can help here!
+:::
+
+Created with ❤️ by [Roger Camargo](https://huogerac.hashnode.dev/)
