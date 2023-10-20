@@ -601,4 +601,18 @@ You can help here!
 You can help here!
 :::
 
+## 🚀 Deploy workflow
+
+::: danger 🚧 TODO
+
+You can help here!
+:::
+
+## ✨ Contributing
+
+::: danger 🚧 TODO
+
+You can help here!
+:::
+
 Created with ❤️ by [Roger Camargo](https://huogerac.hashnode.dev/)
