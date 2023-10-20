@@ -318,7 +318,7 @@ npm run dev
 
 **DONE!! 🎉🎉** The frontend is running
 
-👉 Open your browser and access the http://localhost:3000 (or your machine IP + the port if with the --host) to request the frontend application! It should be running now!
+👉 Open your browser and access the `http://localhost:3000` (or your machine IP + the port if with the --host) to request the frontend application! It should be running now!
 
 ![local-env-without-docker-localhost-3000](./images/local-run-without-docker-localhost-3000.jpg)
 
@@ -433,7 +433,7 @@ DATABASE_URL=postgres://posts:posts@postgres:5432/db_posts
 
 First, independently which directory you are, type the following command to make sure there is no container running
 
-```sheel
+```shell
 docker ps
 
 CONTAINER ID   IMAGE  COMMAND      CREATED       STATUS                PORTS 
@@ -529,8 +529,8 @@ services:
 
 ::: warning
 
-- ✅ Use http://localhost
-- ⛔ Don't use http://localhost:3000
+- ✅ Use `http://localhost`
+- ⛔ Don't use `http://localhost:3000`
 
 :::
 
