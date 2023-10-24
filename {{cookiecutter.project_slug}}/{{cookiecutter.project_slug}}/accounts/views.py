@@ -13,8 +13,8 @@ from ..{{ cookiecutter.app_name }}.service import log_svc
 {% endif %}
 
 {% if cookiecutter.django_api == "🥷 django_ninja" %}
-@csrf_exempt
 @router.post("/login", response=UserSchema)
+@csrf_exempt
 def login(request, username: str = Form(...), password: str = Form(...)):
 {% else %}
 @csrf_exempt

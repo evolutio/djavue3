@@ -23,8 +23,8 @@ router = Router()
 
 
 {% if cookiecutter.django_api == "🥷 django_ninja" %}
-@csrf_exempt
 @router.post("/{{cookiecutter.model_lower}}/add", response={{cookiecutter.model_singular}}Schema)
+@csrf_exempt
 def add_{{cookiecutter.model_singular_lower}}(request, {{cookiecutter.model_singular_lower}}: {{cookiecutter.model_singular}}SchemaIn):
     new_{{cookiecutter.model_singular_lower}} = {{cookiecutter.model_lower}}_svc.add_{{cookiecutter.model_singular_lower}}({{cookiecutter.model_singular_lower}}.description)
 {% else %}
