@@ -1,10 +1,35 @@
 # D-Jà Vue - README English 🇬🇧 
 
 
+::: tip
+- 🇧🇷 Ajude na tradução [desta documentação](https://github.com/evolutio/djavue3/issues/57)
+- 🏆 Ajude testando no Windows, MAC ou Linux!
+- 🐞 Achou algum problema ou sentiu falta de alguma coisa? Crie uma [Issue](https://github.com/evolutio/djavue3/issues)
+:::
+
 ## 💡 Introduction
 
-D-Jà Vue is a project template that will create a folder and files structure that contains two projects, a **Django API backend** and a **VueJS + Vuetify frontend**. It can be a great jumpstarting to your next project, Proof of Concept or product idea. It's  production-ready where you can focus on the features, core business and generate value rather than settings to make your environment or library to work. 
-By answering some questions, you can give the project name and choose, database version and the main model for your project and a complete project structure will be created! 📂
+### Why?
+
+We want a workflow and a project structure to make us produtive and make the stakeholders happy. We know we'll make mistakes. Let us make them cheaply.
+
+### What is D-Jà Vue?
+
+D-Jà Vue is a **project template** that will create a folder and files structure that contains two projects, a **Django API backend** and a **VueJS + Vuetify frontend**. It can be a great jumpstarting to your next project, Proof of Concept or product idea. It's  production-ready where you can focus on the features, core business and generate value. 
+
+### How?
+
+By answering some questions, you can give the project name and choose things such as the database version, the main model for your project and few other things, then a complete project structure will be created 📂! Then it's possible to start the main feature for your business on the Day one.
+
+### Some principles
+
+- Start by building a backend-less frontend
+- Start with the output and test the hypothesis
+- Deploy early, deploy often
+- TDD is the fastest way
+- More infor and references [here](https://github.com/evolutio/djavue#contributing):
+
+### Want to know more?
 
 - 💬 [**Have a question?**](https://github.com/evolutio/djavue3/discussions)
 - 🐞 [**Found a problem?**](https://github.com/evolutio/djavue3/issues)
@@ -350,6 +375,20 @@ FROM node:16.17-slim
 - Use `npm run test:unit` to run the frontend tests
 - Use `npm run build` which will generate the `dist` folder that contains the final html+css+js to published
 
+## 🐞 Debugging the Django API
+
+::: danger 🚧 TODO
+
+You can help here!
+:::
+
+## 🐞 Debugging the VueJS web
+
+::: danger 🚧 TODO
+
+You can help here!
+:::
+
 ## 🐋 Running all with docker
 
 **Requirements:**
@@ -601,7 +640,7 @@ You can help here!
 You can help here!
 :::
 
-## 🚀 Deploy workflow
+## 🚀 Build, CI & Deploy workflow
 
 ::: danger 🚧 TODO
 
