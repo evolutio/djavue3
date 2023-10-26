@@ -11,12 +11,12 @@
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
-    "axios": "^1.2.1",
-    "pinia": "^2.0.32",
+    "axios": "^1.5.1",
+    "pinia": "^2.1.7",
     "roboto-fontface": "*",
-    "vue": "^3.2.47",
-    "vue-router": "^4.1.6",
-    "vuetify": "^3.1.3",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.5",
+    "vuetify": "^3.3.23",
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
@@ -25,17 +25,17 @@
     "@faker-js/faker": "^7.6.0",
     "miragejs": "^0.1.47",
     {%- endif  -%}
-    "@vitejs/plugin-vue": "^4.0.0",
+    "@vitejs/plugin-vue": "^4.4.0",
     "eslint": "^8.34.0",
     "eslint-plugin-vue": "^9.9.0",
-    "vite": "^4.1.4",
+    "vite": "^4.4.11",
     "vite-plugin-vuetify": "^1.0.0-alpha.12",
-    "@rushstack/eslint-patch": "^1.2.0",
-    "@vue/eslint-config-prettier": "^7.1.0",
-    "@vue/test-utils": "^2.3.0",
+    "@rushstack/eslint-patch": "^1.3.3",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "@vue/test-utils": "^2.4.1",
     "eslint-config-prettier": "^8.5.0",
-    "jsdom": "^21.1.0",
-    "prettier": "2.8.4",
-    "vitest": "^0.29.1"
+    "jsdom": "^22.1.0",
+    "prettier": "3.0.3",
+    "vitest": "^0.34.6"
   }
 }
