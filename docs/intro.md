@@ -1,34 +1,16 @@
 # O que é o D-Djà Vue?
 
-::: info
-TODO...
+::: warning AJUDA
+Ajude converter a [doc em 🇬🇧](https://www.djavue.org/README_EN.html) para 🇧🇷
 :::
 
-## Arquitetura
+## ATENÇÃO
 
-::: info
-TODO...
-:::
-::: details
-TODO
-:::
-
-## Containers
-
-::: tip
-TODO
-:::
-
-## Estrutura e organização de pastas
-
-::: info
-TODO...
-:::
-::: details
-TODO
-:::
+🚧 A documentação em Português ainda está em construção!
+Veja a [documentação em Inglês](https://www.djavue.org/README_EN.html) ou ajude a gente terminar esta página aqui...
 
 
-## More
+## Mais informações
 
-Check out the documentation for the [full list of markdown extensions](https://vitepress.dev/guide/markdown).
+- https://www.djavue.org/README_EN.html
+- https://github.com/evolutio/djavue3
