@@ -12,7 +12,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:13.3-alpine
+        image: {{cookiecutter.database_version}}
         env:
           POSTGRES_DB: db_test
           POSTGRES_PASSWORD: db_test_pwd_ci
@@ -30,7 +30,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v3
         with:
-          python-version: {{cookiecutter.python_version}}
+          python-version: "{{cookiecutter.python_version}}"
           cache: pip
 
       - name: Install dependencies
@@ -40,11 +40,6 @@ jobs:
 
       - name: Run Python Linter
         run: flake8
-
-      - name: Rodar migrations
-        env:
-          DATABASE_URL: postgres://postgres:db_test_pwd_ci@localhost:5432/db_test
-        run: ./manage.py migrate --noinput
 
       - name: Tests
         env:
