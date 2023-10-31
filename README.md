@@ -209,10 +209,14 @@ $ docker compose -f docker-compose.apimock.yml up -d
 - [Repositório do Djá vue na Python Brasil](https://github.com/buserbrasil/djavue-python-brasil) - Repo dos vídeos acima
 - [Três formas de fazer mock da sua API com JavaScript | Entenda onde isto te ajuda](https://huogerac.hashnode.dev/tres-formas-de-fazer-mock-da-sua-api-com-javascript-or-entenda-onde-isto-te-ajuda)
 
-## Contribuindo
+## 👨‍💻 Contribuindo
 
 Este é template de projeto que vem evoluindo desde do início de 2018, aceitamos sugestões e ficaremos muito felizes em saber a sua!
 A melhor forma para promover uma mudança é criando uma [Issue aqui](https://github.com/evolutio/djavue/issues).
+
+<a href="https://github.com/evolutio/djavue3/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=evolutio/djavue3" />
+</a>
 
 ## [CHANGELOG](./docs/changelog.md)
 
