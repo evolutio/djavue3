@@ -687,6 +687,9 @@ Now the environment is ready and it's possible to execute the migrations and the
 - Use `poetry add [some-python-lib]` to install and add it to the `pyproject.toml`
 - Use `deactivate` to exit the poetry environment activated by the `poetry shell`
 - Use `poetry run flake8` to run something without activating the environment
+- Use `poetry show --tree` to show the dependencies and its internal dependencies too
+- Use `poetry show --latest` to show libs that can be updated
+
 
 ## 📦 Package Management with Pip-tools
 
