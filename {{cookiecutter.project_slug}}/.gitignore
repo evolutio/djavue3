@@ -17,6 +17,7 @@ nosetests.xml
 coverage.xml
 *.cover
 .pytest_cache/
+*.sqlite3
 pip-log.txt
 pip-delete-this-directory.txt
 static/
