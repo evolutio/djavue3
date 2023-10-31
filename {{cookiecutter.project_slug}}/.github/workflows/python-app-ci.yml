@@ -33,15 +33,22 @@ jobs:
           python-version: "{{cookiecutter.python_version}}"
           cache: pip
 
-      - name: Install dependencies
+{% if cookiecutter.package_manager == "poetry" %}
+      - name: Install dependencies (using poetry)
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install poetry
+          poetry install
+{% else %}
+      - name: Install dependencies (using requirements)
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements-dev.txt
-
+{% endif %}
       - name: Run Python Linter
-        run: flake8
+        run: {% if cookiecutter.package_manager == "poetry" %}poetry run {% endif %}flake8
 
-      - name: Tests
+      - name: Run backend Tests
         env:
           DATABASE_URL: postgres://postgres:db_test_pwd_ci@localhost:5432/db_test
-        run: pytest --cache-clear
+        run: {% if cookiecutter.package_manager == "poetry" %}poetry run {% endif %}pytest --cache-clear
