@@ -8,13 +8,13 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
-    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "command: bash -c "python manage.py migrate --noinput && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
     ports:
       - 8000:8000
     expose:
       - "8000"
     volumes:
-      - ./:/app
+      - ./:{% if cookiecutter.deploy_to == "fly.io" %}/code{% else %}/app{% endif %}
     depends_on:
       postgres:
         condition: service_healthy
