@@ -1,6 +1,6 @@
 FROM python:{{cookiecutter.python_version}}-slim
 
-WORKDIR /app
+WORKDIR {% if cookiecutter.deploy_to == "fly.io" %}/code{% else %}/app{% endif %}
 
 {% if cookiecutter.package_manager == 'poetry' %}
 ENV POETRY_VIRTUALENVS_CREATE=false \
@@ -48,10 +48,14 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONIOENCODING=UTF-8
 ENV SHELL=/bin/bash LANG=en_US.UTF-8
 
+# Gets the current git commit hash
+ARG GIT_HASH
+ENV GIT_HASH=$GIT_HASH
+
 COPY . ./
 
 EXPOSE 8000
 
 {% if cookiecutter.deploy_to == "fly.io" %}
-CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "{{cookiecutter.project_slug}}.{{cookiecutter.project_slug}}.wsgi"]
+CMD ["gunicorn", "--bind", ":8000", "--workers", "1", "{{cookiecutter.project_slug}}.{{cookiecutter.project_slug}}.wsgi"]
 {% endif %}

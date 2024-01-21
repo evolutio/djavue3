@@ -1,3 +1,4 @@
+import os
 from django.db import connection
 from django.http import JsonResponse
 {% if cookiecutter.django_api == "openapi" %}
@@ -22,7 +23,14 @@ def status(request):
     cursor = connection.cursor()
     cursor.execute("""SELECT 1+1""")
     row = cursor.fetchone()
-    return JsonResponse({"status": "ok", "db": "ok" if row == (2,) else "error"})
+    git_hash = os.getenv("GIT_HASH", "?")
+    return JsonResponse(
+        {
+            "status": "ok",
+            "db": "ok" if row == (2,) else "error",
+            "git_hash": git_hash,
+        }
+    )
 
 
 {% if cookiecutter.django_api == "📄 openapi" %}
