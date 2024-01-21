@@ -1,95 +1,129 @@
-# 1. Dev-env, super-easy mode (docker all things)
+# 🏆 {{cookiecutter.project_name}}
 
-Requirements:
+## Entendendo o projeto
 
-- [Install docker](https://docs.docker.com/install/)
-- Learn [Python](https://docs.python.org/3/tutorial/) and [Django](https://docs.djangoproject.com/en/2.0/intro/tutorial01/)
-- Learn [vue.js](vuejs.org)
-- Learn [Nuxt.js](https://nuxtjs.org/)
-- Get familiar with [Vuetify.js](vuetifyjs.com/) components
+## BACKEND Django API
 
-Step by step
+### Organização das camadas
 
-```bash
-source dev.sh  # import useful bash functions
-devhelp  # like this one ;)
-dkbuild  # builds the docker image for this project. The first time Will take a while.
-dknpminstall  # I'll explain later!
-dkup  # Brings up everything
+```mermaid
+classDiagram
+    direction LR
+    Cliente --> API: urls+views
+    API --> Services : Regras
+    API *-- Schemas
+    Services --> ORM
+    ORM *-- Models
+    Models *-- Manager
 ```
 
-With `dkup` running, open another terminal
+- **Cliente**: Qualquer coisa que faz chamadas HTTP para a API
+- **API**: Tem as definições de rotas e validação dos dados de entrada, sem ou pouca regras de negócio, redireciona os dados para a camada de serviço
+- **Services**: Módulos python puro com a implementação das regras de negócio, é a camada que mais deve ser testada
+- **ORM**: Mapeamento dos dados na base de dados
 
-```bash
-dk bash  # starts bash inside "{{cookiecutter.project_slug}}" container
-./manage.py migrate  # create database tables and stuff
-./manage.py createsuperuser  # creates an application user in the database
+
+### Estrutura de pastas
+
+Visao geral
+
+```shell
+{{cookiecutter.project_slug}}                   👉 Pasta raiz do projeto
+ ├── README.md
+ ├── manage.py                     👉 Django CLI (Ponto de entrada)
+ ├── requirements.txt              👉 Dependencias principais
+ ├── requirements-dev.txt          👉 Dependencias locais (pode mudar no modo Poetry)
+ ├── docker-compose.yml            👉 Descritor docker para rodar local
+ ├── Dockerfile                    👉 Receita para rodar projeto
+ ├── tox.ini
+ ├── uwsgi.ini
+ └── {{cookiecutter.project_slug}}              👉 base do projeto
+    ├── base                       👉 app para regras fora do "core"
+    │   └── ...
+    ├── accounts                   👉 app relacionado a usuarios e autenticacao
+    │   └── ...
+    ├── {{cookiecutter.app_name}}                       👉 app principal com o "core business" 
+    │   └── ...
+    └── {{cookiecutter.project_slug}}           👉 centraliza configuracoes do projeto
+        ├── api.py
+        ├── settings.py            👉 Configuracoes principal do Django
+        ├── urls.py                👉 Configuracao principal/inicial das rotas no Django
+        └── wsgi.py
 ```
 
-What is happenning:
+O Django tem o conceito de "apps" com a ideia de separar os contextos do seu projeto, ao invés de ter tudo na app principal, podemos ir criando novas apps como por exemplo, vendas, compras, estoque, relatórios, blog de forma a agrupar funcionalidades da mesma natureza. Cada app segue a estrutura abaixo: 
 
-- `dev.sh` is a collection of useful bash functions for this project's development environment. You're encouraged to look inside and see how that works, and add more as the project progresses.
-- `dknpminstall` will start a docker container and run `npm install` inside to download node dependencies to the `frontend/node_modules` folder. Using docker for this means you don't need to worry about installing (and choosing version for) node/npm.
-- `dkup` uses docker-compose to start 3 containers: postgres, nginx, and {{cookiecutter.project_slug}}.
-- The dockerized postgres saves its state into `docker/dkdata`. You can delete that if you want your dev database to go kaboom.
-- Once `dkup` is running, `dk <command>` will run `<command>` inside the `{{cookiecutter.project_slug}}` container. So `dk bash` will get you "logged in" as root inside that container. Once inside, you need to run Django's `manage.py` commands to initialize the database properly.
-- The {{cookiecutter.project_slug}} container runs 3 services:
-- django on port 8000
-- nuxt frontend with real APIs on port 3000
-- nuxt frontend with mock APIs on port 3001
-- nginx is configured to listen on port 80 and redirect to 8000 (requests going to `/api/*`) or 3000 (everything else).
-- Therefore, when `dkup` is running, you get a fully working dev-environment by pointing your browser to http://localhost, and a frontend-only-mock-api-based environment by pointing your browser to http://localhost:3001. Each one is more useful on different situations.
-- You're supposed to create features first by implementing them on 3001, then validate them, and only then write the backend APIs and integrate them. Experience shows this process is very productive.
-
-# 2. Dev-env, normal-easy mode (dockerize nginx + postgres)
-
-Running everything inside docker is a quick and easy way to get started, but sometimes we need to run things "for real", for example, when you need to debug python code.
-
-## Python setup
-
-Requirements:
-
-- Understand about python [virtualenvs](https://docs.python.org/3/tutorial/venv.html)
-- Install [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) (not required, but recommended)
-
-Step by step
-
-```bash
-dkpgnginx  # Starts postgres and nginx inside docker
+```mermaid
+classDiagram
+   direction LR
+   urls --> views: 1) Rotas
+   views --> service : 2) Regras
+   views *-- schemas
+   service --> models: 3) Banco
 ```
 
-With `dkpgnginx` running, start another terminal:
+```shell
+├── {{cookiecutter.app_name}}                       👉 Raiz da django app para centralizar uma solução de um dado contexto
+│   ├── apps.py                👉 Como um __init__ da app
+│   ├── urls.py                👉 1) Definição das rotas (com django-ninja a urls fica vazia)
+│   ├── views.py               👉 1) Implementação das rotas
+│   ├── schemas.py             👉 1) Definição dos atributos nome/tipo 
+│   ├── service                👉 2) Implementação das regras de negócio
+│   ├── models.py              👉 3) Definição das tabelas para salvar os dados
+│   ├── migrations             👉 3) Histórico de como criar/alterar as tabelas no banco de dados
+│   ├── admin.py               👉 Configuração dos dados que podemos acessar via back-office
+│   ├── tests                  👉 Centraliza os testes da app
+│   └── templates              👉 Não utilizado nas apps de API, mas pode gerar páginas HTML
 
-```bash
-mkvirtualenv {{cookiecutter.project_slug}} -p python3  # creates a python3 virtualenv
-pip install -r requirements.txt  # install python dependencies inside virtualenv
-export DJANGO_DB_PORT=5431  # That's where our dockerized postgres is listening
-./manage.py runserver  # starts django on port 8000
+
 ```
 
-Since nginx is also running you go ahead and point your browser to http://localhost/admin and you should see the same thing as in http://localhost:8000/admin
+### Diagrama de Entidade e Relacionamento
 
-## Node Setup
+- Inicialmente o projeto tem apenas uma tabela na aplicação principal ({{cookiecutter.app_name}}): {{cookiecutter.model_singular}}
+- O Django já fornece a tabela de usuários (User), a qual está organizada na app accounts. Note que podemos adicionar campos adicionais na tabela de usuário.
 
-Requirements:
+**🌈 NOTA:** Em versões mais antigas do Django, a forma de adicionar campos extras na tabela User era utilizando a tabela `Profile` com um relacionamento 1 para 1 com a User. Na versão mais nova do Django, podemos estender a tabela user diretamente igual está feito na app `accounts.models.User`.
 
-- Install [nvm](https://github.com/creationix/nvm) (not required, but highly recommended)
-
-Step by step:
-
-```bash
-nvm use 9  # Switch your terminal for node version 9.x
-# no need to npm install anything, we already have our node_modules folder
-sudo chmod -R o+rw .nuxt/  # I'll explain this later
-npm run dev  # Starts nuxt frontend on port 3000
+```mermaid
+---
+title: Diagrama inicial do Djàvue
+---
+classDiagram
+    direction LR
+    AbstractUser <|-- User
+    namespace accounts {
+        class User {
+            bio
+            avatar
+        }
+    }
+    namespace {{cookiecutter.app_name}} {
+        class {{cookiecutter.model_singular}} {
+            description
+            done
+            to_dict_json()
+        }
+    }
 ```
 
-You can go ahed and point your browser to http://localhost:3000 to see nuxt running **with mocked apis**
+**🌈 NOTA:** A tabela {{cookiecutter.model_singular}} poderia ter um relacionamento com usuário, onde cada usuário apenas visualiza suas tarefas, como este é um template de projeto e para tentar deixá-lo mais flexível e fácil de estender, inicialmente não tem este relacionamento.
 
-To run nuxt using real APIs just turn set this environment variable API_MOCK=0
+## Rodando o projeto
 
-```bash
-API_MOCK=0 npm run dev  # Starts nuxt frontend on port 3000
-```
+## Requisitos
 
-Since nginx is also running you go ahead and point your browser to http://localhost/ and you should have a fully integrated frontend+backend dev env.
+- Git
+- 🐍 Python 3.9.x ou 3.11.x (para utilizar Poetry)
+- Um terminal (de preferência um terminal Linux, é para funcionar em um terminal WSL no Windows)
+
+Temos três formas para **Rodar** 🍨:
+- Sem Docker 📦: Apenas **Python** (usando sqlite)
+- Apenas Banco de dados usando 🐋 Docker (melhor para debug)
+- Tudo usando Docker 🐋: **Docker** and **Docker compose** (tudo rodando com um comando)
+
+Links:
+- Para entender [rodar com ou sem docker](https://www.djavue.org/README_EN.html#%F0%9F%90%8B-run-locally-using-docker-vs-not-using-docker-containers)
+- [Para rodar tudo com docker](https://www.djavue.org/README_EN.html#%F0%9F%90%8B-running-all-with-docker)
+- [Para rodar sem docker](https://www.djavue.org/README_EN.html#%F0%9F%93%A6-running-the-%F0%9F%A6%84-backend-without-docker)
+- [Rodando com Poetry](https://www.djavue.org/README_EN.html#%F0%9F%93%A6-package-management-with-poetry)
