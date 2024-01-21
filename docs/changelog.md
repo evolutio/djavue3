@@ -1,9 +1,24 @@
 # CHANGELOG
 
-## 2023-10-31 - v3.0.3 - HACKTOBERFEST 2023
+## 2024-02-17 - [v3.0.4](https://github.com/evolutio/djavue3/milestone/2) - Ajustes Carnaval 2024
 
-- 🚧 [Working in progress - HELP US](https://github.com/evolutio/djavue3/milestone/1)
+- 🚧 [Working in progress - HELP US](https://github.com/evolutio/djavue3/milestone/2)
 
+## 2024-01-20 - [v3.0.3](https://github.com/evolutio/djavue3/milestone/1) - HACKTOBERFEST 2023
+- [backend] BUGFIX - Ajustes no setup poetry [#60]
+- [backend] MELHORIA/DEVX - Utilizar projeto sem dockers [#50]
+- [backend] MELHORIA - url de status [#47]
+- [backend] BUGFIX - fix na dj-url [#42]
+- [backend] DOCS - Criação da documentação inicial em inglês [#55]
+- [backend] MELHORIA - Troca de python-dotenv para python-decouple [#20]
+- [backend] DEPLOY/DOCS - Versão inicial docs para deploy Fly.io [#62]
+- [backend] MELHORIA - Utilizar CSV para carregar settings [#35]
+- [backend] BUGFIX - Ajustes no pip-tools [#33]
+- [backend] MELHORIA - Ajustes no django-ninja [#16]
+- [backend] MELHORIA - Troca de python-dotenv para python-decouple [#20]
+- [geral] DEVX - Adiciona VSCODE profiles para melhor uso do projeto [#18]
+- [geral] DOCS - Melhor documentação [#14]
+- [backend] BUGFIX no CI para utilizar TOKEN
 
 ## 2023-03-31 - v3.0.2 - Atualização do frontend utilizar MirageJS como padrão
 
