@@ -23,7 +23,7 @@ router = Router()
 
 
 {% if cookiecutter.django_api == "🥷 django_ninja" %}
-@router.post("/{{cookiecutter.model_lower}}/add", response={{cookiecutter.model_singular}}Schema)
+@router.post("/{{cookiecutter.model_lower}}/add", response={% raw %}{201{% endraw %}: {{cookiecutter.model_singular}}Schema{% raw %}}{% endraw %})
 @csrf_exempt
 def add_{{cookiecutter.model_singular_lower}}(request, {{cookiecutter.model_singular_lower}}: {{cookiecutter.model_singular}}SchemaIn):
     new_{{cookiecutter.model_singular_lower}} = {{cookiecutter.model_lower}}_svc.add_{{cookiecutter.model_singular_lower}}({{cookiecutter.model_singular_lower}}.description)
@@ -34,7 +34,7 @@ def add_{{cookiecutter.model_singular_lower}}(request):
     body = json.loads(request.body)
     new_{{cookiecutter.model_singular_lower}} = {{cookiecutter.model_lower}}_svc.add_{{cookiecutter.model_singular_lower}}(body.get("description"))
 {% endif %}
-    return JsonResponse(new_{{cookiecutter.model_singular_lower}})
+    return JsonResponse(new_{{cookiecutter.model_singular_lower}}, status=201)
 
 
 {% if cookiecutter.django_api == "🥷 django_ninja" %}

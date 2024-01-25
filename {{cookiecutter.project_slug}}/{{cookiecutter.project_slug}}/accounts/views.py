@@ -9,14 +9,12 @@ from .schemas import LoggedUserSchema, UserSchema
 {% endif %}
 from ..{{ cookiecutter.app_name }}.service import log_svc
 
-{% if cookiecutter.django_api == "🥷 django_ninja" %}router = Router()
-{% endif %}
+{% if cookiecutter.django_api == "🥷 django_ninja" %}router = Router(){% endif %}
 
 {% if cookiecutter.django_api == "🥷 django_ninja" %}
 @router.post("/login", response=UserSchema)
 @csrf_exempt
-def login(request, username: str = Form(...), password: str = Form(...)):
-{% else %}
+def login(request, username: str = Form(...), password: str = Form(...)):{% else %}
 @csrf_exempt
 def login(request):{% endif %}
     username = request.POST["username"]
