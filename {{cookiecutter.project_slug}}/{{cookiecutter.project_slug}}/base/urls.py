@@ -1,7 +1,5 @@
-{% if cookiecutter.django_api == "🥷 django_ninja" %}
-urlpatterns: list = []
-{% elif cookiecutter.django_api == "📄 openapi" %}
-from django.urls import path
+{% if cookiecutter.django_api == "🥷 django_ninja" %}urlpatterns: list = []
+{% elif cookiecutter.django_api == "📄 openapi" %}from django.urls import path
 
 from . import views
 

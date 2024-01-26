@@ -32,12 +32,9 @@ def status(request):
         }
     )
 
-
-{% if cookiecutter.django_api == "📄 openapi" %}
-def api_docs(request):
+{% if cookiecutter.django_api == "📄 openapi" %}def api_docs(request):
     return render(
         request,
         "base/apidocs.html",
         {"openapi_spec_url": "/api/openapi.json"},
-    )
-{% endif %}
+    ){% endif %}

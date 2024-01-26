@@ -82,6 +82,7 @@ def remove_package_files():
 
 
 def prepare_piptools(django_api):
+    django_api = django_api[2:]
     os.rename("requirements.txt", "requirements.in")
     os.rename("requirements-dev.txt", "requirements-dev.in")
     os.rename(f"requirements-dev-txt-{django_api}.pip", "requirements-dev.txt")
