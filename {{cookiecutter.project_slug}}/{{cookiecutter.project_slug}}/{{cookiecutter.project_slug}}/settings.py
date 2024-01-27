@@ -85,7 +85,8 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",{% if cookiecutter.django_api == "🦄 django_only" %}
+    "{{cookiecutter.project_slug}}.base.middlewares.DjavueApiErrorHandlingMiddleware",{% endif %}
 ]
 
 # CORS
