@@ -21,7 +21,8 @@ export default defineConfig({
           { text: '🚀 Deploy ', link: '/deploy' },
           { text: '👾 Contribuindo', link: '/contribuindo' },
           { text: '📝 CHANGELOG', link: '/changelog' },
-          { text: '🇬🇧 English', link: '/README_EN' }
+          { text: '🇬🇧 English', link: '/README_EN' },
+          { text: '🇧🇷 Português', link: '/README_PT' }
         ]
       }
     ],
