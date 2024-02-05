@@ -1,4 +1,5 @@
 # coding: utf-8
+import logging
 from django.contrib import auth
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -7,8 +8,8 @@ from ninja import Router, Form
 
 from .schemas import LoggedUserSchema, UserSchema
 {% endif %}
-from ..{{ cookiecutter.app_name }}.service import log_svc
 
+logger = logging.getLogger(__name__)
 {% if cookiecutter.django_api == "🥷 django_ninja" %}router = Router(){% endif %}
 
 {% if cookiecutter.django_api == "🥷 django_ninja" %}
@@ -19,13 +20,14 @@ def login(request, username: str = Form(...), password: str = Form(...)):{% else
 def login(request):{% endif %}
     username = request.POST["username"]
     password = request.POST["password"]
+    logger.info(f"API login: {username}")
     user = auth.authenticate(username=username, password=password)
     user_dict = None
     if user is not None:
         if user.is_active:
             auth.login(request, user)
-            log_svc.log_login(request.user)
             user_dict = _user2dict(user)
+            logger.info(f"API login: {username} success")
     return JsonResponse(user_dict, safe=False)
 
 
@@ -33,8 +35,7 @@ def login(request):{% endif %}
 def logout(request):
     if request.method.lower() != "post":
         raise Exception("Logout only via post")
-    if request.user.is_authenticated:
-        log_svc.log_logout(request.user)
+    logger.info(f"API logout: {request.user.username}")
     auth.logout(request)
     return JsonResponse({})
 
@@ -49,6 +50,7 @@ def whoami(request):
         if request.user.is_authenticated
         else {"authenticated": False}
     )
+    logger.info("API whoami")
     return JsonResponse(i_am)
 
 

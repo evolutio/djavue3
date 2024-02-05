@@ -1,2 +1,0 @@
-class Bunch(object):
-    pass
