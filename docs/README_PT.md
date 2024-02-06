@@ -38,7 +38,6 @@ Então podemos pensar no principal que são as regras de negócio do projeto.
 - 🏆 [**Voce gostaria de contribuir?**](https://github.com/evolutio/djavue3/issues)
 - 🌟 **Voce gostou?** [Considere a star in the github repo](https://github.com/evolutio/
 
-
 ## 🛠️ D-Jà Vue - requisitos necessários
 
 Para criar seu projeto usando Djavue, voce precisa somente:
