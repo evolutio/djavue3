@@ -183,6 +183,45 @@ STORAGES = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+LOG_LEVEL = config("LOG_LEVEL", default="INFO")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module}:{lineno} {process:d} {message}",
+            "style": "{",
+        },
+        "console": {
+            "format": "{levelname} {asctime} {module}:{lineno} {process:d} {message}",
+            "style": "{",
+        },
+        "django": {
+            "format": "{levelname} {asctime} {module}:{lineno} {process:d} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {"class": "logging.StreamHandler", "formatter": "verbose"},
+        "django": {"class": "logging.StreamHandler", "formatter": "verbose"},
+    },
+    "loggers": {
+        "": {
+            "level": LOG_LEVEL,
+            "handlers": [
+                "console",
+            ],
+        },
+        "django.server": {
+            "level": LOG_LEVEL,
+            "handlers": [
+                "console",
+            ],
+        },
+    },
+}
+
 # LOGGING = {
 #     'version': 1,
 #     'formatters': {
