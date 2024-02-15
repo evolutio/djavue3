@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: Iniciar
-      link: /intro
+      link: /01-o-que-eh
 
 features:
   - title: BACKEND
