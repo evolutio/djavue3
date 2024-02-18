@@ -1,8 +1,18 @@
 # CHANGELOG
 
+## 2024-03-31 - [v3.0.5](https://github.com/evolutio/djavue3/milestone/3) - ...
+
+- 🚧 [Working in progress - HELP US](https://github.com/evolutio/djavue3/milestone/3)
+
 ## 2024-02-17 - [v3.0.4](https://github.com/evolutio/djavue3/milestone/2) - Ajustes Carnaval 2024
 
-- 🚧 [Working in progress - HELP US](https://github.com/evolutio/djavue3/milestone/2)
+- [backend] MELHORIA - Trocar tabela ActivityLog por uso logging do Python [#59]
+- [backend] MELHORIA - Documentação em PT-BR (Thanks Jorge Plautz) [#57]
+- [backend] MELHORIA - No README interno do backend (remover dk* commandos) [#63]
+- [backend] MELHORIA - Na organização dos testes [#64]
+- [backend] MELHORIA - Melhoria no Github Actions AJUSTES no CSRF
+- [backend] MELHORIA - Ajustes no CSRF
+
 
 ## 2024-01-20 - [v3.0.3](https://github.com/evolutio/djavue3/milestone/1) - HACKTOBERFEST 2023
 - [backend] BUGFIX - Ajustes no setup poetry [#60]
