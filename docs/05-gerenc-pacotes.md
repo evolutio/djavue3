@@ -13,7 +13,7 @@ Vamos recriar o projeto **twitterclone** como fizemos durante [📦 Criação do
 👉 Nesta etapa iremos dar enface na parametrização de como gerenciar o pacote python com `requirement.txt` (guardam as dependências do projeto) e o `requirement-dev.txt` (guardam as dependências de desenvolvimento). 
 :::
 
-Executar o comando cookiecutter no diretório D-Jà Vue. Você terá que fornecer alguns valores, e você deve fornece-los baseado na necessidade do projeto e escolha  **'requirements.txt'** para o **'package_manager'**:
+Executar o comando cookiecutter no repositório D-Jà Vue. Você terá que fornecer alguns valores, e você deve fornece-los baseado na necessidade do projeto e escolha  **'requirements.txt'** para o **'package_manager'**:
 
 ```
 cookiecutter https://github.com/evolutio/djavue3
@@ -46,30 +46,7 @@ Responda às instruções com valores que satisfaçam a necessidade do seu proje
  [SUCCESS]: 🍰 Your Vue 3 frontend is created! (frontend folder) ✨ 🍰 ✨
 ...
 ```
-**FEITO!! 🎉🎉** A estrutura do projeto está criada! você pode abrir o diretório  `twitterclone` e conferir. No linux com o comando tree -L 1, é possível listar o conteúdo.
-
-```shell
-cd twitterclone/
-
-tree -L 1
-.
-├── docker
-├── docker-compose.apimock.yml
-├── docker-compose.yml
-├── Dockerfile
-├── FLYIO.md
-├── frontend
-├── Makefile
-├── manage.py
-├── README.md
-├── requirements-dev.txt
-├── requirements.txt
-├── tox.ini
-├── twitterclone
-└── uwsgi.ini
-
-3 directories, 11 files
-```
+**FEITO!! 🎉🎉** A estrutura do projeto está criada! você pode abrir o diretório  `twitterclone` e conferir. 
 
 Então vamos criar o ambiente virtual dentro do projeto:
 
@@ -87,7 +64,7 @@ Depois de criado o ambiente virtual é necessário ativá-lo com o seguinte coma
 source .venv/bin/activate
 ```
 
-Continuando, será necessário instalando as dependências do projeto usando os arquivos `requirements.txt` e o `requirements-dev.txt`:
+Continuando, será necessário instalar as dependências do projeto usando os arquivos `requirements.txt` e o `requirements-dev.txt`:
 
 ```shell
 pip install -r requirements-dev.txt
@@ -147,7 +124,7 @@ django-cors-headers==4.3.0
 
 Agora o ambiente está pronto e podemos executar as migrações e rodar o servidor. Verifique mais detalhes seguindo as etapas descritas no capítulo [📦 Criação do primeiro usando D-Jà Vue](#📦-criacao-do-primeiro-projeto-usando-d-ja-vue)
 
-**Outra coisa que você pode fazer neste momento:**
+**Outros comandos uteis que você pode fazer neste momento:**
 - Usar `pip install --upgrade pip`, para atualizar a versão do pip 
 - Usar `pip install [some-python-lib]` para instalar e adicionar bibliotecas dentro do projeto
 - Usar `deactivate` para sair do ambiente virtual ativado com o `source .venv/bin/activate`
@@ -168,7 +145,7 @@ Vamos recriar o projeto **twitterclone** como fizemos durante [📦 Criação do
 👉 Nesta etapa teremos menos detalhes devido aos links acima terem mais informações. 
 :::
 
-Executar o comando cookiecutter no diretório D-Jà Vue. você terá que fornecer alguns valores. Forneça-os baseado na necessidade do projeto e escolha  **'Poetry'** para o **'package_manager'**:
+Executar o comando cookiecutter no repositório D-Jà Vue. você terá que fornecer alguns valores. Forneça-os baseado na necessidade do projeto e escolha  **'Poetry'** para o **'package_manager'**:
 
 ```
 cookiecutter https://github.com/evolutio/djavue3
