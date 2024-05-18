@@ -16,7 +16,7 @@ def add_{{cookiecutter.model_singular_lower}}(new_{{cookiecutter.model_singular_
 
     {{cookiecutter.model_singular_lower}} = {{cookiecutter.model_singular}}(description=new_{{cookiecutter.model_singular_lower}})
     {{cookiecutter.model_singular_lower}}.save()
-    logger.info(f"SERVICE {{cookiecutter.model_singular_lower}} created.")
+    logger.info("SERVICE {{cookiecutter.model_singular_lower}} created.")
     return {{cookiecutter.model_singular_lower}}.to_dict_json()
 
 

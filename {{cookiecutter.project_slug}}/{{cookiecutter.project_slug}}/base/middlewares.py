@@ -17,5 +17,12 @@ class DjavueApiErrorHandlingMiddleware:
         elif isinstance(exc, BusinessError):
             response = JsonResponse({"message": f"[ERROR] {error}"}, status=400)
         else:
-            response = JsonResponse({"message": f"[UNAVAILABLE] Me desculpe! Serviço não disponível no momento. Tente mais tarde: {error}"}, status=503)
+            response = JsonResponse(
+                {
+                    "message": f"""[UNAVAILABLE] Me desculpe!
+                    Serviço não disponível no momento.
+                    Tente mais tarde: {error}"""
+                },
+                status=503,
+            )
         return response

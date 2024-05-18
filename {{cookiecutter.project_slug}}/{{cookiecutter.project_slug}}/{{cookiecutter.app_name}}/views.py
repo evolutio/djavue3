@@ -6,7 +6,7 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-logger = logging.getLogger(__name__){% if cookiecutter.django_api == "🥷 django_ninja" %}
+{% if cookiecutter.django_api == "🥷 django_ninja" %}
 from ninja import Router
 
 from .schemas import List{{cookiecutter.model}}Schema, {{cookiecutter.model_singular}}Schema, {{cookiecutter.model_singular}}SchemaIn
@@ -22,18 +22,21 @@ from .service import {{cookiecutter.model_lower}}_svc
 
 router = Router()
 {% endif %}
+logger = logging.getLogger(__name__)
 
 
 {% if cookiecutter.django_api == "🥷 django_ninja" %}
 @router.post("/{{cookiecutter.model_lower}}/add", response={% raw %}{201{% endraw %}: {{cookiecutter.model_singular}}Schema{% raw %}}{% endraw %})
 @csrf_exempt
 def add_{{cookiecutter.model_singular_lower}}(request, {{cookiecutter.model_singular_lower}}: {{cookiecutter.model_singular}}SchemaIn):
+    """Adiciona Task"""
     logger.info("API add new {{cookiecutter.model_singular_lower}}.")
     new_{{cookiecutter.model_singular_lower}} = {{cookiecutter.model_lower}}_svc.add_{{cookiecutter.model_singular_lower}}({{cookiecutter.model_singular_lower}}.description)
 {% else %}
 @csrf_exempt
 @ajax_login_required
 def add_{{cookiecutter.model_singular_lower}}(request):
+    """Adiciona Task"""
     logger.info("API add new {{cookiecutter.model_singular_lower}}.")
     body = json.loads(request.body)
     description = body.get("description")
@@ -61,6 +64,7 @@ def add_{{cookiecutter.model_singular_lower}}(request):
 @ajax_login_required
 {% endif %}
 def list_{{cookiecutter.model_lower}}(request):
+    """Lista Tasks"""
     logger.info("API list {{cookiecutter.model_lower}}")
     {{cookiecutter.model_lower}} = {{cookiecutter.model_lower}}_svc.list_{{cookiecutter.model_lower}}()
     return JsonResponse({"{{cookiecutter.model_lower}}": {{cookiecutter.model_lower}}})
