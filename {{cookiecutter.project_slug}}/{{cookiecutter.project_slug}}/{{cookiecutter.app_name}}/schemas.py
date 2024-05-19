@@ -2,7 +2,7 @@ from typing import List
 
 from ninja import Schema, ModelSchema
 from pydantic import ConfigDict, field_validator
-from .models import Task
+from .models import {{cookiecutter.model_singular}}
 
 
 class {{cookiecutter.model_singular}}SchemaIn(Schema):
@@ -25,7 +25,7 @@ class {{cookiecutter.model_singular}}Schema(ModelSchema):
         json_schema_extra={
             "example": {
                 "id": 42,
-                "description": "Task One",
+                "description": "{{cookiecutter.model_singular}} One",
                 "done": True,
             }
         },
