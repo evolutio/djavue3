@@ -110,6 +110,8 @@ def remove_piptools_files(package_manager, django_api):
 
 def main():
 
+    print("👉 {{ cookiecutter.package_manager }}")
+
     if "{{ cookiecutter.deploy_to }}" == "fly.io" and "{{ cookiecutter.package_manager }}" not in ["requirements.txt", "poetry"]:
         print(FAIL + "  🚀🚀🚀 ERRO: Opps, deploy com FLY.IO não funciona com package_manager: {{ cookiecutter.package_manager }}" + TERMINATOR)
         raise Exception("Opps!")

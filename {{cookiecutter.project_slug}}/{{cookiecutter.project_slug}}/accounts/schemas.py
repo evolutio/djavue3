@@ -2,6 +2,10 @@
 from ninja import Schema
 
 
+class Error(Schema):
+    message: str
+
+
 class PermissionSchema(Schema):
     ADMIN: bool
     STAFF: bool
@@ -22,3 +26,8 @@ class UserSchema(Schema):
 class LoggedUserSchema(Schema):
     user: UserSchema
     authenticated: bool
+
+
+class LoginSchema(Schema):
+    username: str
+    password: str

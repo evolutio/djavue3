@@ -43,14 +43,19 @@ def test_deve_fazer_login(client):
         bio="bio",
     )
 
-    resp = client.post("/api/accounts/login", {"username": "jon", "password": "snow"})
+    resp = client.post(
+        "/api/accounts/login",
+        {"username": "jon", "password": "snow"},
+        content_type="application/json",
+    )
     login = resp.json()
+
+    assert resp.status_code == 201
+    assert login["email"] == "jon@example.com"
 
     resp = client.get("/api/accounts/whoami")
     data = resp.json()
 
-    assert login["email"] == "jon@example.com"
-    assert resp.status_code == 200
     assert data == {
         "user": {
             "id": ANY,

@@ -1,23 +1,35 @@
-from typing import List, Optional
+from typing import List
 
-from ninja import Schema
-from pydantic import validator
+from ninja import Schema, ModelSchema
+from pydantic import ConfigDict, field_validator
+from .models import {{cookiecutter.model_singular}}
 
 
 class {{cookiecutter.model_singular}}SchemaIn(Schema):
     description: str
 
-    @validator("description")
-    def valid_description(cls, description):
+    @field_validator("description")
+    def valid_description(cls, description: str) -> str:
         if description and len(description) <= 2:
             raise ValueError("It must be at least 3 characteres long.")
         return description
 
 
-class {{cookiecutter.model_singular}}Schema(Schema):
-    id: Optional[int]
-    description: str
-    done: bool = False
+class {{cookiecutter.model_singular}}Schema(ModelSchema):
+    class Meta:
+        model = {{cookiecutter.model_singular}}
+        fields = ["id", "description", "done"]
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            "example": {
+                "id": 42,
+                "description": "{{cookiecutter.model_singular}} One",
+                "done": True,
+            }
+        },
+    )
 
 
 class List{{cookiecutter.model}}Schema(Schema):

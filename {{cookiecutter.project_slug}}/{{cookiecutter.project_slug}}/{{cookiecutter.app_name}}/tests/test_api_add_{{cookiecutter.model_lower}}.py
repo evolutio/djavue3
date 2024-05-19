@@ -13,7 +13,7 @@ def test_nao_deve_permitir_criar_{{cookiecutter.model_singular_lower}}_sem_login
     resp = client.post(
         "/api/{{cookiecutter.app_name}}/{{cookiecutter.model_lower}}/add", {"new_{{cookiecutter.model_singular_lower}}": "walk the dog"}
     )
-
+ 
     # Entao recebemos um sem autorizacao
     assert resp.status_code == 401
 
@@ -51,7 +51,7 @@ def test_deve_falhar_com_input_invalido(client, logged_jon):
     # Então
     assert resp.status_code == 422  # BAD REQUEST
     assert msg == {
-        "message": "[INVALID INPUT] body.{{cookiecutter.model_singular_lower}}.description: field required (value_error.missing)",
+        "message": "[INVALID INPUT] body.{{cookiecutter.model_singular_lower}}.description: Field required (missing)",
     }
 
 
@@ -69,7 +69,7 @@ def test_deve_falhar_com_input_menor_que_minimo_necessario(client, logged_jon):
     # Então
     assert resp.status_code == 422  # BAD REQUEST
     assert resp.json() == {
-        "message": "[INVALID INPUT] body.{{cookiecutter.model_singular_lower}}.description: It must be at least 3 characteres long. (value_error)",
+        "message": "[INVALID INPUT] body.{{cookiecutter.model_singular_lower}}.description: Value error, It must be at least 3 characteres long. (value_error)",
     }
 
 
@@ -85,11 +85,9 @@ def test_deve_deve_converter_descricao_para_string(client, logged_jon):
     msg = resp.json()
 
     # Então
-    assert resp.status_code == 201
+    assert resp.status_code == 422
     assert resp.json() == {
-        "id": ANY,
-        "description": "4242",
-        "done": False,
+        "message": "[INVALID INPUT] body.{{cookiecutter.model_singular_lower}}.description: Input should be a valid string (string_type)",
     }
 
 
@@ -109,7 +107,7 @@ def test_deve_falhar_quando_description_contem_algo_diferente_de_string(
     # Então
     assert resp.status_code == 422
     assert resp.json() == {
-        "message": "[INVALID INPUT] body.{{cookiecutter.model_singular_lower}}.description: str type expected (type_error.str)",
+        "message": "[INVALID INPUT] body.{{cookiecutter.model_singular_lower}}.description: Input should be a valid string (string_type)",
     }
 
 

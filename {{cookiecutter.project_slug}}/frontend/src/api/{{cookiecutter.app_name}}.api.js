@@ -6,7 +6,7 @@ export default {
     return response.data
   },
   addNew{{cookiecutter.model_singular}}: async (description) => {
-    const json = JSON.stringify({ description })
+    const json = { description }
     const response = await api.post(
       "/api/{{ cookiecutter.app_name }}/{{ cookiecutter.model_lower }}/add",
       json
