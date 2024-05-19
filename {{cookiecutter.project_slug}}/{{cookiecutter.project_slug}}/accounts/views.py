@@ -1,5 +1,6 @@
 # coding: utf-8
 import logging
+{% if cookiecutter.django_api != "🥷 django_ninja" %}import json{% endif %}
 from django.contrib import auth
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -22,8 +23,9 @@ def login(request):{% endif %}
     Login do usuário e criação de uma nova sessão
     """
     logger.info("API login")
-    username = {% if cookiecutter.django_api == "🥷 django_ninja" %}data.username{% else %}request.POST["username"]{% endif %}
-    password = {% if cookiecutter.django_api == "🥷 django_ninja" %}data.password{% else %}request.POST["password"]{% endif %}
+    {% if cookiecutter.django_api != "🥷 django_ninja" %}body = json.loads(request.body){% endif %}
+    username = {% if cookiecutter.django_api == "🥷 django_ninja" %}data.username{% else %}body["username"]{% endif %}
+    password = {% if cookiecutter.django_api == "🥷 django_ninja" %}data.password{% else %}body["password"]{% endif %}
     user_authenticaded = auth.authenticate(username=username, password=password)
     user_dict = None
     if user_authenticaded is not None:

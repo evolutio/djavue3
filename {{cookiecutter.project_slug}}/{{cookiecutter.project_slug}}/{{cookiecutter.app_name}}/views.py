@@ -42,14 +42,14 @@ def add_{{cookiecutter.model_singular_lower}}(request):
     description = body.get("description")
 
     if not description:
-        raise ValueError("body.{{cookiecutter.model_singular_lower}}.description: field required (value_error.missing)")
-    if type(description) not in [str, int]:
-        raise ValueError("body.{{cookiecutter.model_singular_lower}}.description: str type expected (type_error.str)")
+        raise ValueError("body.{{cookiecutter.model_singular_lower}}.description: Field required (missing)")
+    if type(description) not in [str]:
+        raise ValueError("body.{{cookiecutter.model_singular_lower}}.description: Input should be a valid string (string_type)")
 
     description = str(description)
     if len(description) <= 2:
         raise ValueError(
-            "body.{{cookiecutter.model_singular_lower}}.description: It must be at least 3 characteres long. (value_error)"
+            "body.{{cookiecutter.model_singular_lower}}.description: Value error, It must be at least 3 characteres long. (value_error)"
         )
 
     new_{{cookiecutter.model_singular_lower}} = {{cookiecutter.model_lower}}_svc.add_{{cookiecutter.model_singular_lower}}(description)

@@ -50,8 +50,8 @@ def test_deve_fazer_login(client):
     )
     login = resp.json()
 
-    assert login["email"] == "jon@example.com"
     assert resp.status_code == 201
+    assert login["email"] == "jon@example.com"
 
     resp = client.get("/api/accounts/whoami")
     data = resp.json()
