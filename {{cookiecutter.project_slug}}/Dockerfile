@@ -14,11 +14,11 @@ RUN apt-get update --fix-missing \
     libpq-dev \
     wget curl vim locales zip unzip apt-utils \
     && rm -rf /var/lib/apt/lists/* \
-    && pip install uwsgi uwsgitop
+    && pip install --no-cache-dir uWSGI==2.0.25.1 uwsgitop==0.12
 
 # Replace shell with bash so we can source files
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh && \
-    echo "export LS_OPTIONS='--color=auto'" >>~/.bashrc && \
+SHELL ["/bin/bash", "-c"]
+RUN echo "export LS_OPTIONS='--color=auto'" >>~/.bashrc && \
     echo "eval "\`dircolors\`"" >>~/.bashrc && \
     echo "alias ls='ls \$LS_OPTIONS'" >>~/.bashrc && \
     echo "alias ll='ls \$LS_OPTIONS -l'" >>~/.bashrc && \
@@ -41,7 +41,7 @@ RUN pip-sync requirements-dev.txt
 COPY requirements.txt ./
 COPY requirements-dev.txt ./
 
-RUN pip install -r requirements-dev.txt
+RUN pip install --no-cache-dir -r requirements-dev.txt
 {% endif %}
 ENV PYTHONUNBUFFERED=1 
 ENV PYTHONDONTWRITEBYTECODE=1
