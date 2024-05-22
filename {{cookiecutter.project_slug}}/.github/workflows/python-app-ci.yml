@@ -29,6 +29,9 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Dockerfile linter using Hadolint
+        uses: jbergstroem/hadolint-gh-action@v1
+
       - name: Setup Python
         uses: actions/setup-python@v3
         with:

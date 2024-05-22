@@ -3,7 +3,7 @@ FROM node:{{cookiecutter.node_version}}-slim
 WORKDIR /frontend
 
 # Install basic SO and Python
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
   curl vim wget \
   build-essential \
   && npm install -g npm@9.3.1 \
