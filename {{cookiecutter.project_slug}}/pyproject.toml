@@ -9,7 +9,7 @@ packages = [{include = "{{cookiecutter.project_slug}}"}]
 
 [tool.poetry.dependencies]
 python = "{{cookiecutter.python_version}}.x"
-django = "^4.2.1"
+django = "^4.2"
 asgiref = "^3.6.0"
 sqlparse = "^0.4.4"
 tzdata = "^2023.3"
