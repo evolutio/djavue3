@@ -1,8 +1,8 @@
 # Django
-Django==4.2.13
+Django==4.2.16
 asgiref==3.8.1
-sqlparse==0.4.4
-tzdata==2023.4
+sqlparse==0.5.1
+tzdata==2024.2
 
 # 3rd
 # django-sql-explorer==2.4.2
@@ -10,7 +10,7 @@ django-extensions==3.2.3
 
 # DB
 psycopg2==2.9.9
-dj-database-url==2.1.0
+dj-database-url==2.2.0
 
 # ENV
 python-decouple==3.8
@@ -19,11 +19,18 @@ python-decouple==3.8
 django-ninja==1.1.0
 pydantic==2.7.1
 pydantic_core==2.18.2
+django-ninja==1.3.0
+pydantic==2.9.2
+pydantic_core==2.23.4
+{% elif cookiecutter.django_api == "📄 openapi" %}
+# API
+django-connexion==0.0.2
+connexion[swagger-ui]
 {% endif %}
 
 # PROD
 #uWSGI==2.0.21
 {% if cookiecutter.deploy_to == "fly.io" %}
-whitenoise==6.4.0
-gunicorn==20.1.0
+whitenoise==6.7.0
+gunicorn==23.0.0
 {% endif %}
