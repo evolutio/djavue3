@@ -1,19 +1,19 @@
 -r requirements{% if cookiecutter.package_manager == "pip-tools" %}.in{%else %}.txt{%endif%}
 
 # Code style / formatting
-black==23.12.1
+black==24.10.0
 isort==5.13.2
-flake8==6.1.0
+flake8==7.1.1
 
 #Testes
-pytest==7.4.4
-pytest-django==4.8.0
+pytest==8.3.3
+pytest-django==4.9.0
 mock==5.1.0
 
 # Better Dev Experience
-ipython==8.24.0
+ipython==8.28.0
 
 # CORS (para quando o frontend está em domínio diferente)
 {% if cookiecutter.docker_usage == "📦 use venv npm by default" %}
-django-cors-headers==4.3.1
+django-cors-headers==4.4.0
 {% endif %}
