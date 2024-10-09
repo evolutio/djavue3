@@ -19,10 +19,6 @@ python-decouple==3.8
 django-ninja==1.1.0
 pydantic==2.7.1
 pydantic_core==2.18.2
-{% elif cookiecutter.django_api == "📄 openapi" %}
-# API
-django-connexion==0.0.2
-connexion[swagger-ui]
 {% endif %}
 
 # PROD

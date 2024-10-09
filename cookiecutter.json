@@ -12,8 +12,7 @@
   "python_linter": ["flake8", "pylint", "ruff"],
   "django_api": [
     "🥷 django_ninja",
-    "🦄 django_only",
-    "📄 openapi"
+    "🦄 django_only"
   ],
   "database_version": [
     "postgres:15-alpine",

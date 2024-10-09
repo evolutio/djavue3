@@ -100,7 +100,6 @@ Answer the prompts with your own desired flavours. For example:
   [12/27] Select django_api
     1 - 🦄 django_only
     2 - 🥷 django_ninja
-    3 - 📄 openapi
     Choose from [1/2/3] (1): 2
   [13/27] Select database_version
     1 - postgres:15-alpine
