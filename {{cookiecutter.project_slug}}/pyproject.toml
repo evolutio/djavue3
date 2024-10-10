@@ -5,36 +5,42 @@ description = "{{cookiecutter.description}}"
 authors = ["{{cookiecutter.author_name}}"]
 license = "private"
 readme = "README.md"
-packages = [{include = "{{cookiecutter.project_slug}}"}]
+packages = [{ include = "{{cookiecutter.project_slug}}" }]
 
 [tool.poetry.dependencies]
 python = "{{cookiecutter.python_version}}.x"
-django = "^4.2"
-asgiref = "^3.6.0"
-sqlparse = "^0.4.4"
-tzdata = "^2023.3"
-django-extensions = "^3.2.1"
-psycopg2 = "^2.9.6"
-dj-database-url = "^2.0.0"
-python-decouple = "^3.8"{% if cookiecutter.django_api == "🥷 django_ninja" %}
-django-ninja = "^1.1.0"{% endif %}{% if cookiecutter.deploy_to == "fly.io" %}
-whitenoise = "^6.4.0"
-gunicorn = "^20.1.0"{% endif %}
+django = "4.2.16"
+asgiref = "3.8.1"
+sqlparse = "0.5.1"
+tzdata = "2024.2"
+django-extensions = "3.2.3"
+psycopg2 = "2.9.9"
+dj-database-url = "2.2.0"
+python-decouple = "3.8"
+{ % if cookiecutter.django_api == "🥷 django_ninja" % }
+django-ninja = "1.3.0"
+{ % endif % }
+{ % if cookiecutter.deploy_to == "fly.io" % }
+whitenoise = "6.7.0"
+gunicorn = "23.0.0"
+{ % endif % }
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.3.0"
-isort = "^5.12.0"
-flake8 = "^6.0.0"
-pytest = "^7.3.1"
-pytest-django = "^4.5.2"
-ipython = "^8.17.1"
-mock = "^5.1.0"
-{% if cookiecutter.docker_usage == "📦 use venv npm by default" %}django-cors-headers = "^4.3.0"{% endif %}
+black = "24.10.0"
+isort = "5.13.2"
+flake8 = "7.1.1"
+pytest = "8.3.3"
+pytest-django = "4.9.0"
+ipython = "8.28.0"
+mock = "5.1.0"
+{ % if cookiecutter.docker_usage = = "📦 use venv npm by default" % }
+django-cors-headers = "4.4.0"
+{ % endif % }
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "{{cookiecutter.project_slug}}.{{cookiecutter.project_slug}}.settings"
 pythonpath = [
-  "./{{cookiecutter.project_slug}}"
+    "./{{cookiecutter.project_slug}}"
 ]
 addopts = "-x -vv"
 filterwarnings = [
