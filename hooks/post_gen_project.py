@@ -1,6 +1,7 @@
 """
     Remove unused code based on the cookiecutter answers
 """
+
 import os
 import random
 import shutil
@@ -58,12 +59,6 @@ def remove_django_ninja_files(project_name, app_name):
     os.remove(f"{project_name}/accounts/schemas.py")
 
 
-def remove_openapi_files(project_name):
-    os.remove(f"{project_name}/base/templates/base/apidocs.html")
-    os.remove(f"{project_name}/{project_name}/connexion.py")
-    os.remove(f"{project_name}/{project_name}/openapi.yaml")
-
-
 def remove_package_files():
     print(INFO + "  - 🗑️ Removing packaging api files" + TERMINATOR)
     REMOVE_PATHS = [
@@ -91,12 +86,11 @@ def prepare_piptools(django_api):
 def remove_piptools_files(package_manager, django_api):
     django_api = django_api[2:]
     REMOVE_PATHS = [
-        'requirements-dev-txt-django_only.pip',
-        'requirements-dev-txt-django_ninja.pip',
-        'requirements-dev-txt-openapi.pip',
+        "requirements-dev-txt-django_only.pip",
+        "requirements-dev-txt-django_ninja.pip",
     ]
 
-    if package_manager == 'pip-tools':
+    if package_manager == "pip-tools":
         del REMOVE_PATHS[REMOVE_PATHS.index(f"requirements-dev-txt-{django_api}.pip")]
 
     for path in REMOVE_PATHS:
@@ -112,8 +106,15 @@ def main():
 
     print("👉 {{ cookiecutter.package_manager }}")
 
-    if "{{ cookiecutter.deploy_to }}" == "fly.io" and "{{ cookiecutter.package_manager }}" not in ["requirements.txt", "poetry"]:
-        print(FAIL + "  🚀🚀🚀 ERRO: Opps, deploy com FLY.IO não funciona com package_manager: {{ cookiecutter.package_manager }}" + TERMINATOR)
+    if (
+        "{{ cookiecutter.deploy_to }}" == "fly.io"
+        and "{{ cookiecutter.package_manager }}" not in ["requirements.txt", "poetry"]
+    ):
+        print(
+            FAIL
+            + "  🚀🚀🚀 ERRO: Opps, deploy com FLY.IO não funciona com package_manager: {{ cookiecutter.package_manager }}"
+            + TERMINATOR
+        )
         raise Exception("Opps!")
 
     if "{{ cookiecutter.api_mock }}" == "mirageJS":
@@ -137,26 +138,26 @@ def main():
 
     if "{{ cookiecutter.django_api }}" != "🥷 django_ninja":
         print(INFO + "  - 🗑️ Removing django-ninja api files" + TERMINATOR)
-        remove_django_ninja_files("{{ cookiecutter.project_slug }}", "{{ cookiecutter.app_name }}")
+        remove_django_ninja_files(
+            "{{ cookiecutter.project_slug }}", "{{ cookiecutter.app_name }}"
+        )
     else:
         print(INFO + "  Using django-ninja 🥷" + TERMINATOR)
-
-    if "{{ cookiecutter.django_api }}" != "openapi":
-        print(INFO + "  - 🗑️ Removing openapi API files" + TERMINATOR)
-        remove_openapi_files("{{ cookiecutter.project_slug }}")
-    else:
-        print(INFO + "  Using openapi contract API" + TERMINATOR)
 
     remove_package_files()
     if "{{ cookiecutter.package_manager }}" == "pip-tools":
         print(INFO + "  Preparing piptools" + TERMINATOR)
         prepare_piptools("{{ cookiecutter.django_api }}")
 
-    remove_piptools_files("{{ cookiecutter.package_manager }}", "{{ cookiecutter.django_api }}")
+    remove_piptools_files(
+        "{{ cookiecutter.package_manager }}", "{{ cookiecutter.django_api }}"
+    )
 
     print(SUCCESS + "🐍 Your Django API backend is created! (root) ✨ 🍰 ✨\n\n" + HINT)
     print(
-        SUCCESS + "🍰 Your Vue 3 frontend is created! (frontend folder) ✨ 🍰 ✨\n\n" + HINT
+        SUCCESS
+        + "🍰 Your Vue 3 frontend is created! (frontend folder) ✨ 🍰 ✨\n\n"
+        + HINT
     )
 
     print("What's next?")

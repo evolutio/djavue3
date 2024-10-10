@@ -2,9 +2,7 @@ import os
 from django.db import connection
 from django.http import JsonResponse
 from .exceptions import BusinessError
-{% if cookiecutter.django_api == "openapi" %}
-from django.shortcuts import render
-{% elif cookiecutter.django_api == "🥷 django_ninja" %}
+{% if cookiecutter.django_api == "🥷 django_ninja" %}
 from ninja import Router
 
 from .schemas import Error
@@ -38,10 +36,3 @@ def status(request):
             "git_hash": git_hash,
         }
     )
-
-{% if cookiecutter.django_api == "📄 openapi" %}def api_docs(request):
-    return render(
-        request,
-        "base/apidocs.html",
-        {"openapi_spec_url": "/api/openapi.json"},
-    ){% endif %}
