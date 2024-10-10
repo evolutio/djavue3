@@ -7,9 +7,21 @@
   "model_lower": "{{ cookiecutter.model.lower() }}",
   "model_singular": "{{ cookiecutter.model[:-1] }}",
   "model_singular_lower": "{{ cookiecutter.model_singular.lower() }}",
-  "python_version": ["3.11", "3.10", "3.9"],
-  "package_manager": ["requirements.txt", "pip-tools", "poetry"],
-  "python_linter": ["flake8", "pylint", "ruff"],
+  "python_version": [
+    "3.11",
+    "3.10",
+    "3.9"
+  ],
+  "package_manager": [
+    "requirements.txt",
+    "pip-tools",
+    "poetry"
+  ],
+  "python_linter": [
+    "flake8",
+    "pylint",
+    "ruff"
+  ],
   "django_api": [
     "🥷 django_ninja",
     "🦄 django_only"
@@ -26,8 +38,14 @@
     "16.17",
     "14.14"
   ],
-  "pages_folder_name": ["views", "pages"],
-  "api_mock": ["mirageJS", "express"],
+  "pages_folder_name": [
+    "views",
+    "pages"
+  ],
+  "api_mock": [
+    "mirageJS",
+    "express"
+  ],
   "use_github_actions_CI": "yes",
   "keep_vscode_settings": "yes",
   "keep_vscode_devcontainer": "no",
@@ -42,6 +60,5 @@
   "deploy_domain": "{{ cookiecutter.project_slug}}.fly.dev",
   "author_name": "Roger Camargo",
   "email": "{{ cookiecutter.author_name.lower()|replace(' ', '-') }}@example.com",
-  "version": "0.1.0",
-  "license": ["MIT", "agpl-3.0"]
+  "version": "0.1.0"
 }
