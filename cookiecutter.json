@@ -26,8 +26,14 @@
     "16.17",
     "14.14"
   ],
-  "pages_folder_name": ["views", "pages"],
-  "api_mock": ["mirageJS", "express"],
+  "pages_folder_name": [
+    "views",
+    "pages"
+  ],
+  "api_mock": [
+    "mirageJS",
+    "express"
+  ],
   "use_github_actions_CI": "yes",
   "keep_vscode_settings": "yes",
   "keep_vscode_devcontainer": "no",
@@ -42,6 +48,5 @@
   "deploy_domain": "{{ cookiecutter.project_slug}}.fly.dev",
   "author_name": "Roger Camargo",
   "email": "{{ cookiecutter.author_name.lower()|replace(' ', '-') }}@example.com",
-  "version": "0.1.0",
-  "license": ["MIT", "agpl-3.0"]
+  "version": "0.1.0"
 }
