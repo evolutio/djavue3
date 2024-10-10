@@ -1,4 +1,4 @@
--r requirements{% if cookiecutter.package_manager == "pip-tools" %}.in{%else %}.txt{%endif%}
+-r requirements.txt
 
 # Code style / formatting
 black==23.12.1

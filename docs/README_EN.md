@@ -686,13 +686,6 @@ Now the environment is ready and it's possible to execute the migrations and the
 - Use `poetry show --latest` to show libs that can be updated
 
 
-## 📦 Package Management with Pip-tools
-
-::: danger 🚧 TODO
-
-You can help here!
-:::
-
 ## 📂 Backend structure & organization
 
 ::: danger 🚧 TODO

@@ -7,21 +7,9 @@
   "model_lower": "{{ cookiecutter.model.lower() }}",
   "model_singular": "{{ cookiecutter.model[:-1] }}",
   "model_singular_lower": "{{ cookiecutter.model_singular.lower() }}",
-  "python_version": [
-    "3.11",
-    "3.10",
-    "3.9"
-  ],
-  "package_manager": [
-    "requirements.txt",
-    "pip-tools",
-    "poetry"
-  ],
-  "python_linter": [
-    "flake8",
-    "pylint",
-    "ruff"
-  ],
+  "python_version": ["3.11", "3.10", "3.9"],
+  "package_manager": ["requirements.txt", "poetry"],
+  "python_linter": ["flake8", "pylint", "ruff"],
   "django_api": [
     "🥷 django_ninja",
     "🦄 django_only"
