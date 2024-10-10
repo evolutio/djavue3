@@ -76,32 +76,6 @@ def remove_package_files():
                 os.unlink(path)
 
 
-def prepare_piptools(django_api):
-    django_api = django_api[2:]
-    os.rename("requirements.txt", "requirements.in")
-    os.rename("requirements-dev.txt", "requirements-dev.in")
-    os.rename(f"requirements-dev-txt-{django_api}.pip", "requirements-dev.txt")
-
-
-def remove_piptools_files(package_manager, django_api):
-    django_api = django_api[2:]
-    REMOVE_PATHS = [
-        "requirements-dev-txt-django_only.pip",
-        "requirements-dev-txt-django_ninja.pip",
-    ]
-
-    if package_manager == "pip-tools":
-        del REMOVE_PATHS[REMOVE_PATHS.index(f"requirements-dev-txt-{django_api}.pip")]
-
-    for path in REMOVE_PATHS:
-        path = path.strip()
-        if path and os.path.exists(path):
-            if os.path.isdir(path):
-                os.rmdir(path)
-            else:
-                os.unlink(path)
-
-
 def main():
 
     print("👉 {{ cookiecutter.package_manager }}")
@@ -145,13 +119,6 @@ def main():
         print(INFO + "  Using django-ninja 🥷" + TERMINATOR)
 
     remove_package_files()
-    if "{{ cookiecutter.package_manager }}" == "pip-tools":
-        print(INFO + "  Preparing piptools" + TERMINATOR)
-        prepare_piptools("{{ cookiecutter.django_api }}")
-
-    remove_piptools_files(
-        "{{ cookiecutter.package_manager }}", "{{ cookiecutter.django_api }}"
-    )
 
     print(SUCCESS + "🐍 Your Django API backend is created! (root) ✨ 🍰 ✨\n\n" + HINT)
     print(

@@ -31,9 +31,8 @@ Responda às instruções com valores que satisfaçam a necessidade do seu proje
 ...
   [10/27] Select package_manager
     1 - requirements.txt
-    2 - pip-tools
-    3 - poetry
-    Choose from [1/2/3] (1): 1 <requirements.txt -> gerenciador de pacotes>         👈
+    2 - poetry
+    Choose from [1/2] (1): 1 <requirements.txt -> gerenciador de pacotes>         👈
 ...
   [14/27] use_sqlite_local_env (no): yes
 ...
@@ -163,9 +162,8 @@ Responda às instruções com valores que satisfaçam a necessidade do seu proje
 ...
   [10/27] Select package_manager
     1 - requirements.txt
-    2 - pip-tools
     3 - poetry
-    Choose from [1/2/3] (1): 3 <poetry será o gerenciador de pacotes>         👈
+    Choose from [1/2] (1): 3 <poetry será o gerenciador de pacotes>         👈
 ...
   [14/27] use_sqlite_local_env (no): yes
 ...
@@ -213,11 +211,3 @@ Agora o ambiente está pronto e podemos executar as migrações e rodar o servid
 - Usar `poetry run flake8` para executar comandos sem mesmo estar com ambiente virtual ativado
 - Usar `poetry show --tree` para mostrar as dependências e também dependências internas de alguma biblioteca
 - Usar `poetry show --latest` para mostrar as bibliotecas (libs) que podem ser atualizadas.
-
-
-## 📦 Com Pip-tools
-
-::: danger 🚧 TODO
-
-você pode ajudar!
-:::
