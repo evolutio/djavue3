@@ -52,9 +52,8 @@ Responda as perguntas segundo os critérios e necessidades do seu projeto. Acomp
     Choose from [1/2/3] (1): 2
   [10/27] Select package_manager
     1 - requirements.txt
-    2 - pip-tools
-    3 - poetry
-    Choose from [1/2/3] (1): 1
+    2 - poetry
+    Choose from [1/2] (1): 1
   [11/27] Select python_linter
     1 - flake8
     2 - pylint
@@ -99,10 +98,6 @@ Responda as perguntas segundo os critérios e necessidades do seu projeto. Acomp
   [24/27] author_name (Roger Camargo): 
   [25/27] email (roger-camargo@example.com): 
   [26/27] version (0.1.0): 
-  [27/27] Select license
-    1 - MIT
-    2 - agpl-3.0
-    Choose from [1/2] (1): 
  
  [SUCCESS]: 🐍 Your Django API backend is created! (root) ✨ 🍰 ✨
  [SUCCESS]: 🍰 Your Vue 3 frontend is created! (frontend folder) ✨ 🍰 ✨
