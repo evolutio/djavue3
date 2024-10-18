@@ -38,7 +38,9 @@ export default defineConfig({
 
         socialLinks: [
           { icon: 'github', link: 'https://github.com/evolutio/djavue3' },
-          { icon: 'youtube', link: 'https://www.youtube.com/watch?v=pDYvJIxxoN0&list=PL1Skk6O-pP7vRPCWmzMYXNEkx4BMZlhgi' }
+          { icon: 'youtube', link: 'https://www.youtube.com/watch?v=zO8M7f7L1fQ&list=PL1Skk6O-pP7vRPCWmzMYXNEkx4BMZlhgi' },
+          { icon: 'facebook', link: 'https://t.me/+5eC434i4iNAxZDUx'},
+          { icon: 'x', link: 'https://x.com/huogerac'},
         ]
       }
     },
@@ -75,7 +77,9 @@ export default defineConfig({
 
         socialLinks: [
           { icon: 'github', link: 'https://github.com/evolutio/djavue3' },
-          { icon: 'youtube', link: 'https://www.youtube.com/watch?v=pDYvJIxxoN0&list=PL1Skk6O-pP7vRPCWmzMYXNEkx4BMZlhgi' }
+          { icon: 'youtube', link: 'https://www.youtube.com/watch?v=zO8M7f7L1fQ&list=PL1Skk6O-pP7vRPCWmzMYXNEkx4BMZlhgi' },
+          { icon: 'facebook', link: 'https://t.me/+5eC434i4iNAxZDUx'},
+          { icon: 'x', link: 'https://x.com/huogerac'},
         ]
       }
     }

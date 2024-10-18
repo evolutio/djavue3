@@ -6,6 +6,10 @@ D-Jà Vue é um **modelo de projeto** que criará uma estrutura de pastas e arqu
 Pode ser um ótimo pontapé inicial para o seu próximo projeto (na Prova de Conceito ou ideia de produto).
 Está pronto para produção, onde você pode se concentrar nos recursos, no core business e gerar valor.
 
+
+[Djavue-no-hacktoberfest](https://github.com/evolutio/djavue3/issues)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/zO8M7f7L1fQ?si=TzkR3LYlnFBPE0CE&amp;start=52" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## 💡 Por quê?
 
 A ideia é sermos mais produtivos, desta forma um fluxo de trabalho e uma estrutura de projeto 
