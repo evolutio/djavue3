@@ -144,12 +144,12 @@ Using containers (docker) it’s a convenient mode where it aims to have all dep
 Using 🐋 Docker is the way where you can have a project that have many dependencies internally (libs, frameworks and also SO dependencies) and externally for example database, web mail server, queue manager etc and RUN everything with ONE CLICK. It's quite common developers work on multiple projects, which one uses different Python and Database versions, by managing those matrix of possible each time you swap a project could be a nightmare! The container concept is here to save us!
 :::
 
-![local-env-with-docker](../../images/local-env-using-docker.jpg)
+![local-env-with-docker](../images/local-env-using-docker.jpg)
 
 Using the D-Jà Vue template, your project will have the container concept from the Day 1, whether you will start without it or not, being ready to run it with docker is a good thing, mainly to make the devops better (a.k.a deploy to production)
 
 📦 **Running without docker** can be pretty handy too, it can be much easier to debug, however, it’s necessary to create a virtual environment, install all dependencies in both the backend and frontend projects and have few extra configurations to make the frontend access the backend (CORS settings). It will depend on the developer using tools such as NVM and Pyenv in order to make the local machine be in the same node and python version as the production will.
 
-![local-env-without-docker](../../images/local-env-without-docker.jpg)
+![local-env-without-docker](../images/local-env-without-docker.jpg)
 
 The good thing is that D-Jà Vue template is using a good foundation to make the developer experience as better as possible whether choosing non friction environment with no docker at all, for example, running a SQLite database locally and any python version available or mixing by running just the postgres database inside a container and of course, being as close as possible from what will run in production, for example, having the web server or any other external service that the project might integrate with.
