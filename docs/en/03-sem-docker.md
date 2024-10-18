@@ -99,7 +99,7 @@ Quit the server with CONTROL-C.
 
 👉 Open your browser and access the `http://localhost:8000`, the application should be running
 
-![local-env-without-docker-localhost-8000](../../images/local-run-without-docker-localhost-8000.jpg)
+![local-env-without-docker-localhost-8000](../images/local-run-without-docker-localhost-8000.jpg)
 
 **Other things that you can do at this point:**
 - Access the `http://localhost:8000/admin` and after the login (using the user we created before) play with the Django Admin
@@ -154,7 +154,7 @@ npm run dev
 
 👉 Open your browser and access the `http://localhost:3000` (or your machine IP + the port if with the --host) to request the frontend application! It should be running now!
 
-![local-env-without-docker-localhost-3000](../../images/local-run-without-docker-localhost-3000.jpg)
+![local-env-without-docker-localhost-3000](../images/local-run-without-docker-localhost-3000.jpg)
 
 ::: info
 📱 The D-Jà Vue template aims to be mobile first.
