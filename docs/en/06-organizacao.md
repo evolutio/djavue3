@@ -1,6 +1,8 @@
 # 🗂️ Folders and project organization
 
-## Layers organization (🦄 Backend)
+## 🦄 Backend
+
+### Layers
 
 ```
                                            ___ Models
@@ -16,7 +18,7 @@
 - **Services**: Pure Python modules with the implementation of business rules; it is the layer that must be tested the most.
 - **ORM**: Data mappping in the database
 
-## Folders structure (🦄 Backend)
+### Folders structure
 
 Overview
 
@@ -65,3 +67,9 @@ Django has the concept of "apps", with the goal of separating your project conte
 │   └── templates              👉 Not used in API apps, but can generate HTML page
 
 ```
+## 🎨 Frontend
+
+::: danger 🚧 TODO
+
+You can help here!
+:::
