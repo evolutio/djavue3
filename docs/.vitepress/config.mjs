@@ -31,7 +31,6 @@ export default defineConfig({
               { text: '🌀 CI & CD', link: '/10-CI-e-CD' },
               { text: '👾 Contribuindo', link: '/11-contribuindo' },
               { text: '📝 CHANGELOG', link: '/changelog' },
-              { text: '🇬🇧 English', link: '/README_EN' }
             ]
           }
         ],
