@@ -1,28 +1,28 @@
 {
   "__prompts__": {
     "project_name": "Enter a user-friendly project name",
-    "project_slug": "Enter a URL-friendly project name",
+    "project_slug": "Confirm a valid django project name",
     "description": "Enter a description for your project",
-    "app_name": "Enter the app name",
-    "model": "Enter the main database model name",
-    "model_lower": "Enter 'model' in the lowercase form",
-    "model_singular": "Enter 'model' in the singular form",
-    "model_singular_lower": "Enter 'model_lower' in the singular form",
-    "python_version": "Select Python version",
+    "app_name": "Enter the 'core-business' app name",
+    "model": "Enter the model name (plural)",
+    "model_lower": "Confirm the 'model' in the lowercase form",
+    "model_singular": "Confirm the 'model' in the singular form",
+    "model_singular_lower": "Confirm the 'model_lower' in the singular form",
+    "python_version": "Select the Python version",
     "package_manager": "Select the package manager",
     "python_linter": "Select the Python linter (code formatter)",
-    "django_api": "Select the Django API you want to use",
+    "django_api": "Select the Django API library",
     "database_version": "Select the database version",
-    "use_sqlite_local_env": "Would you like to set a local SQLite environment?",
-    "node_version": "Select which Node version you want to use",
-    "pages_folder_name": "Select the name of the folder where the pages will be located",
-    "api_mock": "Which of these would you like to use to simulate a backend?",
-    "use_github_actions_CI": "Would you like to use Github Actions for CI-CD?",
-    "keep_vscode_settings": "Would you like to keep the default VSCode Settings?",
-    "keep_vscode_devcontainer": "Would you like to keep the default VSCode DevContainer?",
+    "use_sqlite_local_env": "Would you like to start with SQLite?",
+    "node_version": "Select the Node version for the frontend",
+    "pages_folder_name": "Select pages folder name for the frontend",
+    "api_mock": "Select the frotend library to simulate the backend (api mock)",
+    "use_github_actions_CI": "Would you like to keep the Github Actions (CI-CD)?",
+    "keep_vscode_settings": "Would you like to keep the VSCode Settings?",
+    "keep_vscode_devcontainer": "Would you like to keep the VSCode DevContainer?",
     "docker_usage": "Would you like to use Docker?",
     "deploy_to": "Where would you like to target your deployment?",
-    "deploy_domain": "Enter your deployment domain",
+    "deploy_domain": "Enter the domain name",
     "author_name": "Enter the author's name",
     "email": "Enter author's e-mail",
     "version": "Enter the project version"
@@ -38,10 +38,7 @@
   "python_version": ["3.11", "3.10", "3.9"],
   "package_manager": ["requirements.txt", "poetry"],
   "python_linter": ["flake8", "pylint", "ruff"],
-  "django_api": [
-    "🥷 django_ninja",
-    "🦄 django_only"
-  ],
+  "django_api": ["🥷 django_ninja", "🦄 django_only"],
   "database_version": [
     "postgres:15-alpine",
     "postgres:14-alpine",
@@ -49,30 +46,14 @@
     "postgis/postgis:14-3.2-alpine"
   ],
   "use_sqlite_local_env": "no",
-  "node_version": [
-    "18.18",
-    "16.17",
-    "14.14"
-  ],
-  "pages_folder_name": [
-    "views",
-    "pages"
-  ],
-  "api_mock": [
-    "mirageJS",
-    "express"
-  ],
+  "node_version": ["18.18", "16.17", "14.14"],
+  "pages_folder_name": ["views", "pages"],
+  "api_mock": ["mirageJS", "express"],
   "use_github_actions_CI": "yes",
   "keep_vscode_settings": "yes",
   "keep_vscode_devcontainer": "no",
-  "docker_usage": [
-    "🐳 use docker by default",
-    "📦 use venv npm by default"
-  ],
-  "deploy_to": [
-    "None",
-    "fly.io"
-  ],
+  "docker_usage": ["🐳 use docker by default", "📦 use venv npm by default"],
+  "deploy_to": ["None", "fly.io"],
   "deploy_domain": "{{ cookiecutter.project_slug}}.fly.dev",
   "author_name": "Roger Camargo",
   "email": "{{ cookiecutter.author_name.lower()|replace(' ', '-') }}@example.com",
