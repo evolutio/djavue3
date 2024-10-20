@@ -23,7 +23,7 @@ export default defineConfig({
               { text: '💿 Iniciando', link: '/02-iniciando' },
               { text: '📦 Sem Docker', link: '/03-sem-docker' },
               { text: '🐋 Com Docker', link: '/04-com-docker' },
-              { text: '📦 Gerenc.Pacotes', link: '/05-gerenc-pacotes' },
+              { text: '📦 Gerenciador de pacotes', link: '/05-gerenc-pacotes' },
               { text: '🗂️ Organização', link: '/06-organizacao' },
               { text: '🐞 Debug', link: '/07-debug' },
               { text: '🤡 API Mock', link: '/08-api-mock' },
@@ -31,7 +31,6 @@ export default defineConfig({
               { text: '🌀 CI & CD', link: '/10-CI-e-CD' },
               { text: '👾 Contribuindo', link: '/11-contribuindo' },
               { text: '📝 CHANGELOG', link: '/changelog' },
-              { text: '🇬🇧 English', link: '/README_EN' }
             ]
           }
         ],
