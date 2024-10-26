@@ -35,3 +35,4 @@ staticfiles/
 venv/
 ENV/
 .python-version
+.env
