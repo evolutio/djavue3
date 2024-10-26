@@ -8,6 +8,9 @@ tzdata==2024.2
 # django-sql-explorer==2.4.2
 django-extensions==3.2.3
 
+# UNIT TEST
+pytest-cov==5.0.0
+
 # DB
 psycopg2==2.9.9
 dj-database-url==2.2.0

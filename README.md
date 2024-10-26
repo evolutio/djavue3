@@ -200,6 +200,14 @@ $ docker compose -f docker-compose.apimock.yml up -d
 
 📝 NOTA: Para utilizar a versão anterior do API MOCK, utilize a opção 2 na criação do projeto. Rode um `docker ps` e veja que temos rodando um imitador de backend (que está na pasta `apimock`) em código NodeJS com [Express](https://expressjs.com/).
 
+
+## Utilizando o coverage no seu projeto
+
+A filosofia da criação de testes unitários é uma prática fundamental em programação. O pacote Coverage.py é uma ferramenta para medir a cobertura de testes unitários em programas Python. Ele monitora a execução do seu programa, identificando quais partes do código foram executadas e, em seguida, analisa o código-fonte para localizar trechos que poderiam ter sido executados, mas não foram. A medição de cobertura é usada principalmente para avaliar a eficácia dos testes. Ela mostra quais partes do código estão sendo testadas e quais estão sendo ignoradas, ajudando a identificar áreas que precisam de mais cobertura para garantir uma melhor qualidade do software. [pytest-cov](https://pytest-cov.readthedocs.io/en/latest/readme.html)
+
+- `pytest --cov=[DJANGO_APP] .`
+- `python -m pytest --cov-report html --cov=[DJANGO_APP] html`
+
 ## Para mais informações sobre Djávue & API Mock
 
 - [Djà vue: Uma jornada pelo desenvolvimento web com Django e Vue.js](https://evolutio.io/curso/djavue) - Curso gratuito
