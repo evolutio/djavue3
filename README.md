@@ -203,7 +203,7 @@ $ docker compose -f docker-compose.apimock.yml up -d
 
 ## Utilizando o coverage no seu projeto
 
-A filosofia da criação de testes unitários é uma prática fundamental em programação. O pacote Coverage.py é uma ferramenta para medir a cobertura de testes unitários em programas Python. Ele monitora a execução do seu programa, identificando quais partes do código foram executadas e, em seguida, analisa o código-fonte para localizar trechos que poderiam ter sido executados, mas não foram. A medição de cobertura é usada principalmente para avaliar a eficácia dos testes. Ela mostra quais partes do código estão sendo testadas e quais estão sendo ignoradas, ajudando a identificar áreas que precisam de mais cobertura para garantir uma melhor qualidade do software. [pytest-cov](https://pytest-cov.readthedocs.io/en/latest/readme.html)
+A criação de testes unitários é uma prática essencial em programação, pois garante a qualidade e a confiabilidade do código. O pacote Coverage.py, nesse contexto, é uma ferramenta poderosa para medir a cobertura desses testes em programas Python. Ele monitora a execução do programa, identificando quais partes do código foram testadas e analisando o código-fonte para localizar trechos que poderiam ter sido executados, mas foram ignorados. A medição de cobertura serve principalmente para avaliar a eficácia dos testes. Ao mostrar quais partes do código são testadas e quais não, ela ajuda a identificar áreas que necessitam de mais cobertura, assegurando, assim, uma melhor qualidade no software final.[pytest-cov](https://pytest-cov.readthedocs.io/en/latest/readme.html)
 
 - `pytest --cov=[DJANGO_APP] .`
 - `python -m pytest --cov-report html --cov=[DJANGO_APP] html`
