@@ -6,6 +6,8 @@ import os
 import random
 import shutil
 
+from pathlib import Path
+
 try:
     # Inspired by
     # https://github.com/django/django/blob/master/django/utils/crypto.py
@@ -76,6 +78,17 @@ def remove_package_files():
                 os.unlink(path)
 
 
+def create_env_file(project_name):
+    print(INFO + " - 💡 Creating .env File" + TERMINATOR)
+
+    src_file = Path(f"{project_name}/.env.example")
+    dst_file = Path(f"{project_name}/.env")
+
+    shutil.copy(src_file, dst_file)
+
+    print(INFO + " - ✅ Successfully Created .env File" + TERMINATOR)
+
+
 def main():
 
     print("👉 {{ cookiecutter.package_manager }}")
@@ -119,6 +132,8 @@ def main():
         print(INFO + "  Using django-ninja 🥷" + TERMINATOR)
 
     remove_package_files()
+
+    create_env_file("{{ cookiecutter.project_slug }}")
 
     print(SUCCESS + "🐍 Your Django API backend is created! (root) ✨ 🍰 ✨\n\n" + HINT)
     print(
