@@ -78,11 +78,11 @@ def remove_package_files():
                 os.unlink(path)
 
 
-def create_env_file(project_name):
+def create_env_file():
     print(INFO + " - 💡 Creating .env File" + TERMINATOR)
 
-    src_file = Path(f"{project_name}/.env.example")
-    dst_file = Path(f"{project_name}/.env")
+    src_file = Path(".env.example")
+    dst_file = Path(".env")
 
     shutil.copy(src_file, dst_file)
 
@@ -133,7 +133,7 @@ def main():
 
     remove_package_files()
 
-    create_env_file("{{ cookiecutter.project_slug }}")
+    create_env_file()
 
     print(SUCCESS + "🐍 Your Django API backend is created! (root) ✨ 🍰 ✨\n\n" + HINT)
     print(
