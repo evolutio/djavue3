@@ -21,15 +21,16 @@ export const useTaskStore = defineStore('task-store', () => {
             tasks.value.push({
                 done: false,
                 description: newTaskDescription.value,
-                id: tasks.value[tasks.value.length - 1].id + 1,
+                id: -1,
             });
             try {
-                await $api("/api/core/tasks/add", {
+                const newTask: Task = await $api("/api/core/tasks/add", {
                     method: "post",
                     body: {
                         description: newTaskDescription.value,
                     },
                 });
+                tasks.value[tasks.value.length - 1] = newTask
             } catch (e) {
                 console.log(e);
                 tasks.value.pop();
