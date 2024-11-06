@@ -39,6 +39,10 @@ def remove_vscode_files():
         if os.path.exists(vscode_dir):
             shutil.rmtree(vscode_dir)
 
+def rename_nuxt_frontend():
+    if os.path.exists('frontend-nuxt'):
+        os.rename('frontend-nuxt', 'frontend')
+
 def remove_default_frontend():
     frontend_dirs = ['frontend']
     for frontend_dir in frontend_dirs:
@@ -126,11 +130,13 @@ def main():
         print(INFO + "  - 🗑️ Removing Github Actions workflow file" + TERMINATOR)
         remove_github_actions_files()
         
-    if "{{ cookiecutter.use_nuxt }}".lower() == "yes":
+    if "{{ cookiecutter.frontend_stack }}" == "VueJS and Nuxt with TS":
         print(INFO + "  - 🗑️ Removing default frontend files" + TERMINATOR)
         remove_default_frontend()
+        print(INFO + "  - 🗑️ Renaming frontend-nuxt to frontend" + TERMINATOR)
+        rename_nuxt_frontend()
         
-    if "{{ cookiecutter.use_nuxt }}".lower() == "no":
+    if "{{ cookiecutter.frontend_stack }}" == "VueJS only":
         print(INFO + "  - 🗑️ Removing Nuxt frontend files" + TERMINATOR)
         remove_nuxt_frontend()
 

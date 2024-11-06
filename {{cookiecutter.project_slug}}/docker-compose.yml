@@ -44,16 +44,16 @@ services:
      
   frontend:
     build:
-      context: ./frontend{% if cookiecutter.use_nuxt == 'yes' %}-nuxt{% endif %} 
-    image: front-{% if cookiecutter.use_nuxt == 'yes' %}nuxt-{% endif %}{{cookiecutter.project_slug}}
-    hostname: front-{% if cookiecutter.use_nuxt == 'yes' %}nuxt-{% endif %}{{cookiecutter.project_slug}}
+      context: ./frontend
+    image: front-{{cookiecutter.project_slug}}
+    hostname: front-{{cookiecutter.project_slug}}
     ports:
       - 3000:3000
     expose:
       - "3000"
     env_file:
       - .env
-    {% if cookiecutter.use_nuxt == 'no' %}
+    {% if cookiecutter.frontend_stack == 'VueJS only' %}
     command: npm run dev -- --host
     volumes:
       - /frontend/node_modules

@@ -14,7 +14,7 @@
     "django_api": "Select the Django API library",
     "database_version": "Select the database version",
     "use_sqlite_local_env": "Would you like to start with SQLite?",
-    "use_nuxt": "Would you like to use Nuxt?",
+    "frontend_stack": "Which frontend stack would you like to use?",
     "node_version": "Select the Node version for the frontend",
     "pages_folder_name": "Select pages folder name for the frontend",
     "api_mock": "Select the frotend library to simulate the backend (api mock)",
@@ -44,7 +44,7 @@
     "postgis/postgis:14-3.2-alpine"
   ],
   "use_sqlite_local_env": "no",
-  "use_nuxt": "yes",
+  "frontend_stack": ["VueJS only", "VueJS and Nuxt with TS"],
   "node_version": ["18.18", "16.17", "14.14"],
   "pages_folder_name": ["views", "pages"],
   "api_mock": ["mirageJS", "express"],
