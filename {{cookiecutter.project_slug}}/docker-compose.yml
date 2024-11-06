@@ -40,22 +40,25 @@ services:
       timeout: 5s
       retries: 5
       #- "./docker/postgres/pg_hba.conf:/usr/local/etc/postgres/postgres.conf"
-
+      
+     
   frontend:
     build:
       context: ./frontend
     image: front-{{cookiecutter.project_slug}}
     hostname: front-{{cookiecutter.project_slug}}
-    command: npm run dev -- --host
     ports:
       - 3000:3000
     expose:
       - "3000"
     env_file:
       - .env
+    {% if cookiecutter.frontend_stack == 'VueJS only' %}
+    command: npm run dev -- --host
     volumes:
       - /frontend/node_modules
       - ./frontend:/frontend
+    {% endif %}
 
   nginx:
     image: nginx

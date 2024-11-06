@@ -39,6 +39,21 @@ def remove_vscode_files():
         if os.path.exists(vscode_dir):
             shutil.rmtree(vscode_dir)
 
+def rename_nuxt_frontend():
+    if os.path.exists('frontend-nuxt'):
+        os.rename('frontend-nuxt', 'frontend')
+
+def remove_default_frontend():
+    frontend_dirs = ['frontend']
+    for frontend_dir in frontend_dirs:
+        if os.path.exists(frontend_dir):
+            shutil.rmtree(frontend_dir)
+            
+def remove_nuxt_frontend():
+    frontend_dirs = ['frontend-nuxt']
+    for frontend_dir in frontend_dirs:
+        if os.path.exists(frontend_dir):
+            shutil.rmtree(frontend_dir)
 
 def remove_vscode_devcontainer_files():
     vscode_dirs = [".devcontainer"]
@@ -114,6 +129,16 @@ def main():
     if "{{ cookiecutter.use_github_actions_CI }}".lower() != "yes":
         print(INFO + "  - 🗑️ Removing Github Actions workflow file" + TERMINATOR)
         remove_github_actions_files()
+        
+    if "{{ cookiecutter.frontend_stack }}" == "VueJS and Nuxt with TS":
+        print(INFO + "  - 🗑️ Removing default frontend files" + TERMINATOR)
+        remove_default_frontend()
+        print(INFO + "  - 🗑️ Renaming frontend-nuxt to frontend" + TERMINATOR)
+        rename_nuxt_frontend()
+        
+    if "{{ cookiecutter.frontend_stack }}" == "VueJS only":
+        print(INFO + "  - 🗑️ Removing Nuxt frontend files" + TERMINATOR)
+        remove_nuxt_frontend()
 
     if "{{ cookiecutter.keep_vscode_settings }}".lower() != "yes":
         print(INFO + "  - 🗑️ Removing VSCode files" + TERMINATOR)
