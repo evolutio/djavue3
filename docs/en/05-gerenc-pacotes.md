@@ -19,7 +19,7 @@ Let's recreate the **twitterclone** like it was done in the [📦 Creating my fi
 👉 This step has less details due to the links above has more information.
 :::
 
-Run the cookiecutter command against the D-Jà Vue repositoty. You'll be prompted for some values. Provide them based on your needs and choose **'Poetry'** for the **'package_manager'**:
+Run the cookiecutter command against the D-Jà Vue repository. You'll be prompted for some values. Provide them based on your needs and choose **'Poetry'** for the **'package_manager'**:
 
 ```
 cookiecutter https://github.com/evolutio/djavue3
