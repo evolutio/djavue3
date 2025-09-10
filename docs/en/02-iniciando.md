@@ -23,7 +23,7 @@ pip install "cookiecutter>=1.7.0"
 🌈 TIPS/TRICKS: You can use [pipx ](https://pypa.github.io/pipx/) to install cookiecutter globally or creating a pyenv env and set the envs orders and avoiding installing directly in your machine without environments.
 :::
 
-Now run it against the D-Jà Vue repositoty. You'll be prompted for some values. Provide them based on your needs!
+Now run it against the D-Jà Vue repository. You'll be prompted for some values. Provide them based on your needs!
 
 ::: info
 👉 Mainly if you are not using Docker and want to use the same Python you have in your machine, use `python -V` to get your current python version. You also can do the same thing for the the NodeJS version `node --version`.
