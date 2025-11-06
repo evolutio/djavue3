@@ -16,7 +16,7 @@ Um 📦template de projeto completo **full-stack**, **pronto para produção**, 
 
 ## Links Importantes
 
-- 💬 [Comunidade Djàvue no Telegram](https://t.me/+5eC434i4iNAxZDUx)
+- 💬 [Comunidade Djàvue no WhatsApp](https://chat.whatsapp.com/IYB26syywQ8LXdSZaoXwNx?mode=wwt)
 - 🚀 [DEMO] [Acesse o frontend online](https://stackblitz.com/github/huogerac/template-vue3-vite-vuetify3?file=TIPS-IDE.md)
 - 🚀 [DEMO] [Backend API](https://meudjavuelistv1.fly.dev/api/accounts/whoami)
 
