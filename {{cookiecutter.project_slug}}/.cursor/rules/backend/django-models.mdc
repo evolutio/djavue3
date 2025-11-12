@@ -1,0 +1,191 @@
+---
+description: Padrão de Models Django - ORM e Serialização
+globs:
+  - "**/models.py"
+alwaysApply: false
+---
+
+# 🗄️ Models Django - DjaVue
+
+## Princípios
+
+- Models representam estrutura de dados no banco
+- Devem implementar método `to_dict_json()` para serialização
+- Usar `__str__()` para representação legível
+- Campos devem ter validações apropriadas
+
+## Estrutura Padrão
+
+```python
+from django.db import models
+
+class Entity(models.Model):
+    # Campos
+    name = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    # Métodos
+    def __str__(self):
+        return self.name
+    
+    def to_dict_json(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+        }
+    
+    class Meta:
+        db_table = "entity"
+        ordering = ["-created_at"]
+        verbose_name = "Entity"
+        verbose_name_plural = "Entities"
+```
+
+## Campos Comuns
+
+### CharField
+```python
+name = models.CharField(max_length=255)
+title = models.CharField(max_length=512)
+```
+
+### TextField
+```python
+description = models.TextField(null=True, blank=True)
+bio = models.TextField(null=True, blank=True)
+```
+
+### BooleanField
+```python
+done = models.BooleanField(default=False)
+is_active = models.BooleanField(default=True)
+```
+
+### DateTimeField
+```python
+created_at = models.DateTimeField(auto_now_add=True)
+updated_at = models.DateTimeField(auto_now=True)
+```
+
+### ForeignKey
+```python
+user = models.ForeignKey(User, on_delete=models.CASCADE)
+category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+```
+
+### URLField
+```python
+avatar = models.URLField(max_length=1024, null=True, blank=True)
+website = models.URLField(max_length=1024, null=True, blank=True)
+```
+
+## Método `to_dict_json()`
+
+- **Sempre implementar** este método nos models
+- Retornar `dict` com todos os campos relevantes
+- Incluir `id` sempre
+- Converter datas para ISO format ou string
+- Incluir relacionamentos quando necessário (não recursivo)
+
+**Exemplo**:
+```python
+def to_dict_json(self):
+    return {
+        "id": self.id,
+        "description": self.description,
+        "done": self.done,
+        "user": {
+            "id": self.user.id,
+            "username": self.user.username,
+        } if self.user else None,
+        "created_at": self.created_at.isoformat() if self.created_at else None,
+    }
+```
+
+## Método `__str__()`
+
+- Sempre implementar para representação legível
+- Usar campo mais representativo (nome, título, etc.)
+
+**Exemplo**:
+```python
+def __str__(self):
+    return self.name or f"Entity {self.id}"
+```
+
+## Meta Options
+
+- `db_table`: Nome da tabela no banco
+- `ordering`: Ordenação padrão
+- `verbose_name`: Nome singular
+- `verbose_name_plural`: Nome plural
+
+**Exemplo**:
+```python
+class Meta:
+    db_table = "tasks"
+    ordering = ["-created_at"]
+    verbose_name = "Task"
+    verbose_name_plural = "Tasks"
+```
+
+## User Model Customizado
+
+O DjaVue usa `AbstractUser` para estender o modelo de usuário:
+
+```python
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+    bio = models.TextField(null=True, blank=True)
+    avatar = models.URLField(max_length=1024, null=True, blank=True)
+    
+    def __str__(self):
+        return str(self.username)
+    
+    def to_dict_json(self):
+        return {
+            "id": self.id,
+            "name": self.get_full_name(),
+            "username": self.username,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "avatar": self.avatar,
+            "bio": self.bio,
+            "permissions": {
+                "ADMIN": self.is_superuser,
+                "STAFF": self.is_staff,
+            },
+        }
+```
+
+## Migrations
+
+- Sempre criar migrations após alterar models
+- Usar: `./manage.py makemigrations`
+- Aplicar: `./manage.py migrate`
+- Nunca editar migrations manualmente (exceto em casos específicos)
+
+## Validações
+
+- Usar `max_length` apropriado para CharField
+- Usar `null=True, blank=True` para campos opcionais
+- Usar `default` para valores padrão
+- Usar `choices` para campos com opções limitadas
+
+**Exemplo**:
+```python
+STATUS_CHOICES = [
+    ("pending", "Pending"),
+    ("completed", "Completed"),
+    ("cancelled", "Cancelled"),
+]
+
+status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
+```

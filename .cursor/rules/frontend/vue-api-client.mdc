@@ -1,0 +1,259 @@
+---
+description: Padrão de API Client - Comunicação com Backend
+globs:
+  - "frontend/src/api/**/*.js"
+alwaysApply: false
+---
+
+# 🕸️ API Client - DjaVue
+
+## Princípios
+
+- API Client é a camada de comunicação com o backend
+- Organizado por **contexto de negócio** (accounts, tasks, etc.)
+- Usa **Axios** configurado centralmente
+- Funções **assíncronas** que retornam dados
+
+## Estrutura Padrão
+
+```javascript
+import api from "./config.js"
+
+export default {
+  get[Entities]: async () => {
+    const response = await api.get("/api/[context]/[entities]/list")
+    return response.data
+  },
+  add[Entity]: async (data) => {
+    const response = await api.post("/api/[context]/[entities]/add", data)
+    return response.data
+  },
+  update[Entity]: async (id, data) => {
+    const response = await api.put(`/api/[context]/[entities]/${id}`, data)
+    return response.data
+  },
+  delete[Entity]: async (id) => {
+    const response = await api.delete(`/api/[context]/[entities]/${id}`)
+    return response.data
+  },
+}
+```
+
+## Configuração (`config.js`)
+
+- Instância centralizada do Axios
+- Interceptors para tratamento de erros
+- Configuração de CSRF e credentials
+- Base URL via variável de ambiente
+
+**Exemplo**:
+```javascript
+import axios from "axios"
+import { useBaseStore } from "@/stores/baseStore"
+import router from "../router"
+
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  xsrfHeaderName: "X-CSRFToken",
+  xsrfCookieName: "csrftoken",
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+
+export function responseSuccess(response) {
+  return response
+}
+
+export function responseError(error) {
+  const baseStore = useBaseStore()
+  
+  // Network Error
+  if (!error.response && error.message === "Network Error") {
+    baseStore.setShowErrorMessage(error.message)
+  }
+  
+  // Unauthorized (401)
+  if (error.response && error.response.status === 401) {
+    baseStore.showSnackbar("Usuário sem autenticação. Efetue o login!", "warning")
+    router.push({ name: "accounts-login" })
+    return
+  }
+  
+  return Promise.reject(error)
+}
+
+api.interceptors.response.use(responseSuccess, responseError)
+
+export default api
+```
+
+## Padrões de Funções
+
+### GET (Listar)
+```javascript
+get[Entities]: async () => {
+  const response = await api.get("/api/[context]/[entities]/list")
+  return response.data
+}
+```
+
+### GET (Buscar por ID)
+```javascript
+get[Entity]: async (id) => {
+  const response = await api.get(`/api/[context]/[entities]/${id}`)
+  return response.data
+}
+```
+
+### POST (Criar)
+```javascript
+add[Entity]: async (data) => {
+  const response = await api.post("/api/[context]/[entities]/add", data)
+  return response.data
+}
+```
+
+### PUT/PATCH (Atualizar)
+```javascript
+update[Entity]: async (id, data) => {
+  const response = await api.put(`/api/[context]/[entities]/${id}`, data)
+  return response.data
+}
+```
+
+### DELETE (Remover)
+```javascript
+delete[Entity]: async (id) => {
+  const response = await api.delete(`/api/[context]/[entities]/${id}`)
+  return response.data
+}
+```
+
+## Exemplos Completos
+
+### Accounts API
+```javascript
+import api from "./config.js"
+
+export default {
+  whoami: async () => {
+    const response = await api.get("/api/accounts/whoami")
+    return response.data
+  },
+  login: async (username, password) => {
+    const response = await api.post("/api/accounts/login", {
+      username,
+      password
+    })
+    return response.data
+  },
+  logout: async () => {
+    const response = await api.post("/api/accounts/logout")
+    return response.data
+  },
+}
+```
+
+### Tasks API
+```javascript
+import api from "./config.js"
+
+export default {
+  getTasks: async () => {
+    const response = await api.get("/api/tasks/list")
+    return response.data
+  },
+  addTask: async (description) => {
+    const response = await api.post("/api/tasks/add", { description })
+    return response.data
+  },
+  updateTask: async (id, data) => {
+    const response = await api.put(`/api/tasks/${id}`, data)
+    return response.data
+  },
+  deleteTask: async (id) => {
+    const response = await api.delete(`/api/tasks/${id}`)
+    return response.data
+  },
+}
+```
+
+## Nomenclatura
+
+- **Arquivo**: `[context].api.js` (ex: `accounts.api.js`, `tasks.api.js`)
+- **Funções**: `camelCase` com verbo de ação (ex: `getTasks()`, `addTask()`)
+- **Rotas**: Sempre prefixo `/api/` seguido do contexto
+
+## Tratamento de Erros
+
+- Erros são tratados no interceptor do Axios (`config.js`)
+- 401: Redireciona para login
+- Network Error: Mostra mensagem de erro
+- Outros erros: Rejeita promise para tratamento no componente/store
+
+## Uso em Stores
+
+```javascript
+import { defineStore } from "pinia"
+import TasksApi from "@/api/tasks.api.js"
+
+export const useTasksStore = defineStore("tasksStore", {
+  state: () => ({
+    tasks: [],
+    loading: false,
+  }),
+  actions: {
+    async getTasks() {
+      this.loading = true
+      try {
+        const response = await TasksApi.getTasks()
+        this.tasks = response.tasks
+      } catch (error) {
+        console.error("Error fetching tasks:", error)
+      } finally {
+        this.loading = false
+      }
+    },
+  },
+})
+```
+
+## Helpers (`helpers.js`)
+
+Funções auxiliares para API podem ser criadas em `helpers.js`:
+
+```javascript
+export function buildQueryString(params) {
+  const query = new URLSearchParams()
+  Object.keys(params).forEach(key => {
+    if (params[key] !== null && params[key] !== undefined) {
+      query.append(key, params[key])
+    }
+  })
+  return query.toString()
+}
+
+export function handleApiError(error) {
+  if (error.response) {
+    return error.response.data.message || "An error occurred"
+  }
+  return error.message || "Network Error"
+}
+```
+
+## Boas Práticas
+
+1. **Organização**: Um arquivo por contexto de negócio
+2. **Nomenclatura**: Consistente e descritiva
+3. **Rotas**: Sempre usar prefixo `/api/`
+4. **Dados**: Sempre retornar `response.data`
+5. **Erros**: Deixar tratamento no interceptor quando possível
+6. **Type Safety**: Considerar TypeScript para tipagem (opcional)
+
+## Variáveis de Ambiente
+
+- `VITE_API_BASE_URL`: URL base da API
+- Configurado em `.env` ou `.env.local`
+- Exemplo: `VITE_API_BASE_URL=http://localhost:8000`

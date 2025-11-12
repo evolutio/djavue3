@@ -1,0 +1,83 @@
+---
+description: Regras Gerais do Projeto DjaVue - Django + Vue 3
+alwaysApply: true
+---
+
+# 🧩 DjaVue - Template Fullstack Django + Vue 3
+
+## Visão Geral
+
+O **DjaVue** é um template fullstack baseado em **Django + Vue 3**, criado para acelerar o desenvolvimento de sistemas profissionais com qualidade exemplar.
+
+## Arquitetura
+
+### Backend (Django)
+- **Django 4.2+** com PostgreSQL
+- Arquitetura em camadas: `urls → views → services → models`
+- Apps separadas por contexto de negócio
+- Views enxutas (apenas validação e roteamento)
+- Services com regras de negócio (python puro, testável)
+- Models com método `to_dict_json()` para serialização
+
+### Frontend (Vue 3)
+- **Vue 3** com **Vite** e **Vuetify 3**
+- Arquitetura: `Router → Pages → Store → API Client`
+- **Pinia** para gerenciamento de estado
+- Organização modular por contexto de negócio
+- API Mock com MirageJS para desenvolvimento backendless
+
+## Convenções de Nomenclatura
+
+- **Python**: `snake_case` para funções, variáveis, arquivos
+- **JavaScript**: `camelCase` para funções e variáveis, `PascalCase` para componentes
+- **Apps Django**: nomes no plural quando representam coleções (accounts, tasks)
+- **Stores Pinia**: `use[Nome]Store` (ex: `useAccountsStore`)
+
+## Estrutura de Diretórios
+
+```
+project/
+├── backend/              # Django apps
+│   └── [app_name]/
+│       ├── urls.py       # Rotas
+│       ├── views.py      # Views (enxutas)
+│       ├── service/      # Regras de negócio
+│       ├── models.py     # Modelos ORM
+│       └── schemas.py    # Schemas de validação (django-ninja)
+├── frontend/
+│   └── src/
+│       ├── api/          # API Client (organizado por contexto)
+│       ├── stores/       # Pinia stores (organizado por contexto)
+│       ├── router/       # Rotas (organizado por contexto)
+│       ├── pages/        # Páginas/Views
+│       └── components/   # Componentes reutilizáveis
+```
+
+## Princípios
+
+1. **Separação de Responsabilidades**: Cada camada tem uma responsabilidade clara
+2. **Testabilidade**: Services são Python puro, facilmente testáveis
+3. **Modularidade**: Organização por contexto de negócio
+4. **DRY**: Evitar duplicação de código
+5. **Clean Code**: Código limpo, legível e bem documentado
+
+## Ferramentas
+
+### Backend
+- **pytest** para testes
+- **pytest-cov** para cobertura
+- **black** para formatação
+- **isort** para organização de imports
+- **flake8** para linting
+
+### Frontend
+- **Vitest** para testes
+- **ESLint** + **Prettier** para qualidade de código
+- **Axios** para requisições HTTP
+
+## Ambiente
+
+- Usa **python-decouple** para variáveis de ambiente
+- Suporta Docker para desenvolvimento e produção
+- CI/CD com GitHub Actions
+- Deploy suportado no Fly.io

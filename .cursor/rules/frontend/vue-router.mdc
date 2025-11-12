@@ -1,0 +1,314 @@
+---
+description: Padrão de Rotas Vue Router - Navegação e Organização
+globs:
+  - "frontend/src/router/**/*.js"
+alwaysApply: false
+---
+
+# ➡️ Router Vue - DjaVue
+
+## Princípios
+
+- Rotas organizadas por **contexto de negócio**
+- Um arquivo de rotas por contexto (ex: `accounts.routes.js`, `tasks.routes.js`)
+- Centralização no `router/index.js`
+- Uso de layouts para composição de páginas
+- Proteção de rotas baseada em autenticação (401)
+
+## Estrutura Padrão
+
+```javascript
+// router/[context].routes.js
+import [Layout] from "@/layouts/default/[Layout].vue"
+import [View] from "@/pages/[context]/[View].vue"
+
+export default [
+  {
+    path: "/[context]",
+    component: [Layout],
+    children: [
+      {
+        path: "[action]",
+        name: "[context]-[action]",
+        component: [View],
+      },
+    ],
+  },
+]
+```
+
+## Nomenclatura
+
+- **Arquivo**: `[context].routes.js` (ex: `accounts.routes.js`)
+- **Nome da rota**: `[context]-[action]` (ex: `accounts-login`, `tasks-list`)
+- **Path**: `/[context]/[action]` (ex: `/accounts/login`, `/tasks/list`)
+- **View**: `[Nome]View.vue` (ex: `LoginView.vue`, `TaskListView.vue`)
+
+## Exemplos
+
+### Accounts Routes
+```javascript
+// router/accounts.routes.js
+import EmptyLayout from "@/layouts/default/EmptyLayout.vue"
+import LoginView from "@/pages/accounts/LoginView.vue"
+import LogoutView from "@/pages/accounts/LogoutView.vue"
+
+export default [
+  {
+    path: "/accounts",
+    component: EmptyLayout,
+    children: [
+      {
+        path: "login",
+        name: "accounts-login",
+        component: LoginView,
+      },
+      {
+        path: "logout",
+        name: "accounts-logout",
+        component: LogoutView,
+      },
+    ],
+  },
+]
+```
+
+### Tasks Routes
+```javascript
+// router/tasks.routes.js
+import DefaultLayout from "@/layouts/default/DefaultLayout.vue"
+import TaskListView from "@/pages/tasks/TaskListView.vue"
+import TaskDetailView from "@/pages/tasks/TaskDetailView.vue"
+
+export default [
+  {
+    path: "/tasks",
+    component: DefaultLayout,
+    children: [
+      {
+        path: "",
+        name: "tasks-list",
+        component: TaskListView,
+      },
+      {
+        path: ":id",
+        name: "tasks-detail",
+        component: TaskDetailView,
+        props: true,
+      },
+    ],
+  },
+]
+```
+
+### Base Routes
+```javascript
+// router/base.routes.js
+import DefaultLayout from "@/layouts/default/DefaultLayout.vue"
+import HomeView from "@/pages/base/HomeView.vue"
+import Page404View from "@/pages/base/Page404View.vue"
+
+export default [
+  {
+    path: "/",
+    component: DefaultLayout,
+    children: [
+      {
+        path: "",
+        name: "home",
+        component: HomeView,
+      },
+    ],
+  },
+]
+```
+
+## Router Index
+
+```javascript
+// router/index.js
+import { createRouter, createWebHistory } from "vue-router"
+import accountsRoutes from "./accounts.routes"
+import baseRoutes from "./base.routes"
+import tasksRoutes from "./tasks.routes"
+import Page404View from "@/pages/base/Page404View.vue"
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    ...baseRoutes,
+    ...accountsRoutes,
+    ...tasksRoutes,
+    {
+      path: "/:pathMatch(.*)*",
+      name: "page-not-found-404",
+      component: Page404View,
+    },
+  ],
+})
+
+export default router
+```
+
+## Layouts
+
+### EmptyLayout
+Para páginas sem navbar/footer (login, etc.)
+
+```vue
+<!-- layouts/default/EmptyLayout.vue -->
+<template>
+  <div>
+    <router-view />
+  </div>
+</template>
+```
+
+### DefaultLayout
+Para páginas com navbar/footer
+
+```vue
+<!-- layouts/default/DefaultLayout.vue -->
+<template>
+  <div>
+    <AppNavBar />
+    <main>
+      <router-view />
+    </main>
+    <AppFooter />
+  </div>
+</template>
+
+<script>
+import AppNavBar from "@/components/AppNavBar.vue"
+import AppFooter from "@/components/AppFooter.vue"
+
+export default {
+  components: {
+    AppNavBar,
+    AppFooter,
+  },
+}
+</script>
+```
+
+## Proteção de Rotas
+
+Proteção baseada em resposta 401 do backend (tratado no interceptor do Axios):
+
+```javascript
+// api/config.js
+export function responseError(error) {
+  if (error.response && error.response.status === 401) {
+    baseStore.showSnackbar("Usuário sem autenticação. Efetue o login!", "warning")
+    router.push({ name: "accounts-login" })
+    return
+  }
+  return Promise.reject(error)
+}
+```
+
+Para proteção programática em componentes:
+
+```vue
+<script>
+import { useAccountsStore } from "@/stores/accountsStore"
+
+export default {
+  setup() {
+    const accountsStore = useAccountsStore()
+    
+    onMounted(async () => {
+      const user = await accountsStore.whoAmI()
+      if (!user) {
+        router.push({ name: "accounts-login" })
+      }
+    })
+  },
+}
+</script>
+```
+
+## Navegação Programática
+
+```javascript
+// Em componentes
+this.$router.push({ name: "tasks-list" })
+this.$router.push({ path: "/tasks" })
+this.$router.push({ name: "tasks-detail", params: { id: 1 } })
+
+// Com query params
+this.$router.push({ 
+  name: "tasks-list", 
+  query: { filter: "completed" } 
+})
+
+// Voltar
+this.$router.go(-1)
+this.$router.back()
+```
+
+## Parâmetros de Rota
+
+### Definir
+```javascript
+{
+  path: ":id",
+  name: "tasks-detail",
+  component: TaskDetailView,
+  props: true, // Passa params como props
+}
+```
+
+### Usar
+```vue
+<template>
+  <div>
+    Task ID: {{ id }}
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+  },
+}
+</script>
+```
+
+## Query Params
+
+```javascript
+// Navegar com query
+this.$router.push({ 
+  name: "tasks-list", 
+  query: { filter: "completed", page: 1 } 
+})
+
+// Acessar em componente
+const filter = this.$route.query.filter
+const page = this.$route.query.page
+```
+
+## Boas Práticas
+
+1. **Organização**: Um arquivo por contexto de negócio
+2. **Nomenclatura**: Consistente (`[context]-[action]`)
+3. **Layouts**: Reutilizar layouts apropriados
+4. **404**: Sempre ter rota catch-all para 404
+5. **Proteção**: Implementar proteção quando necessário
+6. **Histórico**: Usar `createWebHistory` para URLs limpas
+
+## Estrutura Completa
+
+```
+router/
+├── index.js              # Router principal
+├── base.routes.js        # Rotas base (home, 404)
+├── accounts.routes.js    # Rotas de autenticação
+└── tasks.routes.js       # Rotas de tarefas
+```

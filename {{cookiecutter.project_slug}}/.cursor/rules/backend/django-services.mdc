@@ -1,0 +1,185 @@
+---
+description: Padrão de Services Django - Regras de Negócio
+globs:
+  - "**/service/**/*.py"
+alwaysApply: false
+---
+
+# 📦 Services Django - DjaVue
+
+## Princípios
+
+Services contêm **regras de negócio** e devem ser:
+- **Python puro** (não dependem do Django, exceto models)
+- **Facilmente testáveis** (sem dependências de request/response)
+- **Reutilizáveis** (podem ser chamados de views, tasks, outros services)
+
+## Estrutura
+
+### Organização
+- Services ficam na pasta `service/` de cada app
+- Um arquivo por contexto: `[nome]_svc.py`
+- Exportar funções no `__init__.py` da pasta `service/`
+
+### Nomenclatura
+- Arquivo: `[nome]_svc.py` (ex: `task_svc.py`, `user_svc.py`)
+- Funções: `snake_case` (ex: `add_task()`, `list_tasks()`)
+- Importação: `from .service import [nome]_svc`
+
+## Padrão de Funções
+
+### Funções de Criação
+```python
+def add_[entity](data: Type) -> dict:
+    """
+    Adiciona nova [entity]
+    
+    Args:
+        data: Dados da entidade
+        
+    Returns:
+        dict: Entidade criada (resultado de to_dict_json())
+        
+    Raises:
+        BusinessError: Se dados inválidos
+    """
+    logger.info("SERVICE add new [entity]")
+    
+    # Validação
+    if not data or not data.strip():
+        raise BusinessError("Invalid data")
+    
+    # Lógica de negócio
+    entity = Entity(data=data)
+    entity.save()
+    
+    logger.info("SERVICE [entity] created.")
+    return entity.to_dict_json()
+```
+
+### Funções de Listagem
+```python
+def list_[entities]() -> list:
+    """
+    Lista todas as [entities]
+    
+    Returns:
+        list: Lista de entidades (resultado de to_dict_json())
+    """
+    logger.info("SERVICE list [entities]")
+    entities = Entity.objects.all()
+    return [item.to_dict_json() for item in entities]
+```
+
+### Funções de Atualização
+```python
+def update_[entity](entity_id: int, data: Type) -> dict:
+    """
+    Atualiza [entity] existente
+    
+    Args:
+        entity_id: ID da entidade
+        data: Novos dados
+        
+    Returns:
+        dict: Entidade atualizada
+        
+    Raises:
+        BusinessError: Se entidade não encontrada ou dados inválidos
+    """
+    logger.info(f"SERVICE update [entity] {entity_id}")
+    
+    try:
+        entity = Entity.objects.get(id=entity_id)
+    except Entity.DoesNotExist:
+        raise BusinessError("Entity not found")
+    
+    # Validação e atualização
+    if data:
+        entity.data = data
+        entity.save()
+    
+    logger.info(f"SERVICE [entity] {entity_id} updated.")
+    return entity.to_dict_json()
+```
+
+### Funções de Exclusão
+```python
+def delete_[entity](entity_id: int) -> bool:
+    """
+    Remove [entity]
+    
+    Args:
+        entity_id: ID da entidade
+        
+    Returns:
+        bool: True se removido com sucesso
+        
+    Raises:
+        BusinessError: Se entidade não encontrada
+    """
+    logger.info(f"SERVICE delete [entity] {entity_id}")
+    
+    try:
+        entity = Entity.objects.get(id=entity_id)
+        entity.delete()
+        logger.info(f"SERVICE [entity] {entity_id} deleted.")
+        return True
+    except Entity.DoesNotExist:
+        raise BusinessError("Entity not found")
+```
+
+## Validações
+
+- Sempre validar entrada antes de processar
+- Usar exceções `BusinessError` para erros de negócio
+- Validar tipos, valores, regras de negócio
+- Mensagens de erro claras e descritivas
+
+## Logging
+
+- Sempre usar logging em services
+- Padrão: `logger = logging.getLogger(__name__)`
+- Logar início e fim de operações importantes
+- Incluir IDs ou identificadores relevantes
+
+## Testes
+
+- Services devem ser **altamente testáveis**
+- Escrever testes unitários para cada função
+- Mockar dependências externas (banco, APIs)
+- Testar casos de sucesso e erro
+
+## Exemplo Completo
+
+```python
+import logging
+from ..models import Task
+from ...base.exceptions import BusinessError
+
+logger = logging.getLogger(__name__)
+
+def add_task(description: str) -> dict:
+    """Adiciona nova tarefa"""
+    logger.info("SERVICE add new task")
+    
+    # Validação
+    if not isinstance(description, str):
+        raise BusinessError("Invalid description")
+    
+    if not description or not description.strip():
+        raise BusinessError("Invalid description")
+    
+    # Lógica de negócio
+    task = Task(description=description)
+    task.save()
+    
+    logger.info("SERVICE task created.")
+    return task.to_dict_json()
+
+def list_tasks():
+    """Lista todas as tarefas"""
+    logger.info("SERVICE list tasks")
+    tasks = Task.objects.all()
+    return [item.to_dict_json() for item in tasks]
+```

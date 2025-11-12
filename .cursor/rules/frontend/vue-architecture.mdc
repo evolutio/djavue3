@@ -1,0 +1,249 @@
+---
+description: Arquitetura Vue 3 - Router → Pages → Store → API Client
+globs:
+  - "frontend/src/**/*.{js,vue}"
+alwaysApply: false
+---
+
+# 🎨 Arquitetura Vue 3 - DjaVue
+
+## Fluxo de Dados
+
+O DjaVue segue uma arquitetura clara de fluxo de dados:
+
+```
+Router → Pages → Store → API Client → Backend
+   ↓       ↓       ↓
+Layouts Components
+```
+
+## Camadas
+
+### 1. Router (`router/`)
+- **Responsabilidade**: Definir rotas e navegação
+- **Organização**: Um arquivo por contexto (ex: `accounts.routes.js`, `tasks.routes.js`)
+- **Regras**:
+  - Rotas organizadas por contexto de negócio
+  - Usar layouts apropriados
+  - Nomes de rotas: `[context]-[action]` (ex: `accounts-login`)
+  - Importar e centralizar no `router/index.js`
+
+**Exemplo**:
+```javascript
+// router/accounts.routes.js
+import EmptyLayout from "@/layouts/default/EmptyLayout.vue"
+import LoginView from "@/pages/accounts/LoginView.vue"
+
+export default [
+  {
+    path: "/accounts",
+    component: EmptyLayout,
+    children: [
+      {
+        path: "login",
+        name: "accounts-login",
+        component: LoginView,
+      },
+    ],
+  },
+]
+```
+
+### 2. Pages (`pages/`)
+- **Responsabilidade**: Páginas/Views da aplicação
+- **Organização**: Uma pasta por contexto (ex: `accounts/`, `tasks/`)
+- **Regras**:
+  - Nomenclatura: `[Nome]View.vue` (ex: `LoginView.vue`, `TaskListView.vue`)
+  - Usar composables do Pinia para estado
+  - Chamar actions das stores para operações
+  - Componentes reutilizáveis em `components/`
+
+**Exemplo**:
+```vue
+<template>
+  <div>
+    <TaskForm @submit="handleAddTask" />
+    <TaskList :tasks="tasks" />
+  </div>
+</template>
+
+<script>
+import { useTasksStore } from "@/stores/tasksStore"
+
+export default {
+  setup() {
+    const tasksStore = useTasksStore()
+    
+    return {
+      tasks: tasksStore.tasks,
+      handleAddTask: tasksStore.addTask,
+    }
+  },
+}
+</script>
+```
+
+### 3. Store (`stores/`)
+- **Responsabilidade**: Gerenciamento de estado global (Pinia)
+- **Organização**: Um arquivo por contexto (ex: `accountsStore.js`, `tasksStore.js`)
+- **Regras**:
+  - Nomenclatura: `use[Nome]Store` (ex: `useAccountsStore`)
+  - State: dados reativos
+  - Actions: métodos assíncronos que chamam API
+  - Getters: dados computados (opcional)
+
+**Exemplo**:
+```javascript
+import { defineStore } from "pinia"
+import TasksApi from "@/api/tasks.api.js"
+
+export const useTasksStore = defineStore("tasksStore", {
+  state: () => ({
+    tasks: [],
+    loading: false,
+  }),
+  actions: {
+    async getTasks() {
+      this.loading = true
+      const response = await TasksApi.getTasks()
+      this.tasks = response.tasks
+      this.loading = false
+    },
+    async addTask(description) {
+      const newTask = await TasksApi.addTask(description)
+      this.tasks.push(newTask)
+      return newTask
+    },
+  },
+})
+```
+
+### 4. API Client (`api/`)
+- **Responsabilidade**: Comunicação com o backend
+- **Organização**: Um arquivo por contexto (ex: `accounts.api.js`, `tasks.api.js`)
+- **Regras**:
+  - Usar instância configurada do Axios (`api/config.js`)
+  - Funções assíncronas que retornam dados
+  - Nomenclatura: `[action][Entity]` (ex: `getTasks()`, `addTask()`)
+  - Sempre usar `/api/` como prefixo nas rotas
+
+**Exemplo**:
+```javascript
+import api from "./config.js"
+
+export default {
+  getTasks: async () => {
+    const response = await api.get("/api/tasks/list")
+    return response.data
+  },
+  addTask: async (description) => {
+    const response = await api.post("/api/tasks/add", { description })
+    return response.data
+  },
+}
+```
+
+### 5. Components (`components/`)
+- **Responsabilidade**: Componentes reutilizáveis
+- **Regras**:
+  - Nomenclatura: `PascalCase` (ex: `TaskForm.vue`, `AppNavBar.vue`)
+  - Prefixo `App` para componentes globais (ex: `AppFooter.vue`)
+  - Props com validação de tipo
+  - Emitir eventos para comunicação com pai
+
+**Exemplo**:
+```vue
+<template>
+  <v-form @submit.prevent="handleSubmit">
+    <v-text-field v-model="description" label="Description" />
+    <v-btn type="submit">Add</v-btn>
+  </v-form>
+</template>
+
+<script>
+export default {
+  name: "TaskForm",
+  emits: ["submit"],
+  data() {
+    return {
+      description: "",
+    }
+  },
+  methods: {
+    handleSubmit() {
+      this.$emit("submit", { description: this.description })
+      this.description = ""
+    },
+  },
+}
+</script>
+```
+
+### 6. Layouts (`layouts/`)
+- **Responsabilidade**: Layouts reutilizáveis para páginas
+- **Regras**:
+  - Organizar em `layouts/default/`
+  - Usar `<router-view />` para conteúdo das páginas
+  - Exemplos: `EmptyLayout.vue`, `DefaultLayout.vue`
+
+**Exemplo**:
+```vue
+<template>
+  <div>
+    <AppNavBar />
+    <main>
+      <router-view />
+    </main>
+    <AppFooter />
+  </div>
+</template>
+```
+
+## Convenções
+
+### Nomenclatura
+- **Componentes**: `PascalCase` (ex: `TaskForm.vue`)
+- **Arquivos**: `camelCase` para JS, `PascalCase` para Vue (ex: `tasksStore.js`, `LoginView.vue`)
+- **Variáveis/Funções**: `camelCase` (ex: `getTasks()`, `isLoading`)
+- **Constantes**: `UPPER_SNAKE_CASE` (ex: `API_BASE_URL`)
+
+### Importações
+- Usar aliases: `@/` para `src/`
+- Agrupar imports: Vue, plugins, componentes, stores, utils
+- Ordem: externos → internos
+
+**Exemplo**:
+```javascript
+// Externos
+import { defineStore } from "pinia"
+
+// Internos
+import TasksApi from "@/api/tasks.api.js"
+import { useAccountsStore } from "@/stores/accountsStore"
+```
+
+### Estado
+- Usar Pinia para estado global
+- Estado local com `data()` ou `ref()` (Composition API)
+- Não modificar estado diretamente, usar actions
+
+### Comunicação
+- **Pai → Filho**: Props
+- **Filho → Pai**: Events (`$emit`)
+- **Irmãos/Global**: Store (Pinia)
+- **API**: API Client → Store → Component
+
+## Estrutura de Arquivos
+
+```
+frontend/src/
+├── api/              # API Client (por contexto)
+├── stores/           # Pinia stores (por contexto)
+├── router/           # Rotas (por contexto)
+├── pages/            # Páginas/Views (por contexto)
+├── components/       # Componentes reutilizáveis
+├── layouts/          # Layouts
+├── plugins/          # Plugins Vue
+├── settings/         # Configurações
+└── main.js           # Entry point
+```

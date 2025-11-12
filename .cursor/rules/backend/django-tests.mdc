@@ -1,0 +1,228 @@
+---
+description: Padrão de Testes Django com pytest
+globs:
+  - "**/tests/**/*.py"
+alwaysApply: false
+---
+
+# 🧪 Testes Django - DjaVue
+
+## Ferramentas
+
+- **pytest**: Framework de testes
+- **pytest-django**: Plugin para Django
+- **pytest-cov**: Cobertura de código
+- **mock**: Mocking de dependências
+
+## Estrutura de Testes
+
+- Testes ficam na pasta `tests/` de cada app
+- Um arquivo por módulo testado: `test_[module].py`
+- Classes de teste: `Test[Nome]`
+- Métodos de teste: `test_[descrição]`
+
+## Padrão de Testes
+
+### Testes de Services
+
+```python
+import pytest
+from django.test import TestCase
+from ..service import task_svc
+from ..models import Task
+from ...base.exceptions import BusinessError
+
+class TestTaskService(TestCase):
+    def test_add_task_success(self):
+        """Testa criação de tarefa com sucesso"""
+        description = "Nova tarefa"
+        result = task_svc.add_task(description)
+        
+        self.assertIsInstance(result, dict)
+        self.assertEqual(result["description"], description)
+        self.assertFalse(result["done"])
+        self.assertIn("id", result)
+        
+        # Verifica se foi salvo no banco
+        task = Task.objects.get(id=result["id"])
+        self.assertEqual(task.description, description)
+    
+    def test_add_task_invalid_description(self):
+        """Testa criação de tarefa com descrição inválida"""
+        with self.assertRaises(BusinessError):
+            task_svc.add_task("")
+        
+        with self.assertRaises(BusinessError):
+            task_svc.add_task(None)
+    
+    def test_list_tasks(self):
+        """Testa listagem de tarefas"""
+        # Cria tarefas de teste
+        Task.objects.create(description="Tarefa 1")
+        Task.objects.create(description="Tarefa 2")
+        
+        result = task_svc.list_tasks()
+        
+        self.assertIsInstance(result, list)
+        self.assertEqual(len(result), 2)
+        self.assertEqual(result[0]["description"], "Tarefa 1")
+```
+
+### Testes de Views
+
+```python
+import json
+from django.test import TestCase, Client
+from django.contrib.auth import get_user_model
+from ..models import Task
+
+User = get_user_model()
+
+class TestTaskViews(TestCase):
+    def setUp(self):
+        """Configuração inicial para cada teste"""
+        self.client = Client()
+        self.user = User.objects.create_user(
+            username="testuser",
+            password="testpass123"
+        )
+    
+    def test_add_task_authenticated(self):
+        """Testa criação de tarefa autenticado"""
+        self.client.login(username="testuser", password="testpass123")
+        
+        response = self.client.post(
+            "/api/tasks/add",
+            data=json.dumps({"description": "Nova tarefa"}),
+            content_type="application/json"
+        )
+        
+        self.assertEqual(response.status_code, 201)
+        data = json.loads(response.content)
+        self.assertIn("id", data)
+        self.assertEqual(data["description"], "Nova tarefa")
+    
+    def test_add_task_unauthenticated(self):
+        """Testa criação de tarefa não autenticado"""
+        response = self.client.post(
+            "/api/tasks/add",
+            data=json.dumps({"description": "Nova tarefa"}),
+            content_type="application/json"
+        )
+        
+        self.assertEqual(response.status_code, 401)
+```
+
+## Fixtures (pytest)
+
+```python
+import pytest
+from django.contrib.auth import get_user_model
+from ..models import Task
+
+User = get_user_model()
+
+@pytest.fixture
+def user():
+    """Fixture para usuário de teste"""
+    return User.objects.create_user(
+        username="testuser",
+        password="testpass123"
+    )
+
+@pytest.fixture
+def task(user):
+    """Fixture para tarefa de teste"""
+    return Task.objects.create(
+        description="Tarefa de teste",
+        user=user
+    )
+
+def test_add_task(user):
+    """Testa criação de tarefa usando fixture"""
+    result = task_svc.add_task("Nova tarefa")
+    assert result["description"] == "Nova tarefa"
+```
+
+## Mocking
+
+```python
+from unittest.mock import patch, MagicMock
+
+def test_external_api_call():
+    """Testa chamada de API externa com mock"""
+    with patch('requests.get') as mock_get:
+        mock_get.return_value.json.return_value = {"data": "test"}
+        
+        result = some_service.call_external_api()
+        
+        assert result == {"data": "test"}
+        mock_get.assert_called_once()
+```
+
+## Cobertura
+
+- Executar testes: `pytest`
+- Com cobertura: `pytest --cov=[app_name]`
+- Relatório HTML: `pytest --cov-report html --cov=[app_name]`
+- Cobertura mínima recomendada: 80%
+
+## Boas Práticas
+
+1. **Testes Independentes**: Cada teste deve ser independente
+2. **Setup/Teardown**: Usar `setUp()` e `tearDown()` quando necessário
+3. **Nomes Descritivos**: Nomes de testes devem descrever o que testam
+4. **AAA Pattern**: Arrange, Act, Assert
+5. **Testar Casos de Erro**: Não apenas casos de sucesso
+6. **Mocking**: Mockar dependências externas (APIs, serviços)
+7. **Fixtures**: Usar fixtures para dados de teste reutilizáveis
+
+## Exemplo Completo
+
+```python
+import pytest
+import json
+from django.test import TestCase, Client
+from django.contrib.auth import get_user_model
+from ..service import task_svc
+from ..models import Task
+from ...base.exceptions import BusinessError
+
+User = get_user_model()
+
+class TestTaskService(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="testuser",
+            password="testpass123"
+        )
+    
+    def test_add_task_success(self):
+        """Testa criação de tarefa com sucesso"""
+        description = "Nova tarefa"
+        result = task_svc.add_task(description)
+        
+        self.assertIsInstance(result, dict)
+        self.assertEqual(result["description"], description)
+        
+        task = Task.objects.get(id=result["id"])
+        self.assertEqual(task.description, description)
+    
+    def test_add_task_empty_description(self):
+        """Testa criação de tarefa com descrição vazia"""
+        with self.assertRaises(BusinessError):
+            task_svc.add_task("")
+    
+    def test_list_tasks_empty(self):
+        """Testa listagem de tarefas vazia"""
+        result = task_svc.list_tasks()
+        self.assertEqual(result, [])
+    
+    def test_list_tasks_with_data(self):
+        """Testa listagem de tarefas com dados"""
+        Task.objects.create(description="Tarefa 1")
+        Task.objects.create(description="Tarefa 2")
+        
+        result = task_svc.list_tasks()
+        self.assertEqual(len(result), 2)
+```

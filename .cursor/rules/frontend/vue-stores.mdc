@@ -1,0 +1,312 @@
+---
+description: Padrão de Stores Pinia - Gerenciamento de Estado
+globs:
+  - "frontend/src/stores/**/*.js"
+alwaysApply: false
+---
+
+# 🍍 Stores Pinia - DjaVue
+
+## Princípios
+
+- Stores gerenciam **estado global** da aplicação
+- Organizadas por **contexto de negócio** (accounts, tasks, etc.)
+- Usam **actions** para operações assíncronas
+- **State** é reativo e acessível via computed ou diretamente
+
+## Estrutura Padrão
+
+```javascript
+import { defineStore } from "pinia"
+import [Entity]Api from "@/api/[entity].api.js"
+
+export const use[Entity]Store = defineStore("[entity]Store", {
+  state: () => ({
+    // Estado reativo
+    [entities]: [],
+    loading: false,
+    error: null,
+  }),
+  actions: {
+    // Actions assíncronas
+    async get[Entities]() {
+      this.loading = true
+      try {
+        const response = await [Entity]Api.get[Entities]()
+        this.[entities] = response.[entities]
+      } catch (error) {
+        this.error = error
+      } finally {
+        this.loading = false
+      }
+    },
+    async add[Entity](data) {
+      const new[Entity] = await [Entity]Api.add[Entity](data)
+      this.[entities].push(new[Entity])
+      return new[Entity]
+    },
+  },
+})
+```
+
+## State
+
+- **Dados reativos** acessíveis em componentes
+- Inicializar com valores padrão
+- Nomenclatura: `camelCase` (ex: `tasks`, `loggedUser`, `isLoading`)
+
+**Exemplo**:
+```javascript
+state: () => ({
+  tasks: [],
+  tasksLoading: false,
+  selectedTask: null,
+  error: null,
+}),
+```
+
+## Actions
+
+- **Métodos assíncronos** que interagem com API
+- Sempre usar `async/await`
+- Atualizar state dentro da action
+- Retornar dados quando necessário
+- Gerenciar loading e erros
+
+**Exemplo**:
+```javascript
+actions: {
+  async getTasks() {
+    this.tasksLoading = true
+    try {
+      const response = await TasksApi.getTasks()
+      this.tasks = response.tasks
+    } catch (error) {
+      this.error = error.message
+      console.error("Error fetching tasks:", error)
+    } finally {
+      this.tasksLoading = false
+    }
+  },
+  
+  async addTask(description) {
+    try {
+      const newTask = await TasksApi.addTask(description)
+      this.tasks.push(newTask)
+      return newTask
+    } catch (error) {
+      this.error = error.message
+      throw error
+    }
+  },
+  
+  async updateTask(taskId, data) {
+    try {
+      const updatedTask = await TasksApi.updateTask(taskId, data)
+      const index = this.tasks.findIndex(t => t.id === taskId)
+      if (index !== -1) {
+        this.tasks[index] = updatedTask
+      }
+      return updatedTask
+    } catch (error) {
+      this.error = error.message
+      throw error
+    }
+  },
+  
+  async deleteTask(taskId) {
+    try {
+      await TasksApi.deleteTask(taskId)
+      this.tasks = this.tasks.filter(t => t.id !== taskId)
+    } catch (error) {
+      this.error = error.message
+      throw error
+    }
+  },
+}
+```
+
+## Getters (Opcional)
+
+- **Dados computados** baseados no state
+- Úteis para filtros, ordenações, contagens
+- Nomenclatura: começar com `get` ou ser descritivo
+
+**Exemplo**:
+```javascript
+getters: {
+  completedTasks: (state) => {
+    return state.tasks.filter(task => task.done)
+  },
+  pendingTasks: (state) => {
+    return state.tasks.filter(task => !task.done)
+  },
+  tasksCount: (state) => {
+    return state.tasks.length
+  },
+}
+```
+
+## Uso em Componentes
+
+### Options API
+```vue
+<script>
+import { mapState, mapActions } from "pinia"
+import { useTasksStore } from "@/stores/tasksStore"
+
+export default {
+  computed: {
+    ...mapState(useTasksStore, ["tasks", "tasksLoading"]),
+  },
+  methods: {
+    ...mapActions(useTasksStore, ["getTasks", "addTask"]),
+  },
+  async mounted() {
+    await this.getTasks()
+  },
+}
+</script>
+```
+
+### Composition API
+```vue
+<script setup>
+import { useTasksStore } from "@/stores/tasksStore"
+
+const tasksStore = useTasksStore()
+
+// Acessar state
+const tasks = computed(() => tasksStore.tasks)
+const loading = computed(() => tasksStore.tasksLoading)
+
+// Chamar actions
+onMounted(async () => {
+  await tasksStore.getTasks()
+})
+
+const handleAddTask = async (description) => {
+  await tasksStore.addTask(description)
+}
+</script>
+```
+
+### Setup Function
+```vue
+<script>
+import { useTasksStore } from "@/stores/tasksStore"
+
+export default {
+  setup() {
+    const tasksStore = useTasksStore()
+    
+    return {
+      tasksStore,
+      tasks: tasksStore.tasks,
+      getTasks: tasksStore.getTasks,
+      addTask: tasksStore.addTask,
+    }
+  },
+}
+</script>
+```
+
+## Padrões Comuns
+
+### Store de Autenticação
+```javascript
+import { defineStore } from "pinia"
+import AccountsApi from "@/api/accounts.api.js"
+
+export const useAccountsStore = defineStore("accountsStore", {
+  state: () => ({
+    loading: false,
+    loggedUser: null,
+  }),
+  actions: {
+    async whoAmI() {
+      const response = await AccountsApi.whoami()
+      const loggedIn = response.authenticated && response.user
+      this.loggedUser = loggedIn ? response.user : null
+      return this.loggedUser
+    },
+    async login(username, password) {
+      this.loading = true
+      try {
+        const response = await AccountsApi.login(username, password)
+        this.loggedUser = response
+        return this.loggedUser
+      } finally {
+        this.loading = false
+      }
+    },
+    async logout() {
+      this.loading = true
+      try {
+        await AccountsApi.logout()
+        this.loggedUser = null
+        return true
+      } finally {
+        this.loading = false
+      }
+    },
+  },
+})
+```
+
+### Store com Loading e Error
+```javascript
+state: () => ({
+  tasks: [],
+  tasksLoading: false,
+  tasksError: null,
+}),
+actions: {
+  async getTasks() {
+    this.tasksLoading = true
+    this.tasksError = null
+    try {
+      const response = await TasksApi.getTasks()
+      this.tasks = response.tasks
+    } catch (error) {
+      this.tasksError = error.message
+    } finally {
+      this.tasksLoading = false
+    }
+  },
+}
+```
+
+## Boas Práticas
+
+1. **Organização**: Uma store por contexto de negócio
+2. **Nomenclatura**: `use[Nome]Store` para a função exportada
+3. **State**: Valores iniciais apropriados
+4. **Actions**: Sempre async, gerenciar loading/error
+5. **Imutabilidade**: Não modificar state diretamente fora da store
+6. **Testes**: Testar stores isoladamente (Vitest)
+
+## Testes
+
+```javascript
+import { setActivePinia, createPinia } from "pinia"
+import { useTasksStore } from "@/stores/tasksStore"
+
+describe("TasksStore", () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+  })
+  
+  it("should initialize with empty tasks", () => {
+    const store = useTasksStore()
+    expect(store.tasks).toEqual([])
+  })
+  
+  it("should add task", async () => {
+    const store = useTasksStore()
+    await store.addTask("New task")
+    expect(store.tasks).toHaveLength(1)
+    expect(store.tasks[0].description).toBe("New task")
+  })
+})
+```
