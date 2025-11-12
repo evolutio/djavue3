@@ -1,0 +1,184 @@
+---
+description: Arquitetura em Camadas do Django - urls → views → services → models
+globs:
+  - "**/*/views.py"
+  - "**/*/urls.py"
+  - "**/*/service/**/*.py"
+alwaysApply: false
+---
+
+# 🦄 Arquitetura Django - DjaVue
+
+## Camadas da Aplicação
+
+O DjaVue segue uma arquitetura em camadas clara e testável:
+
+```
+Cliente HTTP → urls → views → services → models → ORM
+                      ↓
+                   Schemas (validação)
+```
+
+### 1. URLs (`urls.py`)
+- **Responsabilidade**: Definir rotas da API
+- **Regras**:
+  - Usar `path()` do Django ou routers do django-ninja
+  - Prefixo `/api/[app_name]/` para todas as rotas
+  - Agrupar rotas por contexto (app)
+
+### 2. Views (`views.py`)
+- **Responsabilidade**: Receber requisições, validar entrada, chamar services, retornar respostas
+- **Regras**:
+  - Views devem ser **enxutas** (thin controllers)
+  - Não devem conter regras de negócio
+  - Validar dados de entrada (schemas ou validação manual)
+  - Usar decorators de autenticação: `@ajax_login_required`, `@ajax_staff_required`, `@ajax_superuser_required`
+  - Sempre usar `@csrf_exempt` para APIs
+  - Retornar `JsonResponse` com status HTTP apropriado
+  - Usar logging: `logger.info()`, `logger.error()`
+
+**Exemplo**:
+```python
+@csrf_exempt
+@ajax_login_required
+def add_task(request):
+    """Adiciona nova tarefa"""
+    logger.info("API add new task.")
+    body = json.loads(request.body)
+    description = body.get("description")
+    
+    # Validação básica
+    if not description:
+        raise ValueError("description: Field required")
+    
+    # Chamar service
+    new_task = task_svc.add_task(description)
+    return JsonResponse(new_task, status=201)
+```
+
+### 3. Services (`service/`)
+- **Responsabilidade**: Implementar **regras de negócio**
+- **Regras**:
+  - Services são **Python puro** (não dependem do Django, exceto models)
+  - Devem ser **facilmente testáveis**
+  - Nomenclatura: `[nome]_svc.py` (ex: `task_svc.py`)
+  - Funções retornam `dict` (resultado de `model.to_dict_json()`)
+  - Usar exceções customizadas: `BusinessError`, `ServiceUnavailableError`
+  - Sempre validar entrada antes de processar
+
+**Exemplo**:
+```python
+from ..models import Task
+from ...base.exceptions import BusinessError
+
+def add_task(description: str) -> dict:
+    logger.info("SERVICE add new task")
+    if not isinstance(description, str):
+        raise BusinessError("Invalid description")
+    
+    if not description or not description.strip():
+        raise BusinessError("Invalid description")
+    
+    task = Task(description=description)
+    task.save()
+    logger.info("SERVICE task created.")
+    return task.to_dict_json()
+```
+
+### 4. Models (`models.py`)
+- **Responsabilidade**: Definir estrutura de dados e acesso ao banco
+- **Regras**:
+  - Herdar de `models.Model`
+  - Implementar método `to_dict_json()` para serialização
+  - Usar `__str__()` para representação legível
+  - Campos devem ter `max_length` apropriado
+
+**Exemplo**:
+```python
+class Task(models.Model):
+    description = models.CharField(max_length=512)
+    done = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.description
+    
+    def to_dict_json(self):
+        return {
+            "id": self.id,
+            "description": self.description,
+            "done": self.done,
+        }
+```
+
+### 5. Schemas (`schemas.py`) - Django Ninja
+- **Responsabilidade**: Validação de entrada e saída
+- **Regras**:
+  - Usar `Schema` do django-ninja para entrada
+  - Usar `ModelSchema` para saída baseada em models
+  - Validadores com `@field_validator` do Pydantic
+  - Nomenclatura: `[Nome]SchemaIn`, `[Nome]Schema`, `List[Nome]Schema`
+
+**Exemplo**:
+```python
+from ninja import Schema, ModelSchema
+from pydantic import field_validator
+
+class TaskSchemaIn(Schema):
+    description: str
+    
+    @field_validator("description")
+    def valid_description(cls, description: str) -> str:
+        if description and len(description) <= 2:
+            raise ValueError("It must be at least 3 characters long.")
+        return description
+
+class TaskSchema(ModelSchema):
+    class Meta:
+        model = Task
+        fields = ["id", "description", "done"]
+```
+
+## Organização de Apps
+
+- Cada **contexto de negócio** é uma app Django separada
+- Apps são organizadas na raiz do projeto Django
+- Estrutura padrão de uma app:
+  ```
+  [app_name]/
+  ├── __init__.py
+  ├── apps.py
+  ├── admin.py
+  ├── urls.py          # Rotas
+  ├── views.py         # Views
+  ├── schemas.py       # Schemas (django-ninja)
+  ├── models.py        # Models
+  ├── service/         # Services
+  │   ├── __init__.py
+  │   └── [nome]_svc.py
+  ├── migrations/      # Migrations
+  ├── tests/           # Testes
+  └── templates/       # Templates (se necessário)
+  ```
+
+## Autenticação
+
+- Usar decorators customizados de `commons.django_views_utils`:
+  - `@ajax_login_required`: Requer usuário autenticado
+  - `@ajax_staff_required`: Requer usuário staff
+  - `@ajax_superuser_required`: Requer superusuário
+- Retornar 401 quando não autenticado
+- Usar `request.user` para acessar usuário logado
+
+## Logging
+
+- Sempre usar logging em views e services
+- Padrão: `logger = logging.getLogger(__name__)`
+- Usar níveis apropriados: `info`, `error`, `warning`
+- Incluir contexto relevante nas mensagens
+
+## Exceções
+
+- Usar exceções customizadas de `base.exceptions`:
+  - `BusinessError`: Erros de regra de negócio
+  - `ServiceUnavailableError`: Serviços indisponíveis
+- Não expor detalhes técnicos nas respostas de erro
