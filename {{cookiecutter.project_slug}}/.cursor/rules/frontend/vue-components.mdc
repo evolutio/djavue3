@@ -1,0 +1,393 @@
+---
+description: Padrão de Componentes Vue 3 - Componentes Reutilizáveis
+globs:
+  - "frontend/src/components/**/*.vue"
+alwaysApply: false
+---
+
+# 🧩 Componentes Vue 3 - DjaVue
+
+## Princípios
+
+- Componentes são **reutilizáveis** e **modulares**
+- Nomenclatura **PascalCase** (ex: `TaskForm.vue`, `AppNavBar.vue`)
+- Prefixo `App` para componentes globais (ex: `AppFooter.vue`)
+- Props com validação de tipo
+- Eventos para comunicação com componente pai
+
+## Estrutura Padrão
+
+```vue
+<template>
+  <div class="component-name">
+    <!-- Template -->
+  </div>
+</template>
+
+<script>
+export default {
+  name: "ComponentName",
+  props: {
+    // Props com validação
+  },
+  emits: ["event-name"],
+  data() {
+    return {
+      // Estado local
+    }
+  },
+  computed: {
+    // Computed properties
+  },
+  methods: {
+    // Métodos
+  },
+}
+</script>
+
+<style scoped>
+/* Estilos scoped */
+</style>
+```
+
+## Props
+
+- Sempre definir tipos e validações
+- Valores padrão quando apropriado
+- Required quando necessário
+
+**Exemplo**:
+```vue
+<script>
+export default {
+  props: {
+    task: {
+      type: Object,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    title: {
+      type: String,
+      default: "Task",
+    },
+  },
+}
+</script>
+```
+
+## Events
+
+- Sempre declarar eventos em `emits`
+- Usar `$emit()` para emitir eventos
+- Nomenclatura: `kebab-case` (ex: `@submit`, `@update`)
+
+**Exemplo**:
+```vue
+<script>
+export default {
+  emits: ["submit", "cancel", "update"],
+  methods: {
+    handleSubmit() {
+      this.$emit("submit", { data: this.formData })
+    },
+    handleCancel() {
+      this.$emit("cancel")
+    },
+  },
+}
+</script>
+```
+
+## Exemplos Completos
+
+### Componente de Formulário
+```vue
+<template>
+  <v-form @submit.prevent="handleSubmit">
+    <v-text-field
+      v-model="description"
+      label="Description"
+      :rules="[rules.required, rules.minLength]"
+      outlined
+    />
+    <v-btn type="submit" :loading="loading">
+      Add Task
+    </v-btn>
+    <v-btn @click="handleCancel" text>
+      Cancel
+    </v-btn>
+  </v-form>
+</template>
+
+<script>
+export default {
+  name: "TaskForm",
+  emits: ["submit", "cancel"],
+  props: {
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      description: "",
+      rules: {
+        required: (v) => !!v || "Field is required",
+        minLength: (v) => (v && v.length >= 3) || "Min 3 characters",
+      },
+    }
+  },
+  methods: {
+    handleSubmit() {
+      if (this.description && this.description.length >= 3) {
+        this.$emit("submit", { description: this.description })
+        this.description = ""
+      }
+    },
+    handleCancel() {
+      this.$emit("cancel")
+      this.description = ""
+    },
+  },
+}
+</script>
+```
+
+### Componente de Lista
+```vue
+<template>
+  <div class="task-list">
+    <v-list v-if="tasks.length > 0">
+      <v-list-item
+        v-for="task in tasks"
+        :key="task.id"
+        @click="handleTaskClick(task)"
+      >
+        <v-list-item-content>
+          <v-list-item-title :class="{ 'text-decoration-line-through': task.done }">
+            {{ task.description }}
+          </v-list-item-title>
+        </v-list-item-content>
+        <v-list-item-action>
+          <v-checkbox
+            :input-value="task.done"
+            @change="handleToggle(task)"
+          />
+        </v-list-item-action>
+      </v-list-item>
+    </v-list>
+    <v-alert v-else type="info">
+      No tasks found
+    </v-alert>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "TaskList",
+  emits: ["task-click", "task-toggle"],
+  props: {
+    tasks: {
+      type: Array,
+      required: true,
+      default: () => [],
+    },
+  },
+  methods: {
+    handleTaskClick(task) {
+      this.$emit("task-click", task)
+    },
+    handleToggle(task) {
+      this.$emit("task-toggle", task)
+    },
+  },
+}
+</script>
+
+<style scoped>
+.task-list {
+  width: 100%;
+}
+</style>
+```
+
+### Componente com Store
+```vue
+<template>
+  <div class="task-manager">
+    <TaskForm @submit="handleAddTask" :loading="tasksLoading" />
+    <TaskList :tasks="tasks" @task-toggle="handleToggleTask" />
+  </div>
+</template>
+
+<script>
+import { useTasksStore } from "@/stores/tasksStore"
+import TaskForm from "./TaskForm.vue"
+import TaskList from "./TaskList.vue"
+
+export default {
+  name: "TaskManager",
+  components: {
+    TaskForm,
+    TaskList,
+  },
+  setup() {
+    const tasksStore = useTasksStore()
+    
+    return {
+      tasks: tasksStore.tasks,
+      tasksLoading: tasksStore.tasksLoading,
+      getTasks: tasksStore.getTasks,
+      addTask: tasksStore.addTask,
+      updateTask: tasksStore.updateTask,
+    }
+  },
+  async mounted() {
+    await this.getTasks()
+  },
+  methods: {
+    async handleAddTask(data) {
+      await this.addTask(data.description)
+    },
+    async handleToggleTask(task) {
+      await this.updateTask(task.id, { done: !task.done })
+    },
+  },
+}
+</script>
+```
+
+## Composition API
+
+```vue
+<template>
+  <div>
+    <v-text-field v-model="description" label="Description" />
+    <v-btn @click="handleSubmit">Submit</v-btn>
+  </div>
+</template>
+
+<script setup>
+import { ref } from "vue"
+
+const props = defineProps({
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const emit = defineEmits(["submit"])
+
+const description = ref("")
+
+const handleSubmit = () => {
+  emit("submit", { description: description.value })
+  description.value = ""
+}
+</script>
+```
+
+## Slots
+
+```vue
+<!-- Componente com slots -->
+<template>
+  <div class="card">
+    <div class="card-header" v-if="$slots.header">
+      <slot name="header" />
+    </div>
+    <div class="card-body">
+      <slot />
+    </div>
+    <div class="card-footer" v-if="$slots.footer">
+      <slot name="footer" />
+    </div>
+  </div>
+</template>
+
+<!-- Uso -->
+<Card>
+  <template #header>
+    <h2>Title</h2>
+  </template>
+  <p>Content</p>
+  <template #footer>
+    <v-btn>Action</v-btn>
+  </template>
+</Card>
+```
+
+## Estilos
+
+- Sempre usar `scoped` para estilos de componente
+- Usar classes do Vuetify quando possível
+- CSS customizado apenas quando necessário
+
+```vue
+<style scoped>
+.component-name {
+  padding: 16px;
+}
+
+.custom-class {
+  color: #1976d2;
+}
+</style>
+```
+
+## Boas Práticas
+
+1. **Nomenclatura**: PascalCase para componentes
+2. **Props**: Sempre validar tipos
+3. **Events**: Sempre declarar em `emits`
+4. **Reutilização**: Criar componentes reutilizáveis
+5. **Composição**: Usar Composition API quando apropriado
+6. **Estilos**: Sempre `scoped` para evitar conflitos
+7. **Documentação**: Comentar props e events complexos
+
+## Componentes Globais
+
+Componentes globais (como `AppNavBar`, `AppFooter`) devem:
+- Ter prefixo `App`
+- Ser registrados globalmente ou importados onde necessário
+- Ser componentes de layout/composição
+
+```vue
+<!-- AppNavBar.vue -->
+<template>
+  <v-app-bar app color="primary" dark>
+    <v-app-bar-title>My App</v-app-bar-title>
+    <v-spacer />
+    <v-btn icon @click="handleLogout">
+      <v-icon>mdi-logout</v-icon>
+    </v-btn>
+  </v-app-bar>
+</template>
+
+<script>
+import { useAccountsStore } from "@/stores/accountsStore"
+
+export default {
+  name: "AppNavBar",
+  setup() {
+    const accountsStore = useAccountsStore()
+    
+    return {
+      loggedUser: accountsStore.loggedUser,
+      logout: accountsStore.logout,
+    }
+  },
+  methods: {
+    async handleLogout() {
+      await this.logout()
+      this.$router.push({ name: "accounts-login" })
+    },
+  },
+}
+</script>
+```
